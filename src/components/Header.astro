@@ -1,10 +1,30 @@
 ---
+const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
+
+const isCurrent = (path: string) => {
+  const cleanPath = path.replace(/\/$/, '') || '/';
+  if (cleanPath === '/') return pathname === '/';
+  return pathname.startsWith(cleanPath);
+};
+
+const navItems = [
+  { label: 'Semua Artikel', href: '/' },
+  { label: 'Seri Panduan', href: '/seri/', isSpecial: true, icon: '📚' },
+  { label: 'Strategi Bisnis', href: '/kategori/strategi-bisnis/' },
+  { label: 'Monetisasi', href: '/kategori/monetisasi/' },
+  { label: 'Funnel Penjualan', href: '/kategori/funnel-penjualan/' },
+  { label: 'Audience Growth', href: '/kategori/audience-growth/' },
+  { label: 'Email Marketing', href: '/kategori/email-marketing/' },
+  { label: 'Kategori', href: '/kategori/' },
+  { label: 'Tag', href: '/tags/' },
+];
 ---
 
 <!-- Reading Progress Bar (Top) -->
 <div id="reading-progress" class="fixed top-0 left-0 h-[2.5px] bg-gradient-to-r from-amber-500 to-amber-600 z-50 transition-all duration-75 w-0 pointer-events-none"></div>
 
-<header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-xs min-h-[56px] select-none">
+<header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-xs select-none">
+  <!-- 1. Main Header Bar (Logo & Primary Action) -->
   <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between gap-3">
     
     <!-- Brand Logo (Aligned with SitusBisnis AppLogo.vue) -->
@@ -36,29 +56,12 @@
 
     <!-- Right Controls / Navigation -->
     <div class="flex items-center gap-2 sm:gap-3">
-      <!-- Direct Link to Series Masterclass -->
-      <a 
-        href="/seri/" 
-        class="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-amber-900 bg-amber-50 hover:bg-amber-100 border border-amber-200/80 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg transition-all shadow-2xs"
-        title="Lihat Seri Masterclass Panduan Lengkap"
-      >
-        <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
-        <span>Seri Panduan</span>
-      </a>
-
-      <a 
-        href="/" 
-        class="text-xs sm:text-sm font-semibold text-slate-600 hover:text-amber-600 transition-colors hidden md:inline-block px-2 py-1"
-      >
-        Arsip Esai
-      </a>
-
       <!-- Direct Link to Main Platform -->
       <a 
         href="https://situsbisnis.com" 
         target="_blank" 
         rel="noopener noreferrer"
-        class="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-slate-800 bg-slate-100 hover:bg-amber-500 hover:text-white px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-lg transition-all duration-150 shadow-2xs active:scale-95"
+        class="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-slate-800 bg-slate-100 hover:bg-amber-500 hover:text-white px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl transition-all duration-150 shadow-2xs active:scale-95"
         title="Buka Platform Utama SitusBisnis"
       >
         <span>SitusBisnis</span>
@@ -68,6 +71,33 @@
       </a>
     </div>
   </div>
+
+  <!-- 2. Sub-Navigation: Horizontal Scroll Menu Bar Below Main Header -->
+  <nav class="border-t border-slate-100 bg-white/95">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+      <div class="flex items-center gap-1.5 sm:gap-2 overflow-x-auto py-2 no-scrollbar whitespace-nowrap text-xs font-semibold">
+        {navItems.map((item) => {
+          const active = isCurrent(item.href);
+          return (
+            <a
+              href={item.href}
+              class:list={[
+                "px-3 py-1.5 rounded-full transition-all shrink-0 inline-flex items-center gap-1.5",
+                active
+                  ? "bg-slate-950 text-white font-bold shadow-2xs"
+                  : item.isSpecial
+                    ? "bg-amber-50 text-amber-900 border border-amber-300/80 hover:bg-amber-100 font-bold"
+                    : "text-slate-600 hover:text-amber-700 hover:bg-slate-100/90"
+              ]}
+            >
+              {item.icon && <span>{item.icon}</span>}
+              <span>{item.label}</span>
+            </a>
+          );
+        })}
+      </div>
+    </div>
+  </nav>
 </header>
 
 <script>

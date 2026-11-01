@@ -117,3 +117,12 @@ body {
   max-width: 100%;
   height: auto;
 }
+
+/* Utility to hide scrollbar while keeping horizontal scroll functional */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
