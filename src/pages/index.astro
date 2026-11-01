@@ -12,31 +12,32 @@ const sortedPosts = posts.sort(
   title="Blog SiBi — Eksplorasi Mendalam & Strategi Bisnis Digital"
   description="Catatan strategis, studi kasus konversi, dan panduan komprehensif seputar creator economy dari tim SitusBisnis."
 >
-  <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-8 sm:py-14">
+  <!-- Full edge on mobile (px-0 py-0), padded container on desktop -->
+  <div class="w-full max-w-7xl mx-auto px-0 sm:px-6 lg:px-8 py-0 sm:py-12 lg:py-14">
     
-    <!-- Hero Section (Mobile-First) -->
-    <header class="max-w-3xl mb-10 sm:mb-16">
-      <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-900 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-3.5 font-mono">
+    <!-- Hero Section (Full edge flush on mobile, padded on desktop) -->
+    <header class="w-full max-w-3xl px-4 py-6 sm:px-0 sm:py-0 sm:mb-14 bg-white sm:bg-transparent border-b sm:border-b-0 border-slate-200/80">
+      <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-900 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-2.5 sm:mb-3.5 font-mono">
         <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
         Publikasi Resmi SitusBisnis
       </div>
-      <h1 class="text-2xl sm:text-4xl lg:text-5xl font-black tracking-tight text-slate-950 leading-[1.2] mb-3 sm:mb-4">
+      <h1 class="text-2xl sm:text-4xl lg:text-5xl font-black tracking-tight text-slate-950 leading-[1.2] mb-2 sm:mb-4">
         Catatan Strategis, Riset, & Panduan Bisnis Digital
       </h1>
-      <p class="text-sm sm:text-lg text-slate-600 leading-relaxed font-normal">
+      <p class="text-xs sm:text-lg text-slate-600 leading-relaxed font-normal">
         Tulisan mendalam tanpa basa-basi untuk membantu kreator, mentor, dan pengusaha digital membangun ekosistem bisnis yang menguntungkan dan mandiri.
       </p>
     </header>
 
-    <!-- Post List Section -->
-    <section>
-      <div class="flex items-center justify-between pb-3 mb-6 sm:mb-8 border-b border-slate-200">
+    <!-- Post List Section: Full edge divided list on mobile, separated cards on desktop -->
+    <section class="w-full bg-white sm:bg-transparent border-b sm:border-b-0 border-slate-200/80">
+      <div class="px-4 py-3 sm:px-0 sm:py-0 sm:pb-3 sm:mb-6 flex items-center justify-between border-b border-slate-200">
         <h2 class="text-[11px] sm:text-xs font-black uppercase tracking-wider text-slate-400 font-mono">
           Semua Tulisan ({sortedPosts.length})
         </h2>
       </div>
 
-      <div class="space-y-4 sm:space-y-6">
+      <div class="divide-y divide-slate-100 sm:divide-y-0 sm:space-y-6">
         {sortedPosts.map((post) => {
           const formattedDate = new Intl.DateTimeFormat('id-ID', {
             year: 'numeric',
@@ -48,8 +49,8 @@ const sortedPosts = posts.sort(
           const postSlug = post.id.replace(/\.mdx?$/, '');
 
           return (
-            <article class="group bg-white p-4 sm:p-8 rounded-xl border border-slate-200/80 hover:border-amber-500/40 hover:shadow-sm transition-all duration-200 relative">
-              <div class="flex flex-wrap items-center gap-2 text-xs text-slate-500 mb-3">
+            <article class="group bg-white px-4 py-5 sm:p-8 rounded-none sm:rounded-xl border-x-0 sm:border border-slate-200/80 hover:border-amber-500/40 hover:shadow-xs transition-all duration-200 relative">
+              <div class="flex flex-wrap items-center gap-2 text-xs text-slate-500 mb-2.5 sm:mb-3">
                 <span class="text-amber-800 bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200/60 font-semibold font-mono text-[10px] sm:text-[11px]">
                   {primaryCategory}
                 </span>
@@ -66,13 +67,13 @@ const sortedPosts = posts.sort(
                 </a>
               </h3>
 
-              <p class="text-slate-600 text-xs sm:text-sm leading-relaxed line-clamp-2 sm:line-clamp-3 mb-4 sm:mb-5 font-normal">
+              <p class="text-slate-600 text-xs sm:text-sm leading-relaxed line-clamp-2 sm:line-clamp-3 mb-3.5 sm:mb-5 font-normal">
                 {post.data.description}
               </p>
 
               <div class="flex items-center justify-between pt-3 border-t border-slate-100 text-[11px] sm:text-xs font-semibold text-slate-500">
                 <span class="text-slate-400 truncate max-w-[150px] sm:max-w-none">Oleh {post.data.author}</span>
-                <span class="text-amber-600 group-hover:translate-x-1 transition-transform inline-flex items-center gap-1 shrink-0">
+                <span class="text-amber-600 group-hover:translate-x-1 transition-transform inline-flex items-center gap-1 shrink-0 font-bold">
                   Baca Esai →
                 </span>
               </div>
