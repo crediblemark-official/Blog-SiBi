@@ -29,6 +29,10 @@ const categories = Array.from(categoryMap.entries()).map(([slug, data]) => ({
 <BaseLayout 
   title="Daftar Kategori — Blog SiBi"
   description="Jelajahi seluruh kategori esai, panduan monetisasi, dan strategi bisnis digital di Blog SiBi."
+  breadcrumbs={[
+    { name: 'Beranda', url: '/' },
+    { name: 'Kategori', url: '/kategori/' },
+  ]}
 >
   <div class="w-full max-w-7xl mx-auto px-0 sm:px-6 lg:px-8 py-4 sm:py-12 lg:py-14">
     

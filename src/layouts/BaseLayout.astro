@@ -9,17 +9,117 @@ interface Props {
   image?: string;
   canonicalURL?: string;
   type?: 'website' | 'article';
+  publishedTime?: Date;
+  modifiedTime?: Date;
+  author?: string;
+  section?: string;
+  tags?: string[];
+  breadcrumbs?: { name: string; url: string }[];
+  noindex?: boolean;
 }
 
 const {
   title = 'Blog SiBi — Catatan Strategis & Panduan Mendalam Bisnis Digital',
-  description = 'Publikasi resmi SitusBisnis berisi esai, studi kasus, dan panduan mendalam seputar creator economy, funnel penjualan, dan pertumbuhan bisnis digital.',
-  image = 'https://blog.situsbisnis.com/logo.png',
-  canonicalURL = Astro.url.href,
-  type = 'website'
+  description = 'Publikasi resmi SitusBisnis berisi esai, riset, dan panduan komprehensif seputar creator economy, funnel penjualan, dan pertumbuhan bisnis digital.',
+  image = '/logo.png',
+  canonicalURL,
+  type = 'website',
+  publishedTime,
+  modifiedTime,
+  author = 'Tim SitusBisnis',
+  section = 'Bisnis Digital',
+  tags = [],
+  breadcrumbs = [],
+  noindex = false,
 } = Astro.props;
 
+const siteUrl = (Astro.site ? Astro.site.toString() : 'https://blog.situsbisnis.com').replace(/\/$/, '');
+const currentPath = Astro.url.pathname.replace(/\/$/, '') + '/';
+const currentCanonical = canonicalURL || `${siteUrl}${currentPath === '//' ? '/' : currentPath}`;
+
+// Normalize image to absolute URL
+const absoluteImage = image.startsWith('http') 
+  ? image 
+  : `${siteUrl}${image.startsWith('/') ? '' : '/'}${image}`;
+
 const siteTitle = title.includes('Blog SiBi') ? title : `${title} | Blog SiBi`;
+
+// Structured Data: Organization & WebSite
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  '@id': 'https://situsbisnis.com/#organization',
+  'name': 'SitusBisnis',
+  'legalName': 'PT HORIZON DIGITAL INDONESIA',
+  'url': 'https://situsbisnis.com',
+  'logo': {
+    '@type': 'ImageObject',
+    'url': `${siteUrl}/logo.png`,
+    'caption': 'SitusBisnis'
+  },
+  'sameAs': [
+    'https://instagram.com',
+    'https://x.com',
+    'https://youtube.com',
+    'https://tiktok.com',
+    'https://linkedin.com'
+  ]
+};
+
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': `${siteUrl}/#website`,
+  'url': siteUrl,
+  'name': 'Blog SiBi',
+  'description': 'Publikasi resmi SitusBisnis berisi esai, riset, dan panduan komprehensif seputar creator economy.',
+  'publisher': {
+    '@id': 'https://situsbisnis.com/#organization'
+  },
+  'inLanguage': 'id-ID'
+};
+
+// Structured Data: Article (if type is article)
+const articleSchema = type === 'article' ? {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  '@id': `${currentCanonical}#article`,
+  'isPartOf': {
+    '@id': `${siteUrl}/#website`
+  },
+  'mainEntityOfPage': {
+    '@type': 'WebPage',
+    '@id': currentCanonical
+  },
+  'headline': title,
+  'description': description,
+  'image': [absoluteImage],
+  'datePublished': (publishedTime || new Date()).toISOString(),
+  'dateModified': (modifiedTime || publishedTime || new Date()).toISOString(),
+  'author': {
+    '@type': 'Person',
+    'name': author,
+    'url': 'https://situsbisnis.com'
+  },
+  'publisher': {
+    '@id': 'https://situsbisnis.com/#organization'
+  },
+  'inLanguage': 'id-ID',
+  'articleSection': section,
+  'keywords': tags.length > 0 ? tags.join(', ') : undefined
+} : null;
+
+// Structured Data: BreadcrumbList (if breadcrumbs provided)
+const breadcrumbSchema = breadcrumbs.length > 0 ? {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  'itemListElement': breadcrumbs.map((b, idx) => ({
+    '@type': 'ListItem',
+    'position': idx + 1,
+    'name': b.name,
+    'item': b.url.startsWith('http') ? b.url : `${siteUrl}${b.url}`
+  }))
+} : null;
 ---
 
 <!doctype html>
@@ -35,28 +135,66 @@ const siteTitle = title.includes('Blog SiBi') ? title : `${title} | Blog SiBi`;
     <link rel="shortcut icon" href="/favicon.ico" />
     <meta name="theme-color" content="#d97706" />
 
-    <!-- Canonical -->
-    <link rel="canonical" href={canonicalURL} />
+    <!-- Canonical URL -->
+    <link rel="canonical" href={currentCanonical} />
+
+    <!-- RSS Feed Discovery -->
+    <link rel="alternate" type="application/rss+xml" title="Blog SiBi — RSS Feed" href="/rss.xml" />
 
     <!-- SEO Meta Tags -->
     <title>{siteTitle}</title>
     <meta name="title" content={siteTitle} />
     <meta name="description" content={description} />
+    <meta name="author" content={author} />
+    
+    <!-- Robots & Crawlers Control -->
+    {noindex ? (
+      <meta name="robots" content="noindex, nofollow" />
+    ) : (
+      <>
+        <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+        <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+      </>
+    )}
 
     <!-- Open Graph / Facebook -->
+    <meta property="og:locale" content="id_ID" />
     <meta property="og:type" content={type} />
-    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:url" content={currentCanonical} />
     <meta property="og:title" content={siteTitle} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={image} />
+    <meta property="og:image" content={absoluteImage} />
+    <meta property="og:image:alt" content={title} />
     <meta property="og:site_name" content="Blog SiBi" />
 
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content={canonicalURL} />
-    <meta property="twitter:title" content={siteTitle} />
-    <meta property="twitter:description" content={description} />
-    <meta property="twitter:image" content={image} />
+    <!-- Article specific Open Graph -->
+    {type === 'article' && (
+      <>
+        {publishedTime && <meta property="article:published_time" content={publishedTime.toISOString()} />}
+        {modifiedTime && <meta property="article:modified_time" content={modifiedTime.toISOString()} />}
+        <meta property="article:author" content={author} />
+        {section && <meta property="article:section" content={section} />}
+        {tags.map((t) => (
+          <meta property="article:tag" content={t} />
+        ))}
+      </>
+    )}
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={currentCanonical} />
+    <meta name="twitter:title" content={siteTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={absoluteImage} />
+    <meta name="twitter:image:alt" content={title} />
+    <meta name="twitter:site" content="@situsbisnis" />
+    <meta name="twitter:creator" content="@situsbisnis" />
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
+    {articleSchema && <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />}
+    {breadcrumbSchema && <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />}
   </head>
   <body class="min-h-screen flex flex-col bg-white text-slate-900 selection:bg-amber-100 selection:text-amber-900">
     <Header />

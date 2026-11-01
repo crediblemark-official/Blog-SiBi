@@ -42,6 +42,11 @@ const { categoryName, categorySlug, posts, allCategories } = Astro.props;
 <BaseLayout 
   title={`${categoryName} — Kategori Blog SiBi`}
   description={`Kumpulan catatan strategis, riset, dan panduan seputar ${categoryName} dari tim SitusBisnis.`}
+  breadcrumbs={[
+    { name: 'Beranda', url: '/' },
+    { name: 'Kategori', url: '/kategori/' },
+    { name: categoryName, url: `/kategori/${categorySlug}/` },
+  ]}
 >
   <!-- Main Page Container (Full edge on mobile px-0, padded on desktop) -->
   <div class="w-full max-w-7xl mx-auto px-0 sm:px-6 lg:px-8 py-4 sm:py-12 lg:py-14">

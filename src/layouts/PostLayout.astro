@@ -35,9 +35,24 @@ const formattedDate = new Intl.DateTimeFormat('id-ID', {
   month: 'long',
   day: 'numeric'
 }).format(new Date(date));
+const breadcrumbs = [
+  { name: 'Beranda', url: '/' },
+  { name: primaryCategory, url: `/kategori/${slugify(primaryCategory)}/` },
+  { name: title, url: Astro.url.pathname },
+];
 ---
 
-<BaseLayout title={title} description={description} image={image} type="article">
+<BaseLayout 
+  title={title} 
+  description={description} 
+  image={image} 
+  type="article"
+  publishedTime={new Date(date)}
+  author={author}
+  section={primaryCategory}
+  tags={tags}
+  breadcrumbs={breadcrumbs}
+>
   
   <!-- Centered Single Column Article Container (Full edge on mobile px-0, padded on desktop) -->
   <article class="w-full bg-white">
