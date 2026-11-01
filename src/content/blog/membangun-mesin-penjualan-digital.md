@@ -4,6 +4,7 @@ date: 2026-11-01 12:00:00 +0700
 categories: [Strategi Bisnis, Funnel Penjualan]
 tags: [creator-economy, digital-product, conversion, landing-page]
 description: "Mengapa traffic tinggi tidak selalu berbanding lurus dengan konversi, dan bagaimana merancang alur penjualan terstruktur untuk produk digital Anda."
+image: "/images/posts/funnel-cover.jpg"
 toc: true
 math: false
 mermaid: false
@@ -37,10 +38,12 @@ Di fase ini, audiens belum mengenal produk berbayar Anda. Mereka datang mencari 
 ### B. Pertimbangan Mendalam (Middle of Funnel - MoFU)
 Ketika audiens menyadari bahwa mereka membutuhkan solusi yang lebih terstruktur, di sinilah kredibilitas Anda diuji. Studi kasus nyata, ulasan teknis, dan esai mendalam membantu membangun rasa percaya (*trust*).
 
+![Struktur ruang kerja dan ekosistem terpadu](/images/posts/architecture-interior.jpg)
+<span class="block text-center text-xs text-slate-400 -mt-3 mb-6">Dokumentasi arsitektur sistem konversi bertahap.</span>
+
 ### C. Keputusan Transaksi (Bottom of Funnel - BoFU)
 Halaman penawaran (*landing page*) dan formulir pembayaran (*checkout*). Titik ini adalah tempat paling sering terjadinya *drop-off* (pembatalan transaksi).
 
-> [!TIP]
 > **Prinsip Mengurangi Gesekan (Friction):**
 > Semakin sedikit langkah yang dibutuhkan pembeli dari mengklik tombol "Beli" hingga menyelesaikan pembayaran, semakin tinggi rasio konversi Anda. Hindari formulir bertele-tele dan integrasikan metode pembayaran lokal instan seperti QRIS Dinamis dan Virtual Account.
 
@@ -55,6 +58,9 @@ Jangan terjebak pada *vanity metrics* seperti jumlah *likes* atau impresi semata
 | **CTR (Click-Through Rate)** | Persentase audiens yang mengklik tautan menuju landing page | > 2% - 5% |
 | **Page-to-Checkout Rate** | Pengunjung landing page yang melanjutkan ke form checkout | > 10% - 20% |
 | **Checkout Conversion Rate** | Pembeli yang benar-benar menyelesaikan pelunasan invoice | > 60% - 80% (untuk QRIS/VA otomatis) |
+
+![Menghilangkan friksi pada setiap titik sentuh transaksi](/images/posts/chair-sunlight.jpg)
+<span class="block text-center text-xs text-slate-400 -mt-3 mb-6">Ketenangan pikiran datang dari alur transaksi yang berjalan otomatis.</span>
 
 ---
 

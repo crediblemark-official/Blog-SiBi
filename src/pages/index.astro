@@ -49,33 +49,49 @@ const sortedPosts = posts.sort(
           const postSlug = post.id.replace(/\.mdx?$/, '');
 
           return (
-            <article class="group bg-white px-4 py-5 sm:p-8 rounded-none sm:rounded-xl border-x-0 sm:border border-slate-200/80 hover:border-amber-500/40 hover:shadow-xs transition-all duration-200 relative">
-              <div class="flex flex-wrap items-center gap-2 text-xs text-slate-500 mb-2.5 sm:mb-3">
-                <span class="text-amber-800 bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200/60 font-semibold font-mono text-[10px] sm:text-[11px]">
-                  {primaryCategory}
-                </span>
-                <span>•</span>
-                <time datetime={post.data.date.toISOString()} class="text-slate-500 font-medium text-[11px] sm:text-xs">
-                  {formattedDate}
-                </time>
-              </div>
+            <article class="group bg-white px-4 py-5 sm:p-7 rounded-none sm:rounded-2xl border-x-0 sm:border border-slate-200/80 hover:border-amber-500/40 hover:shadow-xs transition-all duration-200 relative">
+              <div class="flex flex-col sm:flex-row gap-5 sm:gap-6 items-start">
+                {post.data.image && (
+                  <div class="w-full sm:w-52 lg:w-60 aspect-[16/10] rounded-xl overflow-hidden bg-slate-100 shrink-0 border border-slate-200/70">
+                    <img 
+                      src={post.data.image} 
+                      alt={post.data.title} 
+                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      loading="lazy"
+                    />
+                  </div>
+                )}
+                <div class="flex-1 min-w-0 flex flex-col justify-between self-stretch">
+                  <div>
+                    <div class="flex flex-wrap items-center gap-2 text-xs text-slate-500 mb-2 sm:mb-2.5">
+                      <span class="text-amber-800 bg-amber-50 px-2.5 py-0.5 rounded-full border border-amber-200/60 font-semibold font-mono text-[10px] sm:text-[11px]">
+                        {primaryCategory}
+                      </span>
+                      <span>•</span>
+                      <time datetime={post.data.date.toISOString()} class="text-slate-500 font-medium text-[11px] sm:text-xs">
+                        {formattedDate}
+                      </time>
+                    </div>
 
-              <h3 class="text-lg sm:text-2xl font-black text-slate-950 tracking-tight leading-snug mb-2 sm:mb-3 group-hover:text-amber-600 transition-colors">
-                <a href={`/posts/${postSlug}/`} class="focus:outline-hidden">
-                  <span class="absolute inset-0" aria-hidden="true" />
-                  {post.data.title}
-                </a>
-              </h3>
+                    <h3 class="text-lg sm:text-2xl font-black text-slate-950 tracking-tight leading-snug mb-2 group-hover:text-amber-600 transition-colors">
+                      <a href={`/posts/${postSlug}/`} class="focus:outline-hidden">
+                        <span class="absolute inset-0" aria-hidden="true" />
+                        {post.data.title}
+                      </a>
+                    </h3>
 
-              <p class="text-slate-600 text-xs sm:text-sm leading-relaxed line-clamp-2 sm:line-clamp-3 mb-3.5 sm:mb-5 font-normal">
-                {post.data.description}
-              </p>
+                    <p class="text-slate-600 text-xs sm:text-sm leading-relaxed line-clamp-2 mb-3 font-normal">
+                      {post.data.description}
+                    </p>
+                  </div>
 
-              <div class="flex items-center justify-between pt-3 border-t border-slate-100 text-[11px] sm:text-xs font-semibold text-slate-500">
-                <span class="text-slate-400 truncate max-w-[150px] sm:max-w-none">Oleh {post.data.author}</span>
-                <span class="text-amber-600 group-hover:translate-x-1 transition-transform inline-flex items-center gap-1 shrink-0 font-bold">
-                  Baca Esai →
-                </span>
+                  <div class="flex items-center justify-between pt-3 border-t border-slate-100 text-[11px] sm:text-xs font-semibold text-slate-500">
+                    <span class="text-slate-400 truncate max-w-[150px] sm:max-w-none">Oleh {post.data.author}</span>
+                    <span class="text-amber-600 group-hover:translate-x-1 transition-transform inline-flex items-center gap-1 shrink-0 font-bold">
+                      Baca Esai →
+                    </span>
+                  </div>
+                </div>
               </div>
             </article>
           );

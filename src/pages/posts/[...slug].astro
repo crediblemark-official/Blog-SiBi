@@ -6,16 +6,24 @@ export async function getStaticPaths() {
   const posts = await getCollection('blog');
   return posts.map((post) => ({
     params: { slug: post.id.replace(/\.mdx?$/, '') },
-    props: { post },
+    props: { 
+      post,
+      allPosts: posts.filter((p) => p.id !== post.id),
+    },
   }));
 }
 
-const { post } = Astro.props;
+const { post, allPosts } = Astro.props;
 const { Content, headings } = await render(post);
 
 // Estimasi waktu baca (sekitar 200 kata/menit)
 const wordCount = post.body ? post.body.split(/\s+/).length : 600;
 const readingTimeMinutes = Math.max(1, Math.ceil(wordCount / 200));
+
+// Ambil hingga 3 artikel terkait
+const relatedPosts = allPosts
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
+  .slice(0, 3);
 ---
 
 <PostLayout
@@ -25,8 +33,10 @@ const readingTimeMinutes = Math.max(1, Math.ceil(wordCount / 200));
   categories={post.data.categories}
   tags={post.data.tags}
   author={post.data.author}
+  image={post.data.image}
   headings={headings}
   readingTimeMinutes={readingTimeMinutes}
+  relatedPosts={relatedPosts}
 >
   <Content />
 </PostLayout>

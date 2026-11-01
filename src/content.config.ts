@@ -10,6 +10,7 @@ const blog = defineCollection({
     categories: z.array(z.string()).default([]),
     tags: z.array(z.string()).default([]),
     author: z.string().default('Tim SitusBisnis'),
+    image: z.string().optional(),
   }),
 });
 

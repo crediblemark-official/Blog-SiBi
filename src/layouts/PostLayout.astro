@@ -8,8 +8,10 @@ interface Props {
   categories?: string[];
   tags?: string[];
   author?: string;
+  image?: string;
   headings?: { depth: number; slug: string; text: string }[];
   readingTimeMinutes?: number;
+  relatedPosts?: any[];
 }
 
 const {
@@ -19,66 +21,88 @@ const {
   categories = [],
   tags = [],
   author = 'Tim SitusBisnis',
+  image = '/images/posts/funnel-cover.jpg',
   headings = [],
-  readingTimeMinutes = 5
+  readingTimeMinutes = 5,
+  relatedPosts = []
 } = Astro.props;
 
-const primaryCategory = categories[0] || 'Esai Strategis';
+const primaryCategory = categories[0] || 'Strategi Bisnis';
 
 const formattedDate = new Intl.DateTimeFormat('id-ID', {
   year: 'numeric',
   month: 'long',
   day: 'numeric'
 }).format(new Date(date));
-
-const filteredHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
 ---
 
-<BaseLayout title={title} description={description} type="article">
-  <!-- Article Header Section (Seamless full-bleed on clean white, no card box) -->
-  <header class="w-full bg-white border-b border-slate-200/80">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-7 sm:pt-11 pb-7 sm:pb-9">
-      <div class="max-w-4xl">
-        
-        <!-- Clean Breadcrumbs -->
-        <nav class="flex items-center gap-1.5 text-xs text-slate-500 mb-3 sm:mb-4" aria-label="Breadcrumb">
-          <a href="/" class="hover:text-amber-600 transition-colors flex items-center gap-1 font-medium">
-            <svg class="w-3.5 h-3.5 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-            </svg>
-            <span>Beranda</span>
-          </a>
-          <span class="text-slate-300">/</span>
-          <span class="inline-flex items-center text-amber-800 bg-amber-50 px-2.5 py-0.5 rounded-full border border-amber-200/70 font-semibold text-[11px]">
-            {primaryCategory}
-          </span>
-        </nav>
+<BaseLayout title={title} description={description} image={image} type="article">
+  
+  <!-- Centered Single Column Article Container -->
+  <article class="w-full bg-white">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 pt-6 sm:pt-10 pb-12 sm:pb-16">
+      
+      <!-- 1. Back to Blog Link -->
+      <div class="mb-6 sm:mb-8">
+        <a 
+          href="/" 
+          class="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-amber-600 hover:text-amber-700 transition-colors group"
+        >
+          <svg class="w-4 h-4 text-amber-600 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          <span>Kembali ke Blog</span>
+        </a>
+      </div>
 
-        <!-- Main Headline -->
+      <!-- 2. Featured Hero Image (Rounded landscape cover) -->
+      <div class="mb-8 sm:mb-10 rounded-2xl sm:rounded-3xl overflow-hidden border border-slate-200/80 shadow-xs aspect-[16/10] sm:aspect-[16/9] bg-slate-100">
+        <img 
+          src={image} 
+          alt={title}
+          class="w-full h-full object-cover" 
+          loading="eager"
+        />
+      </div>
+
+      <!-- 3. Article Header (Below Hero Image) -->
+      <header class="mb-8 sm:mb-10">
+        <!-- Category Badges -->
+        <div class="flex flex-wrap items-center gap-2 mb-3.5 sm:mb-4">
+          {categories.map((cat, idx) => (
+            <span class:list={[
+              "px-3 py-1 rounded-full text-xs font-bold font-mono tracking-tight",
+              idx === 0 
+                ? "bg-emerald-50 text-emerald-800 border border-emerald-200/80" 
+                : "bg-amber-50 text-amber-900 border border-amber-200/80"
+            ]}>
+              {cat}
+            </span>
+          ))}
+        </div>
+
+        <!-- Big Headline -->
         <h1 class="text-2xl sm:text-4xl lg:text-[42px] font-black tracking-tight text-slate-950 leading-[1.2] mb-3 sm:mb-4">
           {title}
         </h1>
 
-        <!-- Excerpt -->
-        <p class="text-sm sm:text-base lg:text-lg text-slate-600 leading-relaxed font-normal mb-6 sm:mb-8">
+        <!-- Excerpt / Subtitle -->
+        <p class="text-sm sm:text-base lg:text-lg text-slate-600 leading-relaxed font-normal mb-6">
           {description}
         </p>
 
-        <!-- Clean Byline: All info grouped together, no gap void, single subtle divider -->
-        <div class="flex flex-wrap items-center justify-between gap-4 pt-2">
-          
-          <!-- Left: Grouped Author Avatar + Name + Date + Read Time -->
+        <!-- Author & Byline Row -->
+        <div class="flex items-center justify-between gap-4 pt-4 border-t border-slate-100">
           <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-full bg-amber-50 border border-amber-200/80 p-1.5 flex items-center justify-center shrink-0 shadow-2xs">
-              <img src="/logo.png" alt="SitusBisnis" class="w-full h-full object-contain" />
+            <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-amber-50 border border-amber-200/80 p-1 flex items-center justify-center shrink-0 shadow-2xs">
+              <img src="/logo.png" alt={author} class="w-full h-full object-contain" />
             </div>
-
-            <div class="flex flex-col gap-0.5">
-              <div class="flex items-center gap-2">
+            <div>
+              <div class="flex items-center gap-1.5">
                 <span class="font-bold text-slate-950 text-xs sm:text-sm">{author}</span>
-                <span class="text-[10px] font-semibold text-amber-800 bg-amber-100/80 px-1.5 py-0.2 rounded font-mono">Editorial</span>
+                <span class="text-[9.5px] font-semibold text-amber-800 bg-amber-100/80 px-1.5 py-0.2 rounded font-mono">Editorial</span>
               </div>
-              <div class="flex items-center gap-2 text-slate-500 text-[11px] sm:text-xs">
+              <div class="flex items-center gap-2 text-slate-500 text-[11px] sm:text-xs mt-0.5">
                 <time datetime={date.toISOString()}>{formattedDate}</time>
                 <span class="text-slate-300">•</span>
                 <span>{readingTimeMinutes} menit baca</span>
@@ -86,7 +110,7 @@ const filteredHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
             </div>
           </div>
 
-          <!-- Right: Share / Copy Link Action -->
+          <!-- Salin Tautan Button -->
           <button 
             id="copy-link-btn"
             type="button"
@@ -96,236 +120,187 @@ const filteredHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
             <svg id="copy-icon" class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
             </svg>
-            <span id="copy-btn-text">Salin Tautan</span>
+            <span id="copy-btn-text" class="hidden sm:inline">Salin Tautan</span>
           </button>
         </div>
+      </header>
 
+      <!-- 4. Article Content (Centered Single Column Typography) -->
+      <div class="prose prose-slate prose-base sm:prose-lg max-w-none
+        prose-headings:font-black prose-headings:tracking-tight prose-headings:text-slate-950
+        prose-h2:text-xl sm:prose-h2:2xl prose-h2:mt-12 prose-h2:mb-4 prose-h2:pt-2
+        prose-h3:text-lg sm:prose-h3:xl prose-h3:mt-8 prose-h3:mb-3
+        prose-p:text-slate-700 prose-p:leading-[1.8] prose-p:mb-6
+        prose-a:text-amber-600 prose-a:font-semibold hover:prose-a:text-amber-700 prose-a:underline-offset-4
+        prose-strong:text-slate-950 prose-strong:font-bold
+        prose-blockquote:border-l-4 prose-blockquote:border-slate-900 prose-blockquote:bg-slate-50/70 prose-blockquote:py-4 prose-blockquote:px-5 prose-blockquote:rounded-r-xl prose-blockquote:text-slate-800 prose-blockquote:not-italic prose-blockquote:my-8
+        prose-img:rounded-2xl prose-img:border prose-img:border-slate-200/80 prose-img:shadow-xs prose-img:my-6
+        prose-table:text-xs sm:prose-table:text-sm
+        prose-th:bg-slate-50 prose-th:p-3 prose-th:text-slate-900
+        prose-td:p-3 prose-td:border-t prose-td:border-slate-100
+        prose-code:text-amber-700 prose-code:bg-amber-50 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-xs prose-code:font-mono
+        prose-pre:bg-slate-950 prose-pre:text-slate-100 prose-pre:rounded-2xl prose-pre:p-5 prose-pre:border prose-pre:border-slate-800">
+        <slot />
       </div>
+
+      <!-- 5. Topic Tags Row -->
+      {tags.length > 0 && (
+        <div class="mt-12 pt-6 border-t border-slate-100 flex flex-wrap items-center gap-2">
+          <span class="text-xs font-bold uppercase tracking-wider text-slate-400 mr-1 font-mono">Topik:</span>
+          {tags.map((tag) => (
+            <span class="text-xs font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 px-2.5 py-1 rounded-md transition-colors">
+              #{tag}
+            </span>
+          ))}
+        </div>
+      )}
+
     </div>
-  </header>
+  </article>
 
-  <!-- Article Body & Sidebar Container (Pure Unboxed Editorial Flow) -->
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-start">
-      
-      <!-- Unboxed Article Body -->
-      <main class="w-full lg:col-span-8 min-w-0">
-        <article class="prose prose-slate prose-base sm:prose-lg max-w-none 
-          prose-headings:font-black prose-headings:tracking-tight prose-headings:text-slate-950
-          prose-h2:text-xl sm:prose-h2:2xl prose-h2:mt-12 prose-h2:mb-4 prose-h2:pb-2 prose-h2:border-b prose-h2:border-slate-100
-          prose-h3:text-lg sm:prose-h3:xl prose-h3:mt-8 prose-h3:mb-3
-          prose-p:text-slate-700 prose-p:leading-[1.8] prose-p:mb-6
-          prose-a:text-amber-600 prose-a:font-semibold hover:prose-a:text-amber-700 prose-a:underline-offset-4
-          prose-strong:text-slate-950 prose-strong:font-bold
-          prose-blockquote:border-l-4 prose-blockquote:border-amber-500 prose-blockquote:bg-amber-50/40 prose-blockquote:py-3.5 prose-blockquote:px-5 prose-blockquote:rounded-r-lg prose-blockquote:text-slate-800 prose-blockquote:not-italic
-          prose-table:text-xs sm:prose-table:text-sm
-          prose-th:bg-slate-50 prose-th:p-3 prose-th:text-slate-900
-          prose-td:p-3 prose-td:border-t prose-td:border-slate-100
-          prose-code:text-amber-700 prose-code:bg-amber-50 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-xs prose-code:font-mono
-          prose-pre:bg-slate-950 prose-pre:text-slate-100 prose-pre:rounded-xl prose-pre:p-4 sm:prose-pre:p-5 prose-pre:border prose-pre:border-slate-800">
-          <slot />
-        </article>
-
-        <!-- Topic Tags List -->
-        {tags.length > 0 && (
-          <div class="mt-12 pt-6 border-t border-slate-100 flex flex-wrap items-center gap-2">
-            <span class="text-xs font-bold uppercase tracking-wider text-slate-400 mr-1 font-mono">Topik:</span>
-            {tags.map((tag) => (
-              <span class="text-xs font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 px-2.5 py-1 rounded-md transition-colors">
-                #{tag}
-              </span>
-            ))}
-          </div>
-        )}
-
-        <!-- Embedded Call-to-Action (Natural Editorial Bridge) -->
-        <section class="mt-14 p-6 sm:p-8 rounded-2xl bg-amber-500/5 border border-amber-500/20 relative overflow-hidden">
-          <div class="relative z-10">
-            <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-600 text-white font-bold text-[10px] uppercase tracking-wider mb-3">
-              Solusi Terpadu
-            </div>
-            <h3 class="text-lg sm:text-2xl font-black text-slate-950 tracking-tight mb-2">
-              Siap Menerapkan Strategi di Atas pada Bisnis Anda?
-            </h3>
-            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-6 max-w-2xl">
-              Gunakan platform <strong>SitusBisnis</strong> untuk membuat landing page visual siap konversi, menjual e-book, kelas online, layanan konsultasi, hingga produk fisik dengan checkout instan (QRIS & Virtual Account).
+  <!-- 6. "You Might Also Like" / Artikel Terkait Section -->
+  {relatedPosts.length > 0 && (
+    <section class="w-full bg-slate-50/70 border-t border-slate-200/80 py-12 sm:py-16">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-8 sm:mb-10">
+          <div>
+            <h2 class="text-xl sm:text-2xl font-black text-slate-950 tracking-tight">
+              Artikel Terkait Lainnya
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-500 mt-1">
+              Eksplorasi strategi bisnis digital, monetisasi, dan panduan mendalam lainnya dari Blog SiBi.
             </p>
-            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-              <a 
-                href="https://situsbisnis.com" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 active:scale-95 text-white font-bold text-xs sm:text-sm transition-all shadow-sm"
-              >
-                <span>Mulai Buat Toko Gratis</span>
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                </svg>
-              </a>
-              <a 
-                href="https://situsbisnis.com/#features" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl text-slate-700 hover:text-slate-950 font-semibold text-xs sm:text-sm transition-colors text-center"
-              >
-                Lihat Semua Fitur →
-              </a>
-            </div>
           </div>
-        </section>
-      </main>
-
-      <!-- Desktop Sticky Sidebar (TOC & About) -->
-      <aside class="hidden lg:block lg:col-span-4 sticky top-24 space-y-6">
-        
-        <!-- Table of Contents Card -->
-        {filteredHeadings.length > 0 && (
-          <div class="p-5 rounded-2xl bg-slate-50/80 border border-slate-200/80">
-            <h3 class="text-xs font-black uppercase tracking-wider text-slate-400 mb-4 font-mono flex items-center gap-2">
-              <svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
-              </svg>
-              Daftar Isi Esai
-            </h3>
-            <nav class="space-y-1 text-xs sm:text-[13px] max-h-[60vh] overflow-y-auto pr-1">
-              {filteredHeadings.map((heading) => (
-                <a
-                  href={`#${heading.slug}`}
-                  class:list={[
-                    'block py-1.5 transition-colors line-clamp-1',
-                    heading.depth === 2
-                      ? 'font-semibold text-slate-800 hover:text-amber-600'
-                      : 'pl-4 text-slate-500 hover:text-amber-600 text-xs'
-                  ]}
-                >
-                  {heading.text}
-                </a>
-              ))}
-            </nav>
-          </div>
-        )}
-
-        <!-- Quick About Card -->
-        <div class="p-5 rounded-2xl bg-slate-900 text-white shadow-xs">
-          <div class="flex items-center gap-2.5 mb-2.5">
-            <img src="/logo.png" alt="SitusBisnis" class="w-6 h-6 object-contain" />
-            <span class="font-bold text-sm tracking-tight">Tentang Blog SiBi</span>
-          </div>
-          <p class="text-xs text-slate-400 leading-relaxed mb-4">
-            Catatan riset dan strategi bisnis digital yang dikurasi oleh tim SitusBisnis untuk membantu kreator dan mentor Indonesia membangun bisnis mandiri.
-          </p>
-          <a 
-            href="https://situsbisnis.com" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            class="text-xs font-bold text-amber-400 hover:text-amber-300 inline-flex items-center gap-1"
-          >
-            Buka SitusBisnis.com ↗
+          <a href="/" class="text-xs sm:text-sm font-bold text-amber-600 hover:text-amber-700 inline-flex items-center gap-1 shrink-0 group">
+            <span>Lihat Semua Artikel</span>
+            <svg class="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
           </a>
         </div>
-      </aside>
-    </div>
 
-    <!-- ================= FLOATING CONTROLS (MOBILE & TABLET) ================= -->
-
-    <!-- 1. Floating Mobile TOC Pill Trigger (Bottom-Left) -->
-    {filteredHeadings.length > 0 && (
-      <button 
-        id="mobile-toc-trigger"
-        type="button"
-        class="lg:hidden fixed bottom-5 left-4 z-40 inline-flex items-center gap-2 px-3.5 py-2.5 rounded-full bg-slate-950/95 text-white text-xs font-bold shadow-lg shadow-slate-950/20 hover:bg-slate-900 active:scale-95 transition-all duration-150 border border-slate-800 backdrop-blur-md select-none"
-        aria-label="Buka Daftar Isi"
-      >
-        <svg class="w-3.5 h-3.5 text-amber-500 stroke-[2.4]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h7" />
-        </svg>
-        <span>Daftar Isi</span>
-        <span class="min-w-4 h-4 px-1 rounded-full bg-amber-500/20 text-amber-400 text-[10px] flex items-center justify-center font-mono font-bold">
-          {filteredHeadings.length}
-        </span>
-      </button>
-    )}
-
-    <!-- 2. Floating Mobile Bottom Sheet Modal (Drawer) -->
-    {filteredHeadings.length > 0 && (
-      <div 
-        id="mobile-toc-modal" 
-        class="lg:hidden fixed inset-0 z-50 pointer-events-none transition-all duration-300"
-        aria-hidden="true"
-      >
-        <!-- Dark Backdrop Overlay -->
-        <div 
-          id="mobile-toc-backdrop" 
-          class="absolute inset-0 bg-slate-950/60 backdrop-blur-xs opacity-0 transition-opacity duration-300"
-        ></div>
-
-        <!-- Sliding Bottom Sheet Container -->
-        <div 
-          id="mobile-toc-sheet" 
-          class="absolute inset-x-0 bottom-0 bg-white rounded-t-2xl shadow-2xl transition-transform duration-300 ease-out translate-y-full flex flex-col max-h-[75vh] pb-[calc(1rem+env(safe-area-inset-bottom,0px))] border-t border-slate-200/80"
-        >
-          <!-- Drag Handle Indicator -->
-          <div class="w-10 h-1 bg-slate-300 rounded-full mx-auto mt-3 mb-1 shrink-0"></div>
-
-          <!-- Sheet Header -->
-          <div class="px-5 py-3 border-b border-slate-100 flex items-center justify-between shrink-0">
-            <div class="flex items-center gap-2">
-              <div class="w-5 h-5 rounded-md bg-amber-500/10 flex items-center justify-center text-amber-600 shrink-0">
-                <svg class="w-3.5 h-3.5 stroke-[2.4]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h7" />
-                </svg>
-              </div>
-              <span class="font-black text-sm tracking-tight text-slate-950">Daftar Isi Esai</span>
-              <span class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 text-[10px] font-mono font-bold">
-                {filteredHeadings.length} Bagian
-              </span>
-            </div>
-
-            <!-- Close Button -->
-            <button 
-              id="mobile-toc-close" 
-              type="button" 
-              class="p-1.5 text-slate-400 hover:text-slate-800 rounded-lg active:scale-95 transition-colors"
-              aria-label="Tutup Daftar Isi"
-            >
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-          </div>
-
-          <!-- Sheet Headings List -->
-          <nav class="p-4 sm:p-5 overflow-y-auto space-y-1 text-xs select-none overscroll-contain">
-            {filteredHeadings.map((heading) => (
-              <a
-                href={`#${heading.slug}`}
-                class:list={[
-                  'mobile-toc-link block py-2.5 px-3 rounded-lg transition-colors',
-                  heading.depth === 2
-                    ? 'font-bold text-slate-900 bg-slate-50 hover:bg-amber-50 hover:text-amber-800 active:bg-amber-100'
-                    : 'pl-6 text-slate-600 hover:bg-amber-50 hover:text-amber-700 active:bg-amber-100'
-                ]}
-              >
-                {heading.text}
-              </a>
-            ))}
-          </nav>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+          {relatedPosts.map((rPost) => {
+            const rSlug = rPost.id.replace(/\.mdx?$/, '');
+            const rDate = new Intl.DateTimeFormat('id-ID', {
+              year: 'numeric',
+              month: 'short',
+              day: 'numeric'
+            }).format(new Date(rPost.data.date));
+            const rCat = rPost.data.categories?.[0] || 'Strategi';
+            return (
+              <article class="group flex flex-col bg-white rounded-2xl border border-slate-200/80 overflow-hidden hover:border-amber-500/50 hover:shadow-md transition-all duration-200">
+                <a href={`/posts/${rSlug}/`} class="aspect-[16/10] overflow-hidden bg-slate-100 block relative">
+                  <img 
+                    src={rPost.data.image || "/images/posts/funnel-cover.jpg"} 
+                    alt={rPost.data.title}
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    loading="lazy"
+                  />
+                </a>
+                <div class="p-5 flex-1 flex flex-col justify-between">
+                  <div>
+                    <span class="inline-block text-amber-800 bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200/60 font-semibold font-mono text-[10px] mb-2.5">
+                      {rCat}
+                    </span>
+                    <h3 class="text-sm sm:text-base font-bold text-slate-950 group-hover:text-amber-600 transition-colors line-clamp-2 leading-snug mb-2">
+                      <a href={`/posts/${rSlug}/`}>
+                        {rPost.data.title}
+                      </a>
+                    </h3>
+                    <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed mb-4">
+                      {rPost.data.description}
+                    </p>
+                  </div>
+                  <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400">
+                    <span>{rPost.data.author}</span>
+                    <time datetime={rPost.data.date.toISOString()}>{rDate}</time>
+                  </div>
+                </div>
+              </article>
+            );
+          })}
         </div>
       </div>
-    )}
+    </section>
+  )}
 
-    <!-- 3. Floating Back to Top Button (Bottom-Right) -->
-    <button 
-      id="back-to-top"
-      type="button"
-      class="fixed bottom-5 right-4 sm:right-6 z-40 p-2.5 rounded-full bg-white text-slate-700 border border-slate-200 shadow-md hover:bg-slate-50 active:scale-95 transition-all opacity-0 pointer-events-none"
-      aria-label="Kembali ke atas"
-    >
-      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 10l7-7m0 0l7 7m-7-7v18" />
-      </svg>
-    </button>
-  </div>
+  <!-- 7. Bottom CTA Section (Power Your Growth with SitusBisnis) -->
+  <section class="w-full bg-white py-12 sm:py-16 border-t border-slate-200/80">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="rounded-3xl border border-slate-200/90 bg-gradient-to-br from-slate-50 via-white to-amber-50/40 p-6 sm:p-10 lg:p-12 shadow-xs flex flex-col lg:flex-row items-center justify-between gap-8 sm:gap-10">
+        <div class="w-full lg:max-w-xl">
+          <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-900 text-[10px] font-bold uppercase tracking-wider mb-3 font-mono">
+            Ekosistem SitusBisnis
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight leading-tight mb-3">
+            Tingkatkan Pertumbuhan Bisnis Digital Anda
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-6">
+            Gunakan platform <strong>SitusBisnis</strong> untuk membuat landing page visual siap konversi, menjual e-book, kelas online, layanan konsultasi, hingga produk fisik dengan checkout instan (QRIS & Virtual Account) tanpa potongan komisi.
+          </p>
+          <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+            <a 
+              href="https://situsbisnis.com" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 active:scale-95 text-white font-bold text-xs sm:text-sm transition-all shadow-sm"
+            >
+              <span>Mulai Buat Toko Gratis</span>
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </a>
+            <a 
+              href="https://situsbisnis.com/#features" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl text-slate-700 hover:text-slate-950 font-semibold text-xs sm:text-sm transition-colors text-center"
+            >
+              Lihat Semua Fitur →
+            </a>
+          </div>
+        </div>
+
+        <!-- Visual Dashboard Card Illustration -->
+        <div class="w-full lg:w-72 shrink-0 bg-white rounded-2xl border border-slate-200/80 p-5 shadow-xs space-y-3">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+            <div class="flex items-center gap-2">
+              <img src="/logo.png" alt="SitusBisnis" class="w-5 h-5 object-contain" />
+              <span class="font-bold text-xs text-slate-900">SitusBisnis Hub</span>
+            </div>
+            <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-mono text-[9px] font-black">ONLINE</span>
+          </div>
+          <div class="space-y-1.5 text-xs">
+            <div class="flex justify-between text-slate-500 text-[11px]">
+              <span>Total Pendapatan</span>
+              <span class="text-emerald-600 font-bold font-mono">100% Anda</span>
+            </div>
+            <div class="text-lg font-black text-slate-950 font-mono">Rp 18.450.000</div>
+            <div class="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
+              <div class="h-full bg-amber-500 rounded-full w-4/5"></div>
+            </div>
+          </div>
+          <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-[10px] text-slate-400 font-mono">
+            <span>Biaya Transaksi</span>
+            <span class="text-amber-700 font-bold">0% (Zero Fee ⭐)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Floating Back to Top Button -->
+  <button 
+    id="back-to-top"
+    type="button"
+    class="fixed bottom-5 right-4 sm:right-6 z-40 p-2.5 rounded-full bg-white text-slate-700 border border-slate-200 shadow-md hover:bg-slate-50 active:scale-95 transition-all opacity-0 pointer-events-none cursor-pointer"
+    aria-label="Kembali ke atas"
+  >
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+    </svg>
+  </button>
 </BaseLayout>
 
 <script>
@@ -347,52 +322,7 @@ const filteredHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
     });
   }
 
-  // 2. Mobile Floating TOC Bottom Sheet Logic
-  const tocTrigger = document.getElementById('mobile-toc-trigger');
-  const tocModal = document.getElementById('mobile-toc-modal');
-  const tocBackdrop = document.getElementById('mobile-toc-backdrop');
-  const tocSheet = document.getElementById('mobile-toc-sheet');
-  const tocClose = document.getElementById('mobile-toc-close');
-  const tocLinks = document.querySelectorAll('.mobile-toc-link');
-
-  function openMobileToc() {
-    if (!tocModal || !tocBackdrop || !tocSheet) return;
-    tocModal.classList.remove('pointer-events-none');
-    tocModal.setAttribute('aria-hidden', 'false');
-    tocBackdrop.classList.remove('opacity-0');
-    tocBackdrop.classList.add('opacity-100');
-    tocSheet.classList.remove('translate-y-full');
-    tocSheet.classList.add('translate-y-0');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closeMobileToc() {
-    if (!tocModal || !tocBackdrop || !tocSheet) return;
-    tocBackdrop.classList.remove('opacity-100');
-    tocBackdrop.classList.add('opacity-0');
-    tocSheet.classList.remove('translate-y-0');
-    tocSheet.classList.add('translate-y-full');
-    setTimeout(() => {
-      tocModal.classList.add('pointer-events-none');
-      tocModal.setAttribute('aria-hidden', 'true');
-      document.body.style.overflow = '';
-    }, 300);
-  }
-
-  if (tocTrigger) tocTrigger.addEventListener('click', openMobileToc);
-  if (tocClose) tocClose.addEventListener('click', closeMobileToc);
-  if (tocBackdrop) tocBackdrop.addEventListener('click', closeMobileToc);
-
-  tocLinks.forEach((link) => {
-    link.addEventListener('click', () => {
-      closeMobileToc();
-    });
-  });
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeMobileToc();
-  });
-  // 3. Copy Link Action
+  // 2. Copy Link Action
   const copyBtn = document.getElementById('copy-link-btn');
   const copyBtnText = document.getElementById('copy-btn-text');
   if (copyBtn && copyBtnText) {
