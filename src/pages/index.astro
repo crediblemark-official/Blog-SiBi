@@ -6,91 +6,187 @@ const posts = await getCollection('blog');
 const sortedPosts = posts.sort(
   (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
 );
+
+const featuredPost = sortedPosts[0];
+const allCategories = ['Semua', ...Array.from(new Set(sortedPosts.flatMap(p => p.data.categories || [])))];
 ---
 
 <BaseLayout 
   title="Blog SiBi — Eksplorasi Mendalam & Strategi Bisnis Digital"
   description="Catatan strategis, studi kasus konversi, dan panduan komprehensif seputar creator economy dari tim SitusBisnis."
 >
-  <!-- Full edge on mobile (px-0 py-0), padded container on desktop -->
-  <div class="w-full max-w-7xl mx-auto px-0 sm:px-6 lg:px-8 py-0 sm:py-12 lg:py-14">
+  <div class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-14">
     
-    <!-- Hero Section (Full edge flush on mobile, padded on desktop) -->
-    <header class="w-full max-w-3xl px-4 py-6 sm:px-0 sm:py-0 sm:mb-14 bg-white sm:bg-transparent border-b sm:border-b-0 border-slate-200/80">
-      <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-900 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-2.5 sm:mb-3.5 font-mono">
+    <!-- 1. Header / Intro Hero Section -->
+    <header class="w-full max-w-3xl mb-10 sm:mb-14">
+      <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-900 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-3 sm:mb-4 font-mono">
         <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
         Publikasi Resmi SitusBisnis
       </div>
-      <h1 class="text-2xl sm:text-4xl lg:text-5xl font-black tracking-tight text-slate-950 leading-[1.2] mb-2 sm:mb-4">
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-slate-950 leading-[1.18] mb-3 sm:mb-4">
         Catatan Strategis, Riset, & Panduan Bisnis Digital
       </h1>
-      <p class="text-xs sm:text-lg text-slate-600 leading-relaxed font-normal">
+      <p class="text-sm sm:text-base lg:text-lg text-slate-600 leading-relaxed font-normal">
         Tulisan mendalam tanpa basa-basi untuk membantu kreator, mentor, dan pengusaha digital membangun ekosistem bisnis yang menguntungkan dan mandiri.
       </p>
     </header>
 
-    <!-- Post List Section: Full edge divided list on mobile, separated cards on desktop -->
-    <section class="w-full bg-white sm:bg-transparent border-b sm:border-b-0 border-slate-200/80">
-      <div class="px-4 py-3 sm:px-0 sm:py-0 sm:pb-3 sm:mb-6 flex items-center justify-between border-b border-slate-200">
-        <h2 class="text-[11px] sm:text-xs font-black uppercase tracking-wider text-slate-400 font-mono">
-          Semua Tulisan ({sortedPosts.length})
-        </h2>
+    <!-- 2. Featured Post Card (Pilihan Redaksi) -->
+    {featuredPost && (
+      <section class="mb-14 sm:mb-20">
+        <div class="flex items-center gap-2 mb-4">
+          <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+          <h2 class="text-xs font-black uppercase tracking-wider text-slate-400 font-mono">
+            Pilihan Redaksi
+          </h2>
+        </div>
+
+        <article class="group bg-white rounded-3xl border border-slate-200/90 overflow-hidden hover:border-amber-500/50 hover:shadow-lg transition-all duration-300">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-0 items-center">
+            
+            <!-- Cover Image (Left 7 cols on desktop) -->
+            <a 
+              href={`/posts/${featuredPost.id.replace(/\.mdx?$/, '')}/`} 
+              class="lg:col-span-7 aspect-[16/10] lg:aspect-[16/11] overflow-hidden bg-slate-100 block relative"
+            >
+              <img 
+                src={featuredPost.data.image || "/images/posts/funnel-cover.jpg"} 
+                alt={featuredPost.data.title}
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                loading="eager"
+              />
+            </a>
+
+            <!-- Content Details (Right 5 cols on desktop) -->
+            <div class="lg:col-span-5 p-6 sm:p-8 lg:p-10 flex flex-col justify-between">
+              <div>
+                <div class="flex flex-wrap items-center gap-2 mb-3.5">
+                  <span class="text-amber-800 bg-amber-50 px-2.5 py-0.5 rounded-full border border-amber-200/80 font-semibold font-mono text-[11px]">
+                    {featuredPost.data.categories?.[0] || 'Strategi'}
+                  </span>
+                  <span class="text-slate-300">•</span>
+                  <span class="text-slate-500 font-medium text-xs">
+                    {new Intl.DateTimeFormat('id-ID', { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(featuredPost.data.date))}
+                  </span>
+                </div>
+
+                <h3 class="text-xl sm:text-2xl lg:text-3xl font-black text-slate-950 tracking-tight leading-snug mb-3 group-hover:text-amber-600 transition-colors">
+                  <a href={`/posts/${featuredPost.id.replace(/\.mdx?$/, '')}/`}>
+                    {featuredPost.data.title}
+                  </a>
+                </h3>
+
+                <p class="text-slate-600 text-xs sm:text-sm lg:text-base leading-relaxed mb-6 font-normal">
+                  {featuredPost.data.description}
+                </p>
+              </div>
+
+              <!-- Author & Action -->
+              <div class="pt-5 border-t border-slate-100 flex items-center justify-between gap-4">
+                <div class="flex items-center gap-2.5">
+                  <div class="w-8 h-8 rounded-full bg-amber-50 border border-amber-200 p-1 flex items-center justify-center shrink-0">
+                    <img src="/logo.png" alt="SitusBisnis" class="w-full h-full object-contain" />
+                  </div>
+                  <div>
+                    <span class="font-bold text-slate-900 text-xs block leading-tight">{featuredPost.data.author}</span>
+                    <span class="text-slate-400 text-[10px]">SitusBisnis Editorial</span>
+                  </div>
+                </div>
+
+                <a 
+                  href={`/posts/${featuredPost.id.replace(/\.mdx?$/, '')}/`}
+                  class="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-amber-600 group-hover:text-amber-700 transition-colors shrink-0"
+                >
+                  <span>Baca Esai</span>
+                  <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+
+          </div>
+        </article>
+      </section>
+    )}
+
+    <!-- 3. All Articles Grid (Grid 3 Kolom) -->
+    <section class="mb-16 sm:mb-24">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 mb-8 border-b border-slate-200">
+        <div>
+          <h2 class="text-lg sm:text-xl font-black text-slate-950 tracking-tight">
+            Semua Esai & Panduan
+          </h2>
+          <p class="text-xs text-slate-500 mt-0.5">
+            Kumpulan artikel dan studi kasus seputar creator commerce & digital business.
+          </p>
+        </div>
+
+        <!-- Category Filters -->
+        <div class="flex flex-wrap items-center gap-1.5" id="category-filter-group">
+          {allCategories.map((cat, idx) => (
+            <button
+              type="button"
+              class:list={[
+                "filter-btn px-3 py-1 rounded-full text-xs font-semibold transition-all cursor-pointer",
+                idx === 0 
+                  ? "bg-slate-950 text-white shadow-2xs font-bold" 
+                  : "bg-slate-100 hover:bg-slate-200 text-slate-600"
+              ]}
+              data-cat={cat}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
       </div>
 
-      <div class="divide-y divide-slate-100 sm:divide-y-0 sm:space-y-6">
+      <!-- 3-Column Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8" id="posts-grid">
         {sortedPosts.map((post) => {
-          const formattedDate = new Intl.DateTimeFormat('id-ID', {
+          const postSlug = post.id.replace(/\.mdx?$/, '');
+          const postDate = new Intl.DateTimeFormat('id-ID', {
             year: 'numeric',
-            month: 'long',
+            month: 'short',
             day: 'numeric'
           }).format(new Date(post.data.date));
-
-          const primaryCategory = post.data.categories?.[0] || 'Esai';
-          const postSlug = post.id.replace(/\.mdx?$/, '');
+          const primaryCategory = post.data.categories?.[0] || 'Strategi';
+          const postCats = (post.data.categories || []).join(',');
 
           return (
-            <article class="group bg-white px-4 py-5 sm:p-7 rounded-none sm:rounded-2xl border-x-0 sm:border border-slate-200/80 hover:border-amber-500/40 hover:shadow-xs transition-all duration-200 relative">
-              <div class="flex flex-col sm:flex-row gap-5 sm:gap-6 items-start">
-                {post.data.image && (
-                  <div class="w-full sm:w-52 lg:w-60 aspect-[16/10] rounded-xl overflow-hidden bg-slate-100 shrink-0 border border-slate-200/70">
-                    <img 
-                      src={post.data.image} 
-                      alt={post.data.title} 
-                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      loading="lazy"
-                    />
-                  </div>
-                )}
-                <div class="flex-1 min-w-0 flex flex-col justify-between self-stretch">
-                  <div>
-                    <div class="flex flex-wrap items-center gap-2 text-xs text-slate-500 mb-2 sm:mb-2.5">
-                      <span class="text-amber-800 bg-amber-50 px-2.5 py-0.5 rounded-full border border-amber-200/60 font-semibold font-mono text-[10px] sm:text-[11px]">
-                        {primaryCategory}
-                      </span>
-                      <span>•</span>
-                      <time datetime={post.data.date.toISOString()} class="text-slate-500 font-medium text-[11px] sm:text-xs">
-                        {formattedDate}
-                      </time>
-                    </div>
+            <article 
+              class="post-card group flex flex-col bg-white rounded-2xl border border-slate-200/80 overflow-hidden hover:border-amber-500/50 hover:shadow-md transition-all duration-200"
+              data-categories={`Semua,${postCats}`}
+            >
+              <a href={`/posts/${postSlug}/`} class="aspect-[16/10] overflow-hidden bg-slate-100 block relative">
+                <img 
+                  src={post.data.image || "/images/posts/funnel-cover.jpg"} 
+                  alt={post.data.title}
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  loading="lazy"
+                />
+              </a>
 
-                    <h3 class="text-lg sm:text-2xl font-black text-slate-950 tracking-tight leading-snug mb-2 group-hover:text-amber-600 transition-colors">
-                      <a href={`/posts/${postSlug}/`} class="focus:outline-hidden">
-                        <span class="absolute inset-0" aria-hidden="true" />
-                        {post.data.title}
-                      </a>
-                    </h3>
+              <div class="p-5 sm:p-6 flex-1 flex flex-col justify-between">
+                <div>
+                  <span class="inline-block text-amber-800 bg-amber-50 px-2.5 py-0.5 rounded-full border border-amber-200/60 font-semibold font-mono text-[10px] sm:text-[11px] mb-2.5">
+                    {primaryCategory}
+                  </span>
 
-                    <p class="text-slate-600 text-xs sm:text-sm leading-relaxed line-clamp-2 mb-3 font-normal">
-                      {post.data.description}
-                    </p>
-                  </div>
+                  <h3 class="text-base sm:text-lg font-bold text-slate-950 group-hover:text-amber-600 transition-colors line-clamp-2 leading-snug mb-2">
+                    <a href={`/posts/${postSlug}/`}>
+                      {post.data.title}
+                    </a>
+                  </h3>
 
-                  <div class="flex items-center justify-between pt-3 border-t border-slate-100 text-[11px] sm:text-xs font-semibold text-slate-500">
-                    <span class="text-slate-400 truncate max-w-[150px] sm:max-w-none">Oleh {post.data.author}</span>
-                    <span class="text-amber-600 group-hover:translate-x-1 transition-transform inline-flex items-center gap-1 shrink-0 font-bold">
-                      Baca Esai →
-                    </span>
-                  </div>
+                  <p class="text-xs sm:text-sm text-slate-600 line-clamp-2 leading-relaxed mb-4 font-normal">
+                    {post.data.description}
+                  </p>
+                </div>
+
+                <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-[11px] sm:text-xs text-slate-400">
+                  <span class="font-medium text-slate-500">{post.data.author}</span>
+                  <time datetime={post.data.date.toISOString()}>{postDate}</time>
                 </div>
               </div>
             </article>
@@ -98,5 +194,99 @@ const sortedPosts = posts.sort(
         })}
       </div>
     </section>
+
+    <!-- 4. CTA Section (Power Your Growth with SitusBisnis) -->
+    <section class="w-full bg-white pt-6 pb-4">
+      <div class="rounded-3xl border border-slate-200/90 bg-gradient-to-br from-slate-50 via-white to-amber-50/40 p-6 sm:p-10 lg:p-12 shadow-xs flex flex-col lg:flex-row items-center justify-between gap-8 sm:gap-10">
+        <div class="w-full lg:max-w-xl">
+          <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-900 text-[10px] font-bold uppercase tracking-wider mb-3 font-mono">
+            Ekosistem SitusBisnis
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight leading-tight mb-3">
+            Tingkatkan Pertumbuhan Bisnis Digital Anda
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-6">
+            Gunakan platform <strong>SitusBisnis</strong> untuk membuat landing page visual siap konversi, menjual e-book, kelas online, layanan konsultasi, hingga produk fisik dengan checkout instan (QRIS & Virtual Account) tanpa potongan komisi.
+          </p>
+          <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+            <a 
+              href="https://situsbisnis.com" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 active:scale-95 text-white font-bold text-xs sm:text-sm transition-all shadow-sm"
+            >
+              <span>Mulai Buat Toko Gratis</span>
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </a>
+            <a 
+              href="https://situsbisnis.com/#features" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl text-slate-700 hover:text-slate-950 font-semibold text-xs sm:text-sm transition-colors text-center"
+            >
+              Lihat Semua Fitur →
+            </a>
+          </div>
+        </div>
+
+        <!-- Visual Dashboard Card Illustration -->
+        <div class="w-full lg:w-72 shrink-0 bg-white rounded-2xl border border-slate-200/80 p-5 shadow-xs space-y-3">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+            <div class="flex items-center gap-2">
+              <img src="/logo.png" alt="SitusBisnis" class="w-5 h-5 object-contain" />
+              <span class="font-bold text-xs text-slate-900">SitusBisnis Hub</span>
+            </div>
+            <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-mono text-[9px] font-black">ONLINE</span>
+          </div>
+          <div class="space-y-1.5 text-xs">
+            <div class="flex justify-between text-slate-500 text-[11px]">
+              <span>Total Pendapatan</span>
+              <span class="text-emerald-600 font-bold font-mono">100% Anda</span>
+            </div>
+            <div class="text-lg font-black text-slate-950 font-mono">Rp 18.450.000</div>
+            <div class="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
+              <div class="h-full bg-amber-500 rounded-full w-4/5"></div>
+            </div>
+          </div>
+          <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-[10px] text-slate-400 font-mono">
+            <span>Biaya Transaksi</span>
+            <span class="text-amber-700 font-bold">0% (Zero Fee ⭐)</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </div>
 </BaseLayout>
+
+<script>
+  // Interactive Category Filter Logic
+  const filterBtns = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+  const postCards = document.querySelectorAll<HTMLElement>('.post-card');
+
+  filterBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const selected = btn.dataset.cat || 'Semua';
+      
+      // Update active button state
+      filterBtns.forEach((b) => {
+        b.classList.remove('bg-slate-950', 'text-white', 'font-bold', 'shadow-2xs');
+        b.classList.add('bg-slate-100', 'text-slate-600');
+      });
+      btn.classList.remove('bg-slate-100', 'text-slate-600');
+      btn.classList.add('bg-slate-950', 'text-white', 'font-bold', 'shadow-2xs');
+
+      // Filter cards
+      postCards.forEach((card) => {
+        const cats = card.dataset.categories || '';
+        if (selected === 'Semua' || cats.includes(selected)) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+</script>
