@@ -1,0 +1,32 @@
+---
+import { getCollection, render } from 'astro:content';
+import PostLayout from '../../layouts/PostLayout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { slug: post.id.replace(/\.mdx?$/, '') },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content, headings } = await render(post);
+
+// Estimasi waktu baca (sekitar 200 kata/menit)
+const wordCount = post.body ? post.body.split(/\s+/).length : 600;
+const readingTimeMinutes = Math.max(1, Math.ceil(wordCount / 200));
+---
+
+<PostLayout
+  title={post.data.title}
+  description={post.data.description}
+  date={post.data.date}
+  categories={post.data.categories}
+  tags={post.data.tags}
+  author={post.data.author}
+  headings={headings}
+  readingTimeMinutes={readingTimeMinutes}
+>
+  <Content />
+</PostLayout>
