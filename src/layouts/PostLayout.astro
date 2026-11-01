@@ -38,12 +38,12 @@ const formattedDate = new Intl.DateTimeFormat('id-ID', {
 
 <BaseLayout title={title} description={description} image={image} type="article">
   
-  <!-- Centered Single Column Article Container -->
+  <!-- Centered Single Column Article Container (Full edge on mobile px-0, padded on desktop) -->
   <article class="w-full bg-white">
-    <div class="max-w-3xl mx-auto px-4 sm:px-6 pt-6 sm:pt-10 pb-12 sm:pb-16">
+    <div class="max-w-3xl mx-auto px-0 sm:px-6 pt-4 sm:pt-10 pb-12 sm:pb-16">
       
-      <!-- 1. Back to Blog Link -->
-      <div class="mb-6 sm:mb-8">
+      <!-- 1. Back to Blog Link (Padded on mobile) -->
+      <div class="px-4 sm:px-0 mb-4 sm:mb-8">
         <a 
           href="/" 
           class="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-amber-600 hover:text-amber-700 transition-colors group"
@@ -55,8 +55,8 @@ const formattedDate = new Intl.DateTimeFormat('id-ID', {
         </a>
       </div>
 
-      <!-- 2. Featured Hero Image (Rounded landscape cover) -->
-      <div class="mb-8 sm:mb-10 rounded-2xl sm:rounded-3xl overflow-hidden border border-slate-200/80 shadow-xs aspect-[16/10] sm:aspect-[16/9] bg-slate-100">
+      <!-- 2. Featured Hero Image (STRICT FULL EDGE ON MOBILE: rounded-none, border-x-0, w-full) -->
+      <div class="w-full mb-6 sm:mb-10 rounded-none sm:rounded-3xl overflow-hidden border-y sm:border border-slate-200/80 shadow-none sm:shadow-xs aspect-[16/10] sm:aspect-[16/9] bg-slate-100">
         <img 
           src={image} 
           alt={title}
@@ -65,104 +65,110 @@ const formattedDate = new Intl.DateTimeFormat('id-ID', {
         />
       </div>
 
-      <!-- 3. Article Header (Below Hero Image) -->
-      <header class="mb-8 sm:mb-10">
-        <!-- Category Badges -->
-        <div class="flex flex-wrap items-center gap-2 mb-3.5 sm:mb-4">
-          {categories.map((cat, idx) => (
-            <span class:list={[
-              "px-3 py-1 rounded-full text-xs font-bold font-mono tracking-tight",
-              idx === 0 
-                ? "bg-emerald-50 text-emerald-800 border border-emerald-200/80" 
-                : "bg-amber-50 text-amber-900 border border-amber-200/80"
-            ]}>
-              {cat}
-            </span>
-          ))}
-        </div>
-
-        <!-- Big Headline -->
-        <h1 class="text-2xl sm:text-4xl lg:text-[42px] font-black tracking-tight text-slate-950 leading-[1.2] mb-3 sm:mb-4">
-          {title}
-        </h1>
-
-        <!-- Excerpt / Subtitle -->
-        <p class="text-sm sm:text-base lg:text-lg text-slate-600 leading-relaxed font-normal mb-6">
-          {description}
-        </p>
-
-        <!-- Author & Byline Row -->
-        <div class="flex items-center justify-between gap-4 pt-4 border-t border-slate-100">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-amber-50 border border-amber-200/80 p-1 flex items-center justify-center shrink-0 shadow-2xs">
-              <img src="/logo.png" alt={author} class="w-full h-full object-contain" />
-            </div>
-            <div>
-              <div class="flex items-center gap-1.5">
-                <span class="font-bold text-slate-950 text-xs sm:text-sm">{author}</span>
-                <span class="text-[9.5px] font-semibold text-amber-800 bg-amber-100/80 px-1.5 py-0.2 rounded font-mono">Editorial</span>
-              </div>
-              <div class="flex items-center gap-2 text-slate-500 text-[11px] sm:text-xs mt-0.5">
-                <time datetime={date.toISOString()}>{formattedDate}</time>
-                <span class="text-slate-300">•</span>
-                <span>{readingTimeMinutes} menit baca</span>
-              </div>
-            </div>
+      <!-- 3. Article Header & Content Wrapper (Clean safe horizontal padding on mobile) -->
+      <div class="px-4 sm:px-0">
+        
+        <!-- Article Header -->
+        <header class="mb-8 sm:mb-10">
+          <!-- Category Badges -->
+          <div class="flex flex-wrap items-center gap-2 mb-3.5 sm:mb-4">
+            {categories.map((cat, idx) => (
+              <span class:list={[
+                "px-3 py-1 rounded-full text-xs font-bold font-mono tracking-tight",
+                idx === 0 
+                  ? "bg-emerald-50 text-emerald-800 border border-emerald-200/80" 
+                  : "bg-amber-50 text-amber-900 border border-amber-200/80"
+              ]}>
+                {cat}
+              </span>
+            ))}
           </div>
 
-          <!-- Salin Tautan Button -->
-          <button 
-            id="copy-link-btn"
-            type="button"
-            class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 hover:border-slate-300 bg-white hover:bg-slate-50 active:scale-95 text-slate-600 hover:text-slate-900 text-xs font-semibold transition-all shadow-2xs cursor-pointer select-none"
-            title="Salin tautan artikel"
-          >
-            <svg id="copy-icon" class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-            </svg>
-            <span id="copy-btn-text" class="hidden sm:inline">Salin Tautan</span>
-          </button>
-        </div>
-      </header>
+          <!-- Big Headline -->
+          <h1 class="text-2xl sm:text-4xl lg:text-[42px] font-black tracking-tight text-slate-950 leading-[1.2] mb-3 sm:mb-4">
+            {title}
+          </h1>
 
-      <!-- 4. Article Content (Centered Single Column Typography) -->
-      <div class="prose prose-slate prose-base sm:prose-lg max-w-none
-        prose-headings:font-black prose-headings:tracking-tight prose-headings:text-slate-950
-        prose-h2:text-xl sm:prose-h2:2xl prose-h2:mt-12 prose-h2:mb-4 prose-h2:pt-2
-        prose-h3:text-lg sm:prose-h3:xl prose-h3:mt-8 prose-h3:mb-3
-        prose-p:text-slate-700 prose-p:leading-[1.8] prose-p:mb-6
-        prose-a:text-amber-600 prose-a:font-semibold hover:prose-a:text-amber-700 prose-a:underline-offset-4
-        prose-strong:text-slate-950 prose-strong:font-bold
-        prose-blockquote:border-l-4 prose-blockquote:border-slate-900 prose-blockquote:bg-slate-50/70 prose-blockquote:py-4 prose-blockquote:px-5 prose-blockquote:rounded-r-xl prose-blockquote:text-slate-800 prose-blockquote:not-italic prose-blockquote:my-8
-        prose-img:rounded-2xl prose-img:border prose-img:border-slate-200/80 prose-img:shadow-xs prose-img:my-6
-        prose-table:text-xs sm:prose-table:text-sm
-        prose-th:bg-slate-50 prose-th:p-3 prose-th:text-slate-900
-        prose-td:p-3 prose-td:border-t prose-td:border-slate-100
-        prose-code:text-amber-700 prose-code:bg-amber-50 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-xs prose-code:font-mono
-        prose-pre:bg-slate-950 prose-pre:text-slate-100 prose-pre:rounded-2xl prose-pre:p-5 prose-pre:border prose-pre:border-slate-800">
-        <slot />
+          <!-- Excerpt / Subtitle -->
+          <p class="text-sm sm:text-base lg:text-lg text-slate-600 leading-relaxed font-normal mb-6">
+            {description}
+          </p>
+
+          <!-- Author & Byline Row -->
+          <div class="flex items-center justify-between gap-4 pt-4 border-t border-slate-100">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-amber-50 border border-amber-200/80 p-1 flex items-center justify-center shrink-0 shadow-2xs">
+                <img src="/logo.png" alt={author} class="w-full h-full object-contain" />
+              </div>
+              <div>
+                <div class="flex items-center gap-1.5">
+                  <span class="font-bold text-slate-950 text-xs sm:text-sm">{author}</span>
+                  <span class="text-[9.5px] font-semibold text-amber-800 bg-amber-100/80 px-1.5 py-0.2 rounded font-mono">Editorial</span>
+                </div>
+                <div class="flex items-center gap-2 text-slate-500 text-[11px] sm:text-xs mt-0.5">
+                  <time datetime={date.toISOString()}>{formattedDate}</time>
+                  <span class="text-slate-300">•</span>
+                  <span>{readingTimeMinutes} menit baca</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Salin Tautan Button -->
+            <button 
+              id="copy-link-btn"
+              type="button"
+              class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 hover:border-slate-300 bg-white hover:bg-slate-50 active:scale-95 text-slate-600 hover:text-slate-900 text-xs font-semibold transition-all shadow-2xs cursor-pointer select-none"
+              title="Salin tautan artikel"
+            >
+              <svg id="copy-icon" class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+              </svg>
+              <span id="copy-btn-text" class="hidden sm:inline">Salin Tautan</span>
+            </button>
+          </div>
+        </header>
+
+        <!-- 4. Article Content (Centered Single Column Typography, Full Edge media on mobile) -->
+        <div class="prose prose-slate prose-base sm:prose-lg max-w-none
+          prose-headings:font-black prose-headings:tracking-tight prose-headings:text-slate-950
+          prose-h2:text-xl sm:prose-h2:2xl prose-h2:mt-12 prose-h2:mb-4 prose-h2:pt-2
+          prose-h3:text-lg sm:prose-h3:xl prose-h3:mt-8 prose-h3:mb-3
+          prose-p:text-slate-700 prose-p:leading-[1.8] prose-p:mb-6
+          prose-a:text-amber-600 prose-a:font-semibold hover:prose-a:text-amber-700 prose-a:underline-offset-4
+          prose-strong:text-slate-950 prose-strong:font-bold
+          prose-blockquote:border-l-4 prose-blockquote:border-slate-900 prose-blockquote:bg-slate-50/70 prose-blockquote:py-4 prose-blockquote:px-5 prose-blockquote:rounded-r-xl prose-blockquote:text-slate-800 prose-blockquote:not-italic prose-blockquote:my-8
+          prose-img:-mx-4 sm:prose-img:mx-auto prose-img:w-[calc(100%+2rem)] sm:prose-img:w-full prose-img:rounded-none sm:prose-img:rounded-2xl prose-img:border-y sm:prose-img:border prose-img:border-slate-200/80 prose-img:my-6
+          prose-table:text-xs sm:prose-table:text-sm
+          prose-th:bg-slate-50 prose-th:p-3 prose-th:text-slate-900
+          prose-td:p-3 prose-td:border-t prose-td:border-slate-100
+          prose-code:text-amber-700 prose-code:bg-amber-50 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-xs prose-code:font-mono
+          prose-pre:-mx-4 sm:prose-pre:mx-auto prose-pre:rounded-none sm:prose-pre:rounded-2xl prose-pre:bg-slate-950 prose-pre:text-slate-100 prose-pre:p-4 sm:prose-pre:p-5 prose-pre:border-y sm:prose-pre:border prose-pre:border-slate-800">
+          <slot />
+        </div>
+
+        <!-- 5. Topic Tags Row -->
+        {tags.length > 0 && (
+          <div class="mt-12 pt-6 border-t border-slate-100 flex flex-wrap items-center gap-2">
+            <span class="text-xs font-bold uppercase tracking-wider text-slate-400 mr-1 font-mono">Topik:</span>
+            {tags.map((tag) => (
+              <span class="text-xs font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 px-2.5 py-1 rounded-md transition-colors">
+                #{tag}
+              </span>
+            ))}
+          </div>
+        )}
       </div>
-
-      <!-- 5. Topic Tags Row -->
-      {tags.length > 0 && (
-        <div class="mt-12 pt-6 border-t border-slate-100 flex flex-wrap items-center gap-2">
-          <span class="text-xs font-bold uppercase tracking-wider text-slate-400 mr-1 font-mono">Topik:</span>
-          {tags.map((tag) => (
-            <span class="text-xs font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 px-2.5 py-1 rounded-md transition-colors">
-              #{tag}
-            </span>
-          ))}
-        </div>
-      )}
 
     </div>
   </article>
 
-  <!-- 6. "You Might Also Like" / Artikel Terkait Section -->
+  <!-- 6. "You Might Also Like" / Artikel Terkait Section (Full edge on mobile) -->
   {relatedPosts.length > 0 && (
-    <section class="w-full bg-slate-50/70 border-t border-slate-200/80 py-12 sm:py-16">
-      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-8 sm:mb-10">
+    <section class="w-full bg-slate-50/70 border-t border-slate-200/80 py-10 sm:py-16">
+      <div class="max-w-6xl mx-auto px-0 sm:px-6 lg:px-8">
+        
+        <!-- Header text (padded on mobile) -->
+        <div class="px-4 sm:px-0 flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-6 sm:mb-10">
           <div>
             <h2 class="text-xl sm:text-2xl font-black text-slate-950 tracking-tight">
               Artikel Terkait Lainnya
@@ -179,7 +185,8 @@ const formattedDate = new Intl.DateTimeFormat('id-ID', {
           </a>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+        <!-- Cards: Full-edge divide on mobile, 3-column cards on desktop -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-0 sm:gap-8 divide-y sm:divide-y-0 divide-slate-200/80">
           {relatedPosts.map((rPost) => {
             const rSlug = rPost.id.replace(/\.mdx?$/, '');
             const rDate = new Intl.DateTimeFormat('id-ID', {
@@ -189,7 +196,7 @@ const formattedDate = new Intl.DateTimeFormat('id-ID', {
             }).format(new Date(rPost.data.date));
             const rCat = rPost.data.categories?.[0] || 'Strategi';
             return (
-              <article class="group flex flex-col bg-white rounded-2xl border border-slate-200/80 overflow-hidden hover:border-amber-500/50 hover:shadow-md transition-all duration-200">
+              <article class="group flex flex-col bg-white rounded-none sm:rounded-2xl border-x-0 sm:border border-y sm:border-y border-slate-200/80 overflow-hidden hover:border-amber-500/50 hover:shadow-md transition-all duration-200">
                 <a href={`/posts/${rSlug}/`} class="aspect-[16/10] overflow-hidden bg-slate-100 block relative">
                   <img 
                     src={rPost.data.image || "/images/posts/funnel-cover.jpg"} 
@@ -198,7 +205,7 @@ const formattedDate = new Intl.DateTimeFormat('id-ID', {
                     loading="lazy"
                   />
                 </a>
-                <div class="p-5 flex-1 flex flex-col justify-between">
+                <div class="p-4 sm:p-5 flex-1 flex flex-col justify-between">
                   <div>
                     <span class="inline-block text-amber-800 bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200/60 font-semibold font-mono text-[10px] mb-2.5">
                       {rCat}
@@ -225,10 +232,10 @@ const formattedDate = new Intl.DateTimeFormat('id-ID', {
     </section>
   )}
 
-  <!-- 7. Bottom CTA Section (Power Your Growth with SitusBisnis) -->
-  <section class="w-full bg-white py-12 sm:py-16 border-t border-slate-200/80">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="rounded-3xl border border-slate-200/90 bg-gradient-to-br from-slate-50 via-white to-amber-50/40 p-6 sm:p-10 lg:p-12 shadow-xs flex flex-col lg:flex-row items-center justify-between gap-8 sm:gap-10">
+  <!-- 7. Bottom CTA Section (Full edge on mobile) -->
+  <section class="w-full bg-white py-0 sm:py-16 border-t border-slate-200/80">
+    <div class="max-w-5xl mx-auto px-0 sm:px-6 lg:px-8">
+      <div class="rounded-none sm:rounded-3xl border-x-0 sm:border border-y sm:border-y border-slate-200/90 bg-gradient-to-br from-slate-50 via-white to-amber-50/40 px-4 py-8 sm:p-10 lg:p-12 shadow-none sm:shadow-xs flex flex-col lg:flex-row items-center justify-between gap-8 sm:gap-10">
         <div class="w-full lg:max-w-xl">
           <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-900 text-[10px] font-bold uppercase tracking-wider mb-3 font-mono">
             Ekosistem SitusBisnis
@@ -244,7 +251,7 @@ const formattedDate = new Intl.DateTimeFormat('id-ID', {
               href="https://situsbisnis.com" 
               target="_blank" 
               rel="noopener noreferrer"
-              class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 active:scale-95 text-white font-bold text-xs sm:text-sm transition-all shadow-sm"
+              class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 active:scale-95 text-white font-bold text-xs sm:text-sm transition-all shadow-sm text-center"
             >
               <span>Mulai Buat Toko Gratis</span>
               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

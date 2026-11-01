@@ -15,36 +15,37 @@ const allCategories = ['Semua', ...Array.from(new Set(sortedPosts.flatMap(p => p
   title="Blog SiBi — Eksplorasi Mendalam & Strategi Bisnis Digital"
   description="Catatan strategis, studi kasus konversi, dan panduan komprehensif seputar creator economy dari tim SitusBisnis."
 >
-  <div class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-14">
+  <!-- Main Page Container (Full edge on mobile px-0, padded on desktop) -->
+  <div class="w-full max-w-7xl mx-auto px-0 sm:px-6 lg:px-8 py-4 sm:py-12 lg:py-14">
     
-    <!-- 1. Header / Intro Hero Section -->
-    <header class="w-full max-w-3xl mb-10 sm:mb-14">
+    <!-- 1. Header / Intro Hero Section (Padded on mobile) -->
+    <header class="w-full max-w-3xl px-4 sm:px-0 mb-8 sm:mb-14">
       <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-900 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-3 sm:mb-4 font-mono">
         <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
         Publikasi Resmi SitusBisnis
       </div>
-      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-slate-950 leading-[1.18] mb-3 sm:mb-4">
+      <h1 class="text-2xl sm:text-4xl lg:text-5xl font-black tracking-tight text-slate-950 leading-[1.18] mb-2.5 sm:mb-4">
         Catatan Strategis, Riset, & Panduan Bisnis Digital
       </h1>
-      <p class="text-sm sm:text-base lg:text-lg text-slate-600 leading-relaxed font-normal">
+      <p class="text-xs sm:text-base lg:text-lg text-slate-600 leading-relaxed font-normal">
         Tulisan mendalam tanpa basa-basi untuk membantu kreator, mentor, dan pengusaha digital membangun ekosistem bisnis yang menguntungkan dan mandiri.
       </p>
     </header>
 
-    <!-- 2. Featured Post Card (Pilihan Redaksi) -->
+    <!-- 2. Featured Post Card (Pilihan Redaksi: Full Edge on Mobile) -->
     {featuredPost && (
-      <section class="mb-14 sm:mb-20">
-        <div class="flex items-center gap-2 mb-4">
+      <section class="mb-10 sm:mb-20">
+        <div class="px-4 sm:px-0 flex items-center gap-2 mb-3 sm:mb-4">
           <span class="w-2 h-2 rounded-full bg-amber-500"></span>
           <h2 class="text-xs font-black uppercase tracking-wider text-slate-400 font-mono">
             Pilihan Redaksi
           </h2>
         </div>
 
-        <article class="group bg-white rounded-3xl border border-slate-200/90 overflow-hidden hover:border-amber-500/50 hover:shadow-lg transition-all duration-300">
+        <article class="group bg-white rounded-none sm:rounded-3xl border-x-0 sm:border border-y sm:border-y border-slate-200/90 overflow-hidden hover:border-amber-500/50 hover:shadow-lg transition-all duration-300">
           <div class="grid grid-cols-1 lg:grid-cols-12 gap-0 items-center">
             
-            <!-- Cover Image (Left 7 cols on desktop) -->
+            <!-- Cover Image: Full Edge on Mobile -->
             <a 
               href={`/posts/${featuredPost.id.replace(/\.mdx?$/, '')}/`} 
               class="lg:col-span-7 aspect-[16/10] lg:aspect-[16/11] overflow-hidden bg-slate-100 block relative"
@@ -57,10 +58,10 @@ const allCategories = ['Semua', ...Array.from(new Set(sortedPosts.flatMap(p => p
               />
             </a>
 
-            <!-- Content Details (Right 5 cols on desktop) -->
-            <div class="lg:col-span-5 p-6 sm:p-8 lg:p-10 flex flex-col justify-between">
+            <!-- Content Details -->
+            <div class="lg:col-span-5 px-4 py-5 sm:p-8 lg:p-10 flex flex-col justify-between">
               <div>
-                <div class="flex flex-wrap items-center gap-2 mb-3.5">
+                <div class="flex flex-wrap items-center gap-2 mb-2.5 sm:mb-3.5">
                   <span class="text-amber-800 bg-amber-50 px-2.5 py-0.5 rounded-full border border-amber-200/80 font-semibold font-mono text-[11px]">
                     {featuredPost.data.categories?.[0] || 'Strategi'}
                   </span>
@@ -70,19 +71,19 @@ const allCategories = ['Semua', ...Array.from(new Set(sortedPosts.flatMap(p => p
                   </span>
                 </div>
 
-                <h3 class="text-xl sm:text-2xl lg:text-3xl font-black text-slate-950 tracking-tight leading-snug mb-3 group-hover:text-amber-600 transition-colors">
+                <h3 class="text-lg sm:text-2xl lg:text-3xl font-black text-slate-950 tracking-tight leading-snug mb-2.5 sm:mb-3 group-hover:text-amber-600 transition-colors">
                   <a href={`/posts/${featuredPost.id.replace(/\.mdx?$/, '')}/`}>
                     {featuredPost.data.title}
                   </a>
                 </h3>
 
-                <p class="text-slate-600 text-xs sm:text-sm lg:text-base leading-relaxed mb-6 font-normal">
+                <p class="text-slate-600 text-xs sm:text-sm lg:text-base leading-relaxed mb-5 sm:mb-6 font-normal">
                   {featuredPost.data.description}
                 </p>
               </div>
 
               <!-- Author & Action -->
-              <div class="pt-5 border-t border-slate-100 flex items-center justify-between gap-4">
+              <div class="pt-4 sm:pt-5 border-t border-slate-100 flex items-center justify-between gap-4">
                 <div class="flex items-center gap-2.5">
                   <div class="w-8 h-8 rounded-full bg-amber-50 border border-amber-200 p-1 flex items-center justify-center shrink-0">
                     <img src="/logo.png" alt="SitusBisnis" class="w-full h-full object-contain" />
@@ -110,25 +111,25 @@ const allCategories = ['Semua', ...Array.from(new Set(sortedPosts.flatMap(p => p
       </section>
     )}
 
-    <!-- 3. All Articles Grid (Grid 3 Kolom) -->
-    <section class="mb-16 sm:mb-24">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 mb-8 border-b border-slate-200">
+    <!-- 3. All Articles Grid (Full edge on mobile, 3-column cards on desktop) -->
+    <section class="mb-14 sm:mb-24">
+      <div class="px-4 sm:px-0 flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-3 sm:pb-4 mb-6 sm:mb-8 border-b border-slate-200">
         <div>
-          <h2 class="text-lg sm:text-xl font-black text-slate-950 tracking-tight">
+          <h2 class="text-base sm:text-xl font-black text-slate-950 tracking-tight">
             Semua Esai & Panduan
           </h2>
-          <p class="text-xs text-slate-500 mt-0.5">
+          <p class="text-[11px] sm:text-xs text-slate-500 mt-0.5">
             Kumpulan artikel dan studi kasus seputar creator commerce & digital business.
           </p>
         </div>
 
         <!-- Category Filters -->
-        <div class="flex flex-wrap items-center gap-1.5" id="category-filter-group">
+        <div class="flex flex-wrap items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0" id="category-filter-group">
           {allCategories.map((cat, idx) => (
             <button
               type="button"
               class:list={[
-                "filter-btn px-3 py-1 rounded-full text-xs font-semibold transition-all cursor-pointer",
+                "filter-btn px-3 py-1 rounded-full text-xs font-semibold transition-all cursor-pointer whitespace-nowrap",
                 idx === 0 
                   ? "bg-slate-950 text-white shadow-2xs font-bold" 
                   : "bg-slate-100 hover:bg-slate-200 text-slate-600"
@@ -141,8 +142,8 @@ const allCategories = ['Semua', ...Array.from(new Set(sortedPosts.flatMap(p => p
         </div>
       </div>
 
-      <!-- 3-Column Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8" id="posts-grid">
+      <!-- Grid of Articles -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0 sm:gap-8 divide-y sm:divide-y-0 divide-slate-200/80" id="posts-grid">
         {sortedPosts.map((post) => {
           const postSlug = post.id.replace(/\.mdx?$/, '');
           const postDate = new Intl.DateTimeFormat('id-ID', {
@@ -155,7 +156,7 @@ const allCategories = ['Semua', ...Array.from(new Set(sortedPosts.flatMap(p => p
 
           return (
             <article 
-              class="post-card group flex flex-col bg-white rounded-2xl border border-slate-200/80 overflow-hidden hover:border-amber-500/50 hover:shadow-md transition-all duration-200"
+              class="post-card group flex flex-col bg-white rounded-none sm:rounded-2xl border-x-0 sm:border border-y sm:border-y border-slate-200/80 overflow-hidden hover:border-amber-500/50 hover:shadow-md transition-all duration-200"
               data-categories={`Semua,${postCats}`}
             >
               <a href={`/posts/${postSlug}/`} class="aspect-[16/10] overflow-hidden bg-slate-100 block relative">
@@ -167,13 +168,13 @@ const allCategories = ['Semua', ...Array.from(new Set(sortedPosts.flatMap(p => p
                 />
               </a>
 
-              <div class="p-5 sm:p-6 flex-1 flex flex-col justify-between">
+              <div class="p-4 sm:p-6 flex-1 flex flex-col justify-between">
                 <div>
-                  <span class="inline-block text-amber-800 bg-amber-50 px-2.5 py-0.5 rounded-full border border-amber-200/60 font-semibold font-mono text-[10px] sm:text-[11px] mb-2.5">
+                  <span class="inline-block text-amber-800 bg-amber-50 px-2.5 py-0.5 rounded-full border border-amber-200/60 font-semibold font-mono text-[10px] sm:text-[11px] mb-2">
                     {primaryCategory}
                   </span>
 
-                  <h3 class="text-base sm:text-lg font-bold text-slate-950 group-hover:text-amber-600 transition-colors line-clamp-2 leading-snug mb-2">
+                  <h3 class="text-sm sm:text-lg font-bold text-slate-950 group-hover:text-amber-600 transition-colors line-clamp-2 leading-snug mb-2">
                     <a href={`/posts/${postSlug}/`}>
                       {post.data.title}
                     </a>
@@ -184,7 +185,7 @@ const allCategories = ['Semua', ...Array.from(new Set(sortedPosts.flatMap(p => p
                   </p>
                 </div>
 
-                <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-[11px] sm:text-xs text-slate-400">
+                <div class="pt-3 sm:pt-4 border-t border-slate-100 flex items-center justify-between text-[11px] sm:text-xs text-slate-400">
                   <span class="font-medium text-slate-500">{post.data.author}</span>
                   <time datetime={post.data.date.toISOString()}>{postDate}</time>
                 </div>
@@ -195,14 +196,14 @@ const allCategories = ['Semua', ...Array.from(new Set(sortedPosts.flatMap(p => p
       </div>
     </section>
 
-    <!-- 4. CTA Section (Power Your Growth with SitusBisnis) -->
-    <section class="w-full bg-white pt-6 pb-4">
-      <div class="rounded-3xl border border-slate-200/90 bg-gradient-to-br from-slate-50 via-white to-amber-50/40 p-6 sm:p-10 lg:p-12 shadow-xs flex flex-col lg:flex-row items-center justify-between gap-8 sm:gap-10">
+    <!-- 4. CTA Section (Full Edge on Mobile) -->
+    <section class="w-full bg-white pt-4 pb-2">
+      <div class="rounded-none sm:rounded-3xl border-x-0 sm:border border-y sm:border-y border-slate-200/90 bg-gradient-to-br from-slate-50 via-white to-amber-50/40 px-4 py-8 sm:p-10 lg:p-12 shadow-none sm:shadow-xs flex flex-col lg:flex-row items-center justify-between gap-8 sm:gap-10">
         <div class="w-full lg:max-w-xl">
           <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-900 text-[10px] font-bold uppercase tracking-wider mb-3 font-mono">
             Ekosistem SitusBisnis
           </div>
-          <h2 class="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight leading-tight mb-3">
+          <h2 class="text-xl sm:text-3xl font-black text-slate-950 tracking-tight leading-tight mb-2.5 sm:mb-3">
             Tingkatkan Pertumbuhan Bisnis Digital Anda
           </h2>
           <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-6">
@@ -213,7 +214,7 @@ const allCategories = ['Semua', ...Array.from(new Set(sortedPosts.flatMap(p => p
               href="https://situsbisnis.com" 
               target="_blank" 
               rel="noopener noreferrer"
-              class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 active:scale-95 text-white font-bold text-xs sm:text-sm transition-all shadow-sm"
+              class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 active:scale-95 text-white font-bold text-xs sm:text-sm transition-all shadow-sm text-center"
             >
               <span>Mulai Buat Toko Gratis</span>
               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
