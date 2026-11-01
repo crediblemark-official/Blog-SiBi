@@ -8,18 +8,30 @@ export async function GET(context: APIContext) {
     (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
   );
 
+  const siteUrl = (context.site?.toString() || 'https://blog.situsbisnis.com').replace(/\/$/, '');
+
   return rss({
     title: 'Blog SiBi — Publikasi Resmi SitusBisnis',
     description: 'Catatan strategis, riset, dan panduan komprehensif seputar creator economy dari tim SitusBisnis.',
-    site: context.site || 'https://blog.situsbisnis.com',
-    items: sortedPosts.map((post) => ({
-      title: post.data.title,
-      pubDate: post.data.date,
-      description: post.data.description,
-      categories: post.data.categories,
-      author: post.data.author,
-      link: `/posts/${post.id.replace(/\.mdx?$/, '')}/`,
-    })),
+    site: siteUrl,
+    items: sortedPosts.map((post) => {
+      const imgPath = post.data.image || '/images/posts/funnel-cover.jpg';
+      const absoluteImageUrl = imgPath.startsWith('http') ? imgPath : `${siteUrl}${imgPath.startsWith('/') ? '' : '/'}${imgPath}`;
+      return {
+        title: post.data.title,
+        pubDate: post.data.date,
+        description: post.data.description,
+        categories: post.data.categories,
+        author: post.data.author,
+        link: `/posts/${post.id.replace(/\.mdx?$/, '')}/`,
+        enclosure: {
+          url: absoluteImageUrl,
+          length: 0,
+          type: 'image/jpeg',
+        },
+        customData: `<image>${absoluteImageUrl}</image>`,
+      };
+    }),
     customData: `<language>id-ID</language>`,
   });
 }
