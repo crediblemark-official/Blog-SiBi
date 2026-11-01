@@ -1,5 +1,6 @@
 ---
 import BaseLayout from './BaseLayout.astro';
+import { slugify } from '../utils/slug';
 
 interface Props {
   title: string;
@@ -73,14 +74,17 @@ const formattedDate = new Intl.DateTimeFormat('id-ID', {
           <!-- Category Badges -->
           <div class="flex flex-wrap items-center gap-2 mb-3.5 sm:mb-4">
             {categories.map((cat, idx) => (
-              <span class:list={[
-                "px-3 py-1 rounded-full text-xs font-bold font-mono tracking-tight",
-                idx === 0 
-                  ? "bg-emerald-50 text-emerald-800 border border-emerald-200/80" 
-                  : "bg-amber-50 text-amber-900 border border-amber-200/80"
-              ]}>
+              <a 
+                href={`/kategori/${slugify(cat)}/`}
+                class:list={[
+                  "px-3 py-1 rounded-full text-xs font-bold font-mono tracking-tight transition-all hover:scale-105 active:scale-95",
+                  idx === 0 
+                    ? "bg-emerald-50 text-emerald-800 border border-emerald-200/80 hover:bg-emerald-100" 
+                    : "bg-amber-50 text-amber-900 border border-amber-200/80 hover:bg-amber-100"
+                ]}
+              >
                 {cat}
-              </span>
+              </a>
             ))}
           </div>
 
@@ -151,9 +155,12 @@ const formattedDate = new Intl.DateTimeFormat('id-ID', {
           <div class="mt-12 pt-6 border-t border-slate-100 flex flex-wrap items-center gap-2">
             <span class="text-xs font-bold uppercase tracking-wider text-slate-400 mr-1 font-mono">Topik:</span>
             {tags.map((tag) => (
-              <span class="text-xs font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 px-2.5 py-1 rounded-md transition-colors">
+              <a 
+                href={`/tags/${slugify(tag)}/`}
+                class="text-xs font-medium text-slate-600 hover:text-amber-800 bg-slate-100 hover:bg-amber-50 border border-transparent hover:border-amber-200/80 px-2.5 py-1 rounded-md transition-all active:scale-95"
+              >
                 #{tag}
-              </span>
+              </a>
             ))}
           </div>
         )}
@@ -207,9 +214,12 @@ const formattedDate = new Intl.DateTimeFormat('id-ID', {
                 </a>
                 <div class="p-4 sm:p-5 flex-1 flex flex-col justify-between">
                   <div>
-                    <span class="inline-block text-amber-800 bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200/60 font-semibold font-mono text-[10px] mb-2.5">
+                    <a 
+                      href={`/kategori/${slugify(rCat)}/`}
+                      class="inline-block text-amber-800 bg-amber-50 hover:bg-amber-100 px-2 py-0.5 rounded-full border border-amber-200/60 font-semibold font-mono text-[10px] mb-2.5 transition-colors"
+                    >
                       {rCat}
-                    </span>
+                    </a>
                     <h3 class="text-sm sm:text-base font-bold text-slate-950 group-hover:text-amber-600 transition-colors line-clamp-2 leading-snug mb-2">
                       <a href={`/posts/${rSlug}/`}>
                         {rPost.data.title}

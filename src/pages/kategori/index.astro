@@ -1,0 +1,109 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+import { slugify } from '../../utils/slug';
+
+const posts = await getCollection('blog');
+
+// Aggregate categories with their post lists
+const categoryMap = new Map<string, { name: string; posts: CollectionEntry<'blog'>[] }>();
+
+for (const post of posts) {
+  for (const cat of (post.data.categories || [])) {
+    const slug = slugify(cat);
+    if (!categoryMap.has(slug)) {
+      categoryMap.set(slug, { name: cat, posts: [] });
+    }
+    categoryMap.get(slug)!.posts.push(post);
+  }
+}
+
+const categories = Array.from(categoryMap.entries()).map(([slug, data]) => ({
+  slug,
+  name: data.name,
+  count: data.posts.length,
+  recentPosts: data.posts.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()).slice(0, 2)
+}));
+---
+
+<BaseLayout 
+  title="Daftar Kategori — Blog SiBi"
+  description="Jelajahi seluruh kategori esai, panduan monetisasi, dan strategi bisnis digital di Blog SiBi."
+>
+  <div class="w-full max-w-7xl mx-auto px-0 sm:px-6 lg:px-8 py-4 sm:py-12 lg:py-14">
+    
+    <!-- Header -->
+    <header class="w-full max-w-3xl mx-auto px-4 sm:px-6 mb-10 sm:mb-16 text-center flex flex-col items-center">
+      <nav class="flex items-center gap-2 text-xs text-slate-500 mb-4 font-medium">
+        <a href="/" class="hover:text-amber-600 transition-colors">Beranda</a>
+        <span class="text-slate-300">/</span>
+        <span class="text-slate-900 font-semibold">Kategori</span>
+      </nav>
+
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-900 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-3 sm:mb-4 font-mono">
+        <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+        Indeks Topik & Kategori
+      </div>
+
+      <h1 class="text-2xl sm:text-4xl lg:text-5xl font-black tracking-tight text-slate-950 leading-[1.18] mb-3 sm:mb-4">
+        Eksplorasi Berdasarkan Kategori
+      </h1>
+
+      <p class="text-xs sm:text-base text-slate-600 leading-relaxed font-normal max-w-xl">
+        Pilih kategori yang Anda minati untuk membaca panduan terstruktur seputar strategi monetisasi, konversi, dan pertumbuhan audiens.
+      </p>
+    </header>
+
+    <!-- Categories Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0 sm:gap-6 divide-y sm:divide-y-0 divide-slate-200/80 mb-14 sm:mb-20">
+      {categories.map((c) => (
+        <div class="bg-white rounded-none sm:rounded-2xl border-x-0 sm:border border-y sm:border-y border-slate-200/80 p-5 sm:p-6 flex flex-col justify-between hover:border-amber-500/50 hover:shadow-md transition-all duration-200">
+          <div>
+            <div class="flex items-center justify-between gap-3 mb-3">
+              <span class="inline-block text-amber-800 bg-amber-50 px-2.5 py-0.5 rounded-full border border-amber-200/60 font-semibold font-mono text-xs">
+                {c.count} Artikel
+              </span>
+              <span class="text-xs text-slate-400 font-mono">/kategori/{c.slug}/</span>
+            </div>
+
+            <h2 class="text-lg sm:text-xl font-bold text-slate-950 mb-2 hover:text-amber-600 transition-colors">
+              <a href={`/kategori/${c.slug}/`}>
+                {c.name}
+              </a>
+            </h2>
+
+            <p class="text-xs sm:text-sm text-slate-500 mb-4">
+              Kumpulan panduan komprehensif dan taktik praktis seputar {c.name.toLowerCase()}.
+            </p>
+
+            <!-- Recent titles in this category -->
+            <div class="space-y-1.5 pt-3 border-t border-slate-100">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-mono block">Artikel Terkait:</span>
+              {c.recentPosts.map((p) => (
+                <a 
+                  href={`/posts/${p.id.replace(/\.mdx?$/, '')}/`}
+                  class="text-xs text-slate-700 hover:text-amber-600 line-clamp-1 block transition-colors"
+                >
+                  • {p.data.title}
+                </a>
+              ))}
+            </div>
+          </div>
+
+          <div class="pt-5 mt-4 border-t border-slate-100">
+            <a 
+              href={`/kategori/${c.slug}/`}
+              class="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-amber-600 hover:text-amber-700 transition-colors"
+            >
+              <span>Buka Kategori Lengkap</span>
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      ))}
+    </div>
+
+  </div>
+</BaseLayout>

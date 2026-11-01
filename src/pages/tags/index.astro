@@ -1,0 +1,78 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+import { slugify } from '../../utils/slug';
+
+const posts = await getCollection('blog');
+
+// Aggregate tags with their post counts
+const tagMap = new Map<string, { name: string; posts: CollectionEntry<'blog'>[] }>();
+
+for (const post of posts) {
+  for (const tag of (post.data.tags || [])) {
+    const slug = slugify(tag);
+    if (!tagMap.has(slug)) {
+      tagMap.set(slug, { name: tag, posts: [] });
+    }
+    tagMap.get(slug)!.posts.push(post);
+  }
+}
+
+const tags = Array.from(tagMap.entries())
+  .map(([slug, data]) => ({
+    slug,
+    name: data.name,
+    count: data.posts.length
+  }))
+  .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
+---
+
+<BaseLayout 
+  title="Daftar Tag & Topik — Blog SiBi"
+  description="Daftar lengkap tag dan topik pembahasan strategi digital, funnel, dan creator economy di Blog SiBi."
+>
+  <div class="w-full max-w-7xl mx-auto px-0 sm:px-6 lg:px-8 py-4 sm:py-12 lg:py-14">
+    
+    <!-- Header -->
+    <header class="w-full max-w-3xl mx-auto px-4 sm:px-6 mb-10 sm:mb-16 text-center flex flex-col items-center">
+      <nav class="flex items-center gap-2 text-xs text-slate-500 mb-4 font-medium">
+        <a href="/" class="hover:text-amber-600 transition-colors">Beranda</a>
+        <span class="text-slate-300">/</span>
+        <span class="text-slate-900 font-semibold">Tag</span>
+      </nav>
+
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-900 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-3 sm:mb-4 font-mono">
+        <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+        Indeks Topik
+      </div>
+
+      <h1 class="text-2xl sm:text-4xl lg:text-5xl font-black tracking-tight text-slate-950 leading-[1.18] mb-3 sm:mb-4">
+        Semua Tag &amp; Topik
+      </h1>
+
+      <p class="text-xs sm:text-base text-slate-600 leading-relaxed font-normal max-w-xl">
+        Temukan artikel berdasarkan kata kunci atau fokus teknis spesifik yang ingin Anda pelajari.
+      </p>
+    </header>
+
+    <!-- Tags Cloud / Grid -->
+    <div class="max-w-4xl mx-auto px-4 sm:px-0 mb-16 sm:mb-24">
+      <div class="bg-white rounded-none sm:rounded-3xl border-x-0 sm:border border-y sm:border-y border-slate-200/90 p-6 sm:p-10 shadow-none sm:shadow-xs">
+        <div class="flex flex-wrap items-center gap-2.5 sm:gap-3 justify-center">
+          {tags.map((t) => (
+            <a 
+              href={`/tags/${t.slug}/`}
+              class="group inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-amber-50 border border-transparent hover:border-amber-200/80 text-xs sm:text-sm font-medium font-mono text-slate-700 hover:text-amber-900 transition-all active:scale-95 shadow-2xs"
+            >
+              <span>#{t.name}</span>
+              <span class="px-1.5 py-0.2 rounded-md bg-white text-[10px] text-slate-400 group-hover:text-amber-700 group-hover:bg-amber-100/70 border border-slate-200 group-hover:border-amber-200">
+                {t.count}
+              </span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+
+  </div>
+</BaseLayout>

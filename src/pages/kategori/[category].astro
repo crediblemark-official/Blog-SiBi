@@ -1,0 +1,219 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+import { slugify } from '../../utils/slug';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  
+  // Extract all categories map: slug -> { name, posts }
+  const categoryMap = new Map<string, { name: string; posts: CollectionEntry<'blog'>[] }>();
+  
+  for (const post of posts) {
+    for (const cat of (post.data.categories || [])) {
+      const slug = slugify(cat);
+      if (!categoryMap.has(slug)) {
+        categoryMap.set(slug, { name: cat, posts: [] });
+      }
+      categoryMap.get(slug)!.posts.push(post);
+    }
+  }
+
+  const allCategories = Array.from(categoryMap.entries()).map(([slug, data]) => ({
+    slug,
+    name: data.name,
+    count: data.posts.length
+  }));
+
+  return Array.from(categoryMap.entries()).map(([slug, data]) => ({
+    params: { category: slug },
+    props: {
+      categoryName: data.name,
+      categorySlug: slug,
+      posts: data.posts.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()),
+      allCategories,
+    },
+  }));
+}
+
+const { categoryName, categorySlug, posts, allCategories } = Astro.props;
+---
+
+<BaseLayout 
+  title={`${categoryName} — Kategori Blog SiBi`}
+  description={`Kumpulan catatan strategis, riset, dan panduan seputar ${categoryName} dari tim SitusBisnis.`}
+>
+  <!-- Main Page Container (Full edge on mobile px-0, padded on desktop) -->
+  <div class="w-full max-w-7xl mx-auto px-0 sm:px-6 lg:px-8 py-4 sm:py-12 lg:py-14">
+    
+    <!-- 1. Breadcrumbs & Header Section -->
+    <header class="w-full max-w-3xl mx-auto px-4 sm:px-6 mb-8 sm:mb-12 text-center flex flex-col items-center">
+      
+      <!-- Breadcrumb Navigation -->
+      <nav class="flex items-center gap-2 text-xs text-slate-500 mb-4 font-medium">
+        <a href="/" class="hover:text-amber-600 transition-colors">Beranda</a>
+        <span class="text-slate-300">/</span>
+        <a href="/kategori/" class="hover:text-amber-600 transition-colors">Kategori</a>
+        <span class="text-slate-300">/</span>
+        <span class="text-slate-900 font-semibold">{categoryName}</span>
+      </nav>
+
+      <!-- Badge -->
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-900 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-3 sm:mb-4 font-mono">
+        <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+        Kategori Artikel
+      </div>
+
+      <!-- Headline -->
+      <h1 class="text-2xl sm:text-4xl lg:text-5xl font-black tracking-tight text-slate-950 leading-[1.18] mb-3 sm:mb-4">
+        {categoryName}
+      </h1>
+
+      <!-- Description -->
+      <p class="text-xs sm:text-base text-slate-600 leading-relaxed font-normal max-w-xl">
+        Menampilkan {posts.length} panduan dan artikel mendalam untuk kategori <strong>{categoryName}</strong>.
+      </p>
+    </header>
+
+    <!-- 2. Category Switcher Pills (Horizontal Scroll) -->
+    <div class="px-4 sm:px-0 mb-8 sm:mb-12">
+      <div class="flex items-center gap-1.5 overflow-x-auto pb-2 no-scrollbar justify-start sm:justify-center">
+        <a 
+          href="/" 
+          class="px-3.5 py-1.5 rounded-full text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-600 transition-all shrink-0"
+        >
+          Semua Artikel
+        </a>
+        {allCategories.map((c) => (
+          <a 
+            href={`/kategori/${c.slug}/`}
+            class:list={[
+              "px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all shrink-0",
+              c.slug === categorySlug 
+                ? "bg-slate-950 text-white font-bold shadow-2xs" 
+                : "bg-slate-100 hover:bg-slate-200 text-slate-600"
+            ]}
+          >
+            {c.name} <span class:list={["text-[10px] ml-1 font-mono", c.slug === categorySlug ? "text-amber-400" : "text-slate-400"]}>({c.count})</span>
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <!-- 3. Posts Grid (Full Edge on mobile, 3-column cards on desktop) -->
+    <section class="mb-14 sm:mb-24">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0 sm:gap-8 divide-y sm:divide-y-0 divide-slate-200/80">
+        {posts.map((post) => {
+          const postSlug = post.id.replace(/\.mdx?$/, '');
+          const postDate = new Intl.DateTimeFormat('id-ID', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric'
+          }).format(new Date(post.data.date));
+          const primaryCategory = post.data.categories?.[0] || 'Strategi';
+
+          return (
+            <article class="group flex flex-col bg-white rounded-none sm:rounded-2xl border-x-0 sm:border border-y sm:border-y border-slate-200/80 overflow-hidden hover:border-amber-500/50 hover:shadow-md transition-all duration-200">
+              <a href={`/posts/${postSlug}/`} class="aspect-[16/10] overflow-hidden bg-slate-100 block relative">
+                <img 
+                  src={post.data.image || "/images/posts/funnel-cover.jpg"} 
+                  alt={post.data.title}
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  loading="lazy"
+                />
+              </a>
+
+              <div class="p-4 sm:p-6 flex-1 flex flex-col justify-between">
+                <div>
+                  <a 
+                    href={`/kategori/${slugify(primaryCategory)}/`}
+                    class="inline-block text-amber-800 bg-amber-50 hover:bg-amber-100 px-2.5 py-0.5 rounded-full border border-amber-200/60 font-semibold font-mono text-[10px] sm:text-[11px] mb-2 transition-colors"
+                  >
+                    {primaryCategory}
+                  </a>
+
+                  <h3 class="text-sm sm:text-lg font-bold text-slate-950 group-hover:text-amber-600 transition-colors line-clamp-2 leading-snug mb-2">
+                    <a href={`/posts/${postSlug}/`}>
+                      {post.data.title}
+                    </a>
+                  </h3>
+
+                  <p class="text-xs sm:text-sm text-slate-600 line-clamp-2 leading-relaxed mb-4 font-normal">
+                    {post.data.description}
+                  </p>
+                </div>
+
+                <div class="pt-3 sm:pt-4 border-t border-slate-100 flex items-center justify-between text-[11px] sm:text-xs text-slate-400">
+                  <span class="font-medium text-slate-500">{post.data.author}</span>
+                  <time datetime={post.data.date.toISOString()}>{postDate}</time>
+                </div>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+    </section>
+
+    <!-- 4. CTA Section (Full Edge on Mobile) -->
+    <section class="w-full bg-white pt-4 pb-2">
+      <div class="rounded-none sm:rounded-3xl border-x-0 sm:border border-y sm:border-y border-slate-200/90 bg-gradient-to-br from-slate-50 via-white to-amber-50/40 px-4 py-8 sm:p-10 lg:p-12 shadow-none sm:shadow-xs flex flex-col lg:flex-row items-center justify-between gap-8 sm:gap-10">
+        <div class="w-full lg:max-w-xl">
+          <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-900 text-[10px] font-bold uppercase tracking-wider mb-3 font-mono">
+            Ekosistem SitusBisnis
+          </div>
+          <h2 class="text-xl sm:text-3xl font-black text-slate-950 tracking-tight leading-tight mb-2.5 sm:mb-3">
+            Siap Menerapkan Strategi {categoryName}?
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-6">
+            Gunakan platform <strong>SitusBisnis</strong> untuk membuat landing page visual siap konversi, menjual e-book, kelas online, layanan konsultasi, hingga produk fisik dengan checkout instan tanpa potongan komisi.
+          </p>
+          <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+            <a 
+              href="https://situsbisnis.com" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 active:scale-95 text-white font-bold text-xs sm:text-sm transition-all shadow-sm text-center"
+            >
+              <span>Mulai Buat Toko Gratis</span>
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </a>
+            <a 
+              href="/" 
+              class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl text-slate-700 hover:text-slate-950 font-semibold text-xs sm:text-sm transition-colors text-center"
+            >
+              ← Kembali ke Semua Artikel
+            </a>
+          </div>
+        </div>
+
+        <!-- Dashboard Stat Card -->
+        <div class="w-full lg:w-72 shrink-0 bg-white rounded-2xl border border-slate-200/80 p-5 shadow-xs space-y-3">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+            <div class="flex items-center gap-2">
+              <img src="/logo.png" alt="SitusBisnis" class="w-5 h-5 object-contain" />
+              <span class="font-bold text-xs text-slate-900">SitusBisnis Hub</span>
+            </div>
+            <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-mono text-[9px] font-black">ONLINE</span>
+          </div>
+          <div class="space-y-1.5 text-xs">
+            <div class="flex justify-between text-slate-500 text-[11px]">
+              <span>Total Pendapatan</span>
+              <span class="text-emerald-600 font-bold font-mono">100% Anda</span>
+            </div>
+            <div class="text-lg font-black text-slate-950 font-mono">Rp 18.450.000</div>
+            <div class="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
+              <div class="h-full bg-amber-500 rounded-full w-4/5"></div>
+            </div>
+          </div>
+          <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-[10px] text-slate-400 font-mono">
+            <span>Biaya Transaksi</span>
+            <span class="text-amber-700 font-bold">0% (Zero Fee ⭐)</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</BaseLayout>
