@@ -59,7 +59,7 @@ const filteredHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
         </nav>
 
         <!-- Article Header -->
-        <header class="mb-6 sm:mb-8 pb-5 sm:pb-6 border-b border-slate-100">
+        <header class="mb-8 pb-6 border-b border-slate-100">
           <h1 class="text-2xl sm:text-3xl lg:text-[38px] font-black tracking-tight text-slate-950 leading-[1.25] mb-3 sm:mb-4">
             {title}
           </h1>
@@ -97,40 +97,6 @@ const filteredHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
             </div>
           </div>
         </header>
-
-        <!-- Full Edge Collapsible Table of Contents on Mobile (< lg) -->
-        {filteredHeadings.length > 0 && (
-          <details class="lg:hidden -mx-4 px-4 py-3 bg-slate-50 border-y border-slate-200 mb-8 sm:mx-0 sm:rounded-lg sm:border group text-xs select-none">
-            <summary class="font-bold uppercase tracking-wider text-slate-800 cursor-pointer flex items-center justify-between font-mono list-none">
-              <span class="flex items-center gap-2">
-                <svg class="w-4 h-4 text-amber-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
-                </svg>
-                <span>Daftar Isi Esai ({filteredHeadings.length})</span>
-              </span>
-              <span class="text-slate-400 group-open:rotate-180 transition-transform">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                </svg>
-              </span>
-            </summary>
-            <nav class="mt-2.5 pt-2.5 border-t border-slate-200 space-y-1.5">
-              {filteredHeadings.map((heading) => (
-                <a
-                  href={`#${heading.slug}`}
-                  class:list={[
-                    'block py-1 transition-colors line-clamp-1',
-                    heading.depth === 2
-                      ? 'font-semibold text-slate-800 hover:text-amber-600'
-                      : 'pl-3 text-slate-600 hover:text-amber-600 text-[11px]'
-                  ]}
-                >
-                  {heading.text}
-                </a>
-              ))}
-            </nav>
-          </details>
-        )}
 
         <!-- Markdown Body (Full Edge Natural Reading Flow) -->
         <article class="prose prose-slate prose-base sm:prose-lg max-w-none 
@@ -249,11 +215,99 @@ const filteredHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
       </aside>
     </div>
 
-    <!-- Floating Back to Top Button (Mobile & Desktop) -->
+    <!-- ================= FLOATING CONTROLS (MOBILE & TABLET) ================= -->
+
+    <!-- 1. Floating Mobile TOC Pill Trigger (Bottom-Left) -->
+    {filteredHeadings.length > 0 && (
+      <button 
+        id="mobile-toc-trigger"
+        type="button"
+        class="lg:hidden fixed bottom-5 left-4 z-40 inline-flex items-center gap-2 px-3.5 py-2.5 rounded-full bg-slate-950/95 text-white text-xs font-bold shadow-lg shadow-slate-950/20 hover:bg-slate-900 active:scale-95 transition-all duration-150 border border-slate-800 backdrop-blur-md select-none"
+        aria-label="Buka Daftar Isi"
+      >
+        <svg class="w-3.5 h-3.5 text-amber-500 stroke-[2.4]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h7" />
+        </svg>
+        <span>Daftar Isi</span>
+        <span class="min-w-4 h-4 px-1 rounded-full bg-amber-500/20 text-amber-400 text-[10px] flex items-center justify-center font-mono font-bold">
+          {filteredHeadings.length}
+        </span>
+      </button>
+    )}
+
+    <!-- 2. Floating Mobile Bottom Sheet Modal (Drawer) -->
+    {filteredHeadings.length > 0 && (
+      <div 
+        id="mobile-toc-modal" 
+        class="lg:hidden fixed inset-0 z-50 pointer-events-none transition-all duration-300"
+        aria-hidden="true"
+      >
+        <!-- Dark Backdrop Overlay -->
+        <div 
+          id="mobile-toc-backdrop" 
+          class="absolute inset-0 bg-slate-950/60 backdrop-blur-xs opacity-0 transition-opacity duration-300"
+        ></div>
+
+        <!-- Sliding Bottom Sheet Container -->
+        <div 
+          id="mobile-toc-sheet" 
+          class="absolute inset-x-0 bottom-0 bg-white rounded-t-2xl shadow-2xl transition-transform duration-300 ease-out translate-y-full flex flex-col max-h-[75vh] pb-[calc(1rem+env(safe-area-inset-bottom,0px))] border-t border-slate-200/80"
+        >
+          <!-- Drag Handle Indicator -->
+          <div class="w-10 h-1 bg-slate-300 rounded-full mx-auto mt-3 mb-1 shrink-0"></div>
+
+          <!-- Sheet Header -->
+          <div class="px-5 py-3 border-b border-slate-100 flex items-center justify-between shrink-0">
+            <div class="flex items-center gap-2">
+              <div class="w-5 h-5 rounded-md bg-amber-500/10 flex items-center justify-center text-amber-600 shrink-0">
+                <svg class="w-3.5 h-3.5 stroke-[2.4]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h7" />
+                </svg>
+              </div>
+              <span class="font-black text-sm tracking-tight text-slate-950">Daftar Isi Esai</span>
+              <span class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 text-[10px] font-mono font-bold">
+                {filteredHeadings.length} Bagian
+              </span>
+            </div>
+
+            <!-- Close Button -->
+            <button 
+              id="mobile-toc-close" 
+              type="button" 
+              class="p-1.5 text-slate-400 hover:text-slate-800 rounded-lg active:scale-95 transition-colors"
+              aria-label="Tutup Daftar Isi"
+            >
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+
+          <!-- Sheet Headings List -->
+          <nav class="p-4 sm:p-5 overflow-y-auto space-y-1 text-xs select-none overscroll-contain">
+            {filteredHeadings.map((heading) => (
+              <a
+                href={`#${heading.slug}`}
+                class:list={[
+                  'mobile-toc-link block py-2.5 px-3 rounded-lg transition-colors',
+                  heading.depth === 2
+                    ? 'font-bold text-slate-900 bg-slate-50 hover:bg-amber-50 hover:text-amber-800 active:bg-amber-100'
+                    : 'pl-6 text-slate-600 hover:bg-amber-50 hover:text-amber-700 active:bg-amber-100'
+                ]}
+              >
+                {heading.text}
+              </a>
+            ))}
+          </nav>
+        </div>
+      </div>
+    )}
+
+    <!-- 3. Floating Back to Top Button (Bottom-Right) -->
     <button 
       id="back-to-top"
       type="button"
-      class="fixed bottom-5 right-4 sm:right-6 z-30 p-2.5 rounded-full bg-white text-slate-700 border border-slate-200 shadow-md hover:bg-slate-50 active:scale-95 transition-all opacity-0 pointer-events-none"
+      class="fixed bottom-5 right-4 sm:right-6 z-40 p-2.5 rounded-full bg-white text-slate-700 border border-slate-200 shadow-md hover:bg-slate-50 active:scale-95 transition-all opacity-0 pointer-events-none"
       aria-label="Kembali ke atas"
     >
       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -264,6 +318,7 @@ const filteredHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
 </BaseLayout>
 
 <script>
+  // 1. Back to Top Logic
   const bttBtn = document.getElementById('back-to-top');
   if (bttBtn) {
     window.addEventListener('scroll', () => {
@@ -280,4 +335,50 @@ const filteredHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   }
+
+  // 2. Mobile Floating TOC Bottom Sheet Logic
+  const tocTrigger = document.getElementById('mobile-toc-trigger');
+  const tocModal = document.getElementById('mobile-toc-modal');
+  const tocBackdrop = document.getElementById('mobile-toc-backdrop');
+  const tocSheet = document.getElementById('mobile-toc-sheet');
+  const tocClose = document.getElementById('mobile-toc-close');
+  const tocLinks = document.querySelectorAll('.mobile-toc-link');
+
+  function openMobileToc() {
+    if (!tocModal || !tocBackdrop || !tocSheet) return;
+    tocModal.classList.remove('pointer-events-none');
+    tocModal.setAttribute('aria-hidden', 'false');
+    tocBackdrop.classList.remove('opacity-0');
+    tocBackdrop.classList.add('opacity-100');
+    tocSheet.classList.remove('translate-y-full');
+    tocSheet.classList.add('translate-y-0');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMobileToc() {
+    if (!tocModal || !tocBackdrop || !tocSheet) return;
+    tocBackdrop.classList.remove('opacity-100');
+    tocBackdrop.classList.add('opacity-0');
+    tocSheet.classList.remove('translate-y-0');
+    tocSheet.classList.add('translate-y-full');
+    setTimeout(() => {
+      tocModal.classList.add('pointer-events-none');
+      tocModal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }, 300);
+  }
+
+  if (tocTrigger) tocTrigger.addEventListener('click', openMobileToc);
+  if (tocClose) tocClose.addEventListener('click', closeMobileToc);
+  if (tocBackdrop) tocBackdrop.addEventListener('click', closeMobileToc);
+
+  tocLinks.forEach((link) => {
+    link.addEventListener('click', () => {
+      closeMobileToc();
+    });
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeMobileToc();
+  });
 </script>
