@@ -22,14 +22,12 @@ Tulisan ini menguraikan prinsip fundamental dalam merancang alur penjualan yang 
 
 Secara garis besar, perjalanan calon pembeli digital terbagi ke dalam empat fase utama:
 
-```
-[Awareness]  --> Konten Gratis, Media Sosial, SEO Organik
-      ↓
-[Interest]   --> Lead Magnet, Studi Kasus, Newsletter
-      ↓
-[Desire]     --> Landing Page Berbobot, Bukti Sosial, Penawaran Khusus
-      ↓
-[Action]     --> Single-Page Checkout, Pembayaran Instan (QRIS / VA)
+```mermaid
+graph TD
+  A["[1. Awareness] Konten Edukasi, Media Sosial, & SEO"]
+  --> B["[2. Interest] Lead Magnet, Studi Kasus, & Newsletter"]
+  --> C["[3. Desire] Landing Page Visual, Bukti Sosial, & Review"]
+  --> D["[4. Action] Checkout Cepat & Pembayaran Instan (QRIS / VA)"]
 ```
 
 ### A. Titik Masuk (Top of Funnel - ToFU)

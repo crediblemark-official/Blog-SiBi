@@ -320,4 +320,46 @@ const formattedDate = new Intl.DateTimeFormat('id-ID', {
       }
     });
   }
+
+  // Dynamic Mermaid Renderer (Zero Overhead when not present)
+  const mermaidBlocks = document.querySelectorAll('pre[data-language="mermaid"]');
+  if (mermaidBlocks.length > 0) {
+    import('mermaid').then(({ default: mermaid }) => {
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: 'neutral',
+        themeVariables: {
+          primaryColor: '#fffbeb',
+          primaryTextColor: '#78350f',
+          primaryBorderColor: '#f59e0b',
+          lineColor: '#d97706',
+          fontFamily: "'Plus Jakarta Sans', sans-serif",
+          fontSize: '13px',
+        },
+        flowchart: {
+          curve: 'basis',
+          nodeSpacing: 35,
+          rankSpacing: 40,
+          padding: 12,
+          htmlLabels: true,
+        }
+      });
+
+      mermaidBlocks.forEach(async (block, idx) => {
+        const rawCode = block.textContent?.trim() || '';
+        if (rawCode) {
+          try {
+            const chartId = `mermaid-svg-${idx}-${Date.now()}`;
+            const { svg } = await mermaid.render(chartId, rawCode);
+            const wrapper = document.createElement('div');
+            wrapper.className = 'mermaid-container my-8 p-5 sm:p-7 rounded-2xl bg-amber-500/5 border border-amber-500/20 flex flex-col items-center justify-center overflow-x-auto shadow-2xs select-none';
+            wrapper.innerHTML = svg;
+            block.replaceWith(wrapper);
+          } catch (err) {
+            console.error('Mermaid render error: ', err);
+          }
+        }
+      });
+    });
+  }
 </script>
