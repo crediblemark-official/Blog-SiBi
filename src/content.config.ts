@@ -11,6 +11,12 @@ const blog = defineCollection({
     tags: z.array(z.string()).default([]),
     author: z.string().default('Tim SitusBisnis'),
     image: z.string().optional(),
+    series: z.object({
+      id: z.string(),
+      name: z.string(),
+      part: z.number(),
+      totalParts: z.number().optional(),
+    }).optional(),
   }),
 });
 

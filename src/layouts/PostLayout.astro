@@ -1,6 +1,7 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 import { slugify } from '../utils/slug';
+import type { SeriesContext } from '../utils/series';
 
 interface Props {
   title: string;
@@ -13,6 +14,7 @@ interface Props {
   headings?: { depth: number; slug: string; text: string }[];
   readingTimeMinutes?: number;
   relatedPosts?: any[];
+  seriesContext?: SeriesContext | null;
 }
 
 const {
@@ -25,7 +27,8 @@ const {
   image = '/images/posts/funnel-cover.jpg',
   headings = [],
   readingTimeMinutes = 5,
-  relatedPosts = []
+  relatedPosts = [],
+  seriesContext = null,
 } = Astro.props;
 
 const primaryCategory = categories[0] || 'Strategi Bisnis';
@@ -86,6 +89,29 @@ const breadcrumbs = [
         
         <!-- Article Header -->
         <header class="mb-8 sm:mb-10">
+          <!-- Series Hero Pill & Progress Bar -->
+          {seriesContext && (
+            <div class="mb-5 sm:mb-6 rounded-2xl bg-amber-500/10 border border-amber-500/20 p-3 sm:p-4">
+              <div class="flex items-center justify-between gap-3 text-xs mb-2">
+                <div class="flex items-center gap-1.5 font-mono font-bold text-amber-950">
+                  <span>📚</span>
+                  <a href={`/seri/${seriesContext.id}/`} class="hover:underline">
+                    SERI: {seriesContext.name}
+                  </a>
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-amber-500 text-white font-mono font-bold text-[10px] shrink-0">
+                  Bagian {seriesContext.currentPart} dari {seriesContext.totalParts}
+                </span>
+              </div>
+              <div class="w-full bg-amber-200/60 rounded-full h-1.5 overflow-hidden">
+                <div 
+                  class="bg-amber-600 h-full rounded-full transition-all duration-500" 
+                  style={`width: ${Math.round((seriesContext.currentPart / seriesContext.totalParts) * 100)}%`}
+                ></div>
+              </div>
+            </div>
+          )}
+
           <!-- Category Badges -->
           <div class="flex flex-wrap items-center gap-2 mb-3.5 sm:mb-4">
             {categories.map((cat, idx) => (
@@ -147,6 +173,58 @@ const breadcrumbs = [
           </div>
         </header>
 
+        <!-- Series Curriculum Accordion Drawer -->
+        {seriesContext && (
+          <details class="mb-8 rounded-2xl border border-slate-200/90 bg-slate-50/70 p-4 sm:p-5 group select-none">
+            <summary class="flex items-center justify-between cursor-pointer list-none font-bold text-slate-900 text-xs sm:text-sm">
+              <div class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                </svg>
+                <span>Silabus Seri: {seriesContext.name} ({seriesContext.totalParts} Bagian)</span>
+              </div>
+              <span class="text-xs text-amber-700 font-semibold group-open:hidden">Buka Silabus ↓</span>
+              <span class="text-xs text-slate-400 font-semibold hidden group-open:inline">Tutup Silabus ↑</span>
+            </summary>
+
+            <div class="mt-4 pt-4 border-t border-slate-200/80 space-y-2">
+              {seriesContext.parts.map((item) => (
+                <div class:list={[
+                  "flex items-center justify-between gap-3 p-2.5 rounded-xl text-xs transition-colors",
+                  item.isCurrent 
+                    ? "bg-amber-100/70 border border-amber-300/80 text-amber-950 font-bold" 
+                    : "bg-white hover:bg-slate-100/80 border border-slate-200/60 text-slate-700"
+                ]}>
+                  <div class="flex items-center gap-2 min-w-0">
+                    <span class:list={[
+                      "w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-mono shrink-0 font-bold",
+                      item.isCurrent ? "bg-amber-600 text-white" : "bg-slate-200 text-slate-600"
+                    ]}>
+                      {item.part}
+                    </span>
+                    {item.isCurrent ? (
+                      <span class="truncate">{item.title}</span>
+                    ) : (
+                      <a href={`/posts/${item.slug}/`} class="truncate hover:text-amber-600 hover:underline">
+                        {item.title}
+                      </a>
+                    )}
+                  </div>
+                  {item.isCurrent ? (
+                    <span class="text-[10px] font-mono uppercase tracking-wider text-amber-800 bg-amber-200/80 px-2 py-0.5 rounded shrink-0">
+                      Sedang Dibaca
+                    </span>
+                  ) : (
+                    <a href={`/posts/${item.slug}/`} class="text-[11px] font-semibold text-amber-600 shrink-0 hover:underline">
+                      Baca →
+                    </a>
+                  )}
+                </div>
+              ))}
+            </div>
+          </details>
+        )}
+
         <!-- 4. Article Content (Centered Single Column Typography, Full Edge media on mobile) -->
         <div class="prose prose-slate prose-base sm:prose-lg max-w-none
           prose-headings:font-black prose-headings:tracking-tight prose-headings:text-slate-950
@@ -177,6 +255,59 @@ const breadcrumbs = [
                 #{tag}
               </a>
             ))}
+          </div>
+        )}
+
+        <!-- 6. Series Next / Previous Episode Cards -->
+        {seriesContext && (seriesContext.prevPost || seriesContext.nextPost) && (
+          <div class="mt-10 pt-8 border-t border-slate-200 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <!-- Previous Post -->
+            {seriesContext.prevPost ? (
+              <a 
+                href={`/posts/${seriesContext.prevPost.slug}/`}
+                class="group p-4 rounded-2xl border border-slate-200 hover:border-amber-300 bg-white hover:bg-amber-50/30 transition-all flex flex-col justify-between"
+              >
+                <div>
+                  <span class="text-[10px] font-mono uppercase tracking-wider text-slate-400 group-hover:text-amber-700 block mb-1 font-bold">
+                    ← Bagian {seriesContext.prevPost.part} (Sebelumnya)
+                  </span>
+                  <h4 class="text-xs sm:text-sm font-bold text-slate-900 group-hover:text-amber-600 line-clamp-2 transition-colors">
+                    {seriesContext.prevPost.title}
+                  </h4>
+                </div>
+                <span class="text-xs font-semibold text-slate-500 group-hover:text-amber-600 mt-3 inline-flex items-center gap-1">
+                  Baca bab sebelumnya
+                </span>
+              </a>
+            ) : (
+              <div class="p-4 rounded-2xl border border-dashed border-slate-200 text-slate-400 text-xs flex items-center justify-center text-center">
+                <span>Ini adalah episode pembuka dari seri ini.</span>
+              </div>
+            )}
+
+            <!-- Next Post -->
+            {seriesContext.nextPost ? (
+              <a 
+                href={`/posts/${seriesContext.nextPost.slug}/`}
+                class="group p-4 rounded-2xl border border-amber-300 hover:border-amber-400 bg-amber-50/50 hover:bg-amber-100/50 transition-all flex flex-col justify-between text-right"
+              >
+                <div>
+                  <span class="text-[10px] font-mono uppercase tracking-wider text-amber-800 block mb-1 font-bold">
+                    Bagian {seriesContext.nextPost.part} (Selanjutnya) →
+                  </span>
+                  <h4 class="text-xs sm:text-sm font-bold text-slate-950 group-hover:text-amber-700 line-clamp-2 transition-colors">
+                    {seriesContext.nextPost.title}
+                  </h4>
+                </div>
+                <span class="text-xs font-bold text-amber-700 mt-3 inline-flex items-center justify-end gap-1">
+                  Lanjut membaca bab ini →
+                </span>
+              </a>
+            ) : (
+              <div class="p-4 rounded-2xl border border-dashed border-slate-200 text-slate-400 text-xs flex items-center justify-center text-center">
+                <span>Episode berikutnya sedang dalam penulisan redaksi.</span>
+              </div>
+            )}
           </div>
         )}
       </div>

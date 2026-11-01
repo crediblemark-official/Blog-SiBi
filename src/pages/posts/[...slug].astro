@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import PostLayout from '../../layouts/PostLayout.astro';
+import { getSeriesContext } from '../../utils/series';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
@@ -9,11 +10,12 @@ export async function getStaticPaths() {
     props: { 
       post,
       allPosts: posts.filter((p) => p.id !== post.id),
+      rawAllPosts: posts,
     },
   }));
 }
 
-const { post, allPosts } = Astro.props;
+const { post, allPosts, rawAllPosts } = Astro.props;
 const { Content, headings } = await render(post);
 
 // Estimasi waktu baca (sekitar 200 kata/menit)
@@ -24,6 +26,9 @@ const readingTimeMinutes = Math.max(1, Math.ceil(wordCount / 200));
 const relatedPosts = allPosts
   .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
   .slice(0, 3);
+
+// Dapatkan konteks serial jika artikel ini berseri
+const seriesContext = getSeriesContext(post, rawAllPosts);
 ---
 
 <PostLayout
@@ -37,6 +42,7 @@ const relatedPosts = allPosts
   headings={headings}
   readingTimeMinutes={readingTimeMinutes}
   relatedPosts={relatedPosts}
+  seriesContext={seriesContext}
 >
   <Content />
 </PostLayout>

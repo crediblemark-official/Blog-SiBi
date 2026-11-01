@@ -1,0 +1,163 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { getAllSeries, type SeriesOverview } from '../../utils/series';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  const allSeries = getAllSeries(posts);
+
+  return allSeries.map((s) => ({
+    params: { series: s.id },
+    props: {
+      series: s,
+      allSeries,
+    },
+  }));
+}
+
+const { series } = Astro.props;
+const firstPostSlug = series.posts[0]?.id.replace(/\.mdx?$/, '');
+---
+
+<BaseLayout
+  title={`${series.name} — Seri Masterclass Blog SiBi`}
+  description={`Panduan berseri lengkap dan terstruktur: ${series.name}. Menampilkan ${series.posts.length} bagian dari total ${series.totalParts} bagian kurikulum.`}
+  breadcrumbs={[
+    { name: 'Beranda', url: '/' },
+    { name: 'Seri Panduan', url: '/seri/' },
+    { name: series.name, url: `/seri/${series.id}/` },
+  ]}
+>
+  <div class="w-full max-w-5xl mx-auto px-0 sm:px-6 lg:px-8 py-4 sm:py-12 lg:py-14">
+    
+    <!-- 1. Header Hero -->
+    <header class="px-4 sm:px-0 mb-10 sm:mb-16 text-center max-w-3xl mx-auto flex flex-col items-center">
+      <nav class="flex items-center gap-2 text-xs text-slate-500 mb-4 font-medium">
+        <a href="/" class="hover:text-amber-600 transition-colors">Beranda</a>
+        <span class="text-slate-300">/</span>
+        <a href="/seri/" class="hover:text-amber-600 transition-colors">Seri</a>
+        <span class="text-slate-300">/</span>
+        <span class="text-slate-900 font-semibold">{series.name}</span>
+      </nav>
+
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-900 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-3 sm:mb-4 font-mono">
+        <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
+        Masterclass Berseri
+      </div>
+
+      <h1 class="text-2xl sm:text-4xl lg:text-5xl font-black tracking-tight text-slate-950 leading-[1.18] mb-3 sm:mb-4">
+        {series.name}
+      </h1>
+
+      <p class="text-xs sm:text-base text-slate-600 leading-relaxed font-normal max-w-xl mb-6">
+        Kurikulum panduan mendalam dari 0 sampai selesai. Disusun sistematis untuk membantu Anda menguasai setiap tahapan eksekusi secara runtut.
+      </p>
+
+      {firstPostSlug && (
+        <a
+          href={`/posts/${firstPostSlug}/`}
+          class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-amber-600 hover:bg-amber-700 active:scale-95 text-white font-bold text-xs sm:text-sm transition-all shadow-md"
+        >
+          <span>Mulai Membaca Bagian 1</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </a>
+      )}
+    </header>
+
+    <!-- 2. Curriculum Timeline / Episode Cards -->
+    <section class="px-4 sm:px-0 mb-16 sm:mb-24">
+      <div class="flex items-center justify-between pb-3 sm:pb-4 mb-6 sm:mb-8 border-b border-slate-200">
+        <div>
+          <h2 class="text-base sm:text-xl font-black text-slate-950 tracking-tight">
+            Silabus Episode
+          </h2>
+          <p class="text-[11px] sm:text-xs text-slate-500 mt-0.5">
+            {series.posts.length} episode telah rilis dari total {series.totalParts} bagian.
+          </p>
+        </div>
+        <span class="text-xs font-mono font-bold text-amber-800 bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200">
+          Progress: {Math.round((series.posts.length / series.totalParts) * 100)}%
+        </span>
+      </div>
+
+      <div class="space-y-4">
+        {series.posts.map((post) => {
+          const postSlug = post.id.replace(/\.mdx?$/, '');
+          const partNum = post.data.series?.part || 1;
+          const postDate = new Intl.DateTimeFormat('id-ID', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          }).format(new Date(post.data.date));
+
+          return (
+            <article class="group bg-white rounded-2xl border border-slate-200/90 hover:border-amber-400 p-5 sm:p-6 transition-all hover:shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div class="flex items-start gap-4">
+                <span class="w-8 h-8 rounded-full bg-amber-500 text-white font-mono font-bold text-xs flex items-center justify-center shrink-0 shadow-2xs mt-0.5">
+                  {partNum}
+                </span>
+                <div>
+                  <div class="flex items-center gap-2 text-[11px] font-mono text-slate-400 mb-1">
+                    <span>Bagian #{partNum}</span>
+                    <span>•</span>
+                    <time datetime={post.data.date.toISOString()}>{postDate}</time>
+                  </div>
+                  <h3 class="text-sm sm:text-base font-bold text-slate-950 group-hover:text-amber-600 transition-colors leading-snug mb-1">
+                    <a href={`/posts/${postSlug}/`}>
+                      {post.data.title}
+                    </a>
+                  </h3>
+                  <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed">
+                    {post.data.description}
+                  </p>
+                </div>
+              </div>
+
+              <a
+                href={`/posts/${postSlug}/`}
+                class="inline-flex items-center gap-1 text-xs font-bold text-amber-600 group-hover:text-amber-700 hover:underline shrink-0 self-end sm:self-center"
+              >
+                <span>Baca Bab Ini</span>
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M9 5l7 7-7 7" />
+                </svg>
+              </a>
+            </article>
+          );
+        })}
+      </div>
+    </section>
+
+    <!-- 3. Bottom CTA -->
+    <section class="w-full bg-white pt-4 pb-2 px-4 sm:px-0">
+      <div class="rounded-none sm:rounded-3xl border-x-0 sm:border border-y sm:border-y border-slate-200/90 bg-gradient-to-br from-slate-50 via-white to-amber-50/40 p-6 sm:p-10 flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div>
+          <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-amber-900 bg-amber-100 px-2 py-0.5 rounded-full inline-block mb-2">
+            Ekosistem SitusBisnis
+          </span>
+          <h3 class="text-lg sm:text-2xl font-black text-slate-950">
+            Eksekusi Strategi Seri Ini Tanpa Kendala Teknis
+          </h3>
+          <p class="text-xs sm:text-sm text-slate-600 mt-1 max-w-xl">
+            Bangun toko produk digital, landing page berkonversi tinggi, dan checkout instan gratis bersama SitusBisnis.
+          </p>
+        </div>
+        <a
+          href="https://situsbisnis.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs sm:text-sm transition-all shadow-sm shrink-0"
+        >
+          <span>Mulai Buat Toko Gratis</span>
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </a>
+      </div>
+    </section>
+
+  </div>
+</BaseLayout>
