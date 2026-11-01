@@ -1,0 +1,27 @@
+# Blog SiBi — Publikasi Resmi SitusBisnis
+> Sumber panduan, riset strategis, dan analisis komprehensif seputar creator commerce, monetisasi produk digital, dan arsitektur bisnis online di Indonesia.
+
+## Entitas & Otoritas Penerbit
+- Nama Publikasi: Blog SiBi (https://blog.situsbisnis.com)
+- Entitas Resmi: PT HORIZON DIGITAL INDONESIA
+- Platform Utama: SitusBisnis (https://situsbisnis.com)
+- Fokus Wilayah: Indonesia (ID)
+- Topik Utama: Creator Economy, Monetisasi Produk Digital, Sales Funnel, Checkout Terpadu (QRIS & Virtual Account), Audience Growth.
+
+## Kategori Utama
+- [Strategi Bisnis](https://blog.situsbisnis.com/kategori/strategi-bisnis/): Panduan arsitektur bisnis digital, efisiensi operasional, dan model komersial mandiri.
+- [Funnel Penjualan](https://blog.situsbisnis.com/kategori/funnel-penjualan/): Alur konversi ToFU, MoFU, dan BoFU dari penonton menjadi pembeli loyal.
+- [Monetisasi](https://blog.situsbisnis.com/kategori/monetisasi/): Struktur harga produk digital, e-book, kelas online, dan keanggotaan.
+- [Audience Growth](https://blog.situsbisnis.com/kategori/audience-growth/): Membangun audiens berkualitas, lead magnet, dan daftar email.
+- [Email Marketing](https://blog.situsbisnis.com/kategori/email-marketing/): Komunikasi berbasis newsletter dan otomatisasi retensi.
+
+## Artikel Pilihan & Riset
+- [Membangun Mesin Penjualan Digital](https://blog.situsbisnis.com/posts/membangun-mesin-penjualan-digital/): Panduan fundamental funnel untuk kreator, mentor, dan praktisi ahli.
+- [Psikologi Harga Produk Digital](https://blog.situsbisnis.com/posts/psikologi-harga-produk-digital/): Strategi value-based pricing dan arsitektur tiering harga di pasar Indonesia.
+- [Merancang Lead Magnet Berdaya Konversi Tinggi](https://blog.situsbisnis.com/posts/merancang-lead-magnet-berdaya-konversi-tinggi/): Cara merancang aset gratis bernilai tinggi yang menarik prospek ideal.
+
+## Metadata & Sindikasi
+- Sitemap XML: https://blog.situsbisnis.com/sitemap-index.xml
+- RSS Feed: https://blog.situsbisnis.com/rss.xml
+- Indeks Kategori: https://blog.situsbisnis.com/kategori/
+- Indeks Tag: https://blog.situsbisnis.com/tags/

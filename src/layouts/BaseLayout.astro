@@ -57,6 +57,25 @@ const organizationSchema = {
     'url': `${siteUrl}/logo.png`,
     'caption': 'SitusBisnis'
   },
+  'address': {
+    '@type': 'PostalAddress',
+    'streetAddress': 'Jln. Apel III, No 81, Kel. Sukaramai, Kec. Binjai Barat',
+    'addressLocality': 'Kota Binjai',
+    'addressRegion': 'Sumatera Utara',
+    'postalCode': '20717',
+    'addressCountry': 'ID'
+  },
+  'areaServed': {
+    '@type': 'Country',
+    'name': 'Indonesia'
+  },
+  'knowsAbout': [
+    'Creator Economy',
+    'Digital Business',
+    'Sales Funnel',
+    'E-commerce Indonesia',
+    'Monetisasi Produk Digital'
+  ],
   'sameAs': [
     'https://instagram.com',
     'https://x.com',
@@ -106,6 +125,10 @@ const articleSchema = type === 'article' ? {
   },
   'inLanguage': 'id-ID',
   'articleSection': section,
+  'speakable': {
+    '@type': 'SpeakableSpecification',
+    'cssSelector': ['h1', 'header p', '.prose > p']
+  },
   'keywords': tags.length > 0 ? tags.join(', ') : undefined
 } : null;
 
@@ -137,6 +160,11 @@ const breadcrumbSchema = breadcrumbs.length > 0 ? {
 
     <!-- Canonical URL -->
     <link rel="canonical" href={currentCanonical} />
+
+    <!-- Geographic & Localization Meta Tags (GEO) -->
+    <meta name="geo.region" content="ID" />
+    <meta name="geo.placename" content="Indonesia" />
+    <meta name="language" content="Indonesian" />
 
     <!-- RSS Feed Discovery -->
     <link rel="alternate" type="application/rss+xml" title="Blog SiBi — RSS Feed" href="/rss.xml" />
