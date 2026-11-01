@@ -120,6 +120,37 @@ const allCategories = ['Semua', ...Array.from(new Set(sortedPosts.flatMap(p => p
       </section>
     )}
 
+    <!-- Spotlight: Masterclass Seri Khusus (Full Edge on mobile) -->
+    <section class="mb-10 sm:mb-16">
+      <div class="rounded-none sm:rounded-2xl border-x-0 sm:border border-y sm:border-y border-amber-300/80 bg-gradient-to-r from-amber-500/10 via-amber-100/30 to-amber-500/5 px-4 py-4 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div class="flex items-start sm:items-center gap-3.5">
+          <div class="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center font-bold text-lg shrink-0 shadow-2xs">
+            📚
+          </div>
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-amber-900 bg-amber-200/80 px-2 py-0.2 rounded-full">
+                Seri Panduan Lengkap
+              </span>
+              <span class="text-xs text-amber-800 font-medium hidden sm:inline">7 Bagian Terstruktur</span>
+            </div>
+            <h3 class="text-sm sm:text-base font-black text-slate-950">
+              Cetak Biru Creator Commerce: Dari 0 Sampai Penjualan Mandiri
+            </h3>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2 w-full sm:w-auto shrink-0">
+          <a
+            href="/seri/cetak-biru-creator-commerce/"
+            class="w-full sm:w-auto text-center px-4 py-2 rounded-xl bg-slate-950 hover:bg-slate-800 active:scale-95 text-white font-bold text-xs transition-all shadow-2xs"
+          >
+            Buka Silabus Seri →
+          </a>
+        </div>
+      </div>
+    </section>
+
     <!-- 3. All Articles Grid (Full edge on mobile, 3-column cards on desktop) -->
     <section class="mb-14 sm:mb-24">
       <div class="px-4 sm:px-0 flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-3 sm:pb-4 mb-6 sm:mb-8 border-b border-slate-200">
