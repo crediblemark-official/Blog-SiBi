@@ -18,16 +18,16 @@ const allCategories = ['Semua', ...Array.from(new Set(sortedPosts.flatMap(p => p
   <!-- Main Page Container (Full edge on mobile px-0, padded on desktop) -->
   <div class="w-full max-w-7xl mx-auto px-0 sm:px-6 lg:px-8 py-4 sm:py-12 lg:py-14">
     
-    <!-- 1. Header / Intro Hero Section (Padded on mobile) -->
-    <header class="w-full max-w-3xl px-4 sm:px-0 mb-8 sm:mb-14">
-      <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-900 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-3 sm:mb-4 font-mono">
+    <!-- 1. Header / Intro Hero Section (Centered) -->
+    <header class="w-full max-w-3xl mx-auto px-4 sm:px-6 mb-10 sm:mb-16 text-center flex flex-col items-center">
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-900 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-3.5 sm:mb-4 font-mono">
         <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
         Publikasi Resmi SitusBisnis
       </div>
-      <h1 class="text-2xl sm:text-4xl lg:text-5xl font-black tracking-tight text-slate-950 leading-[1.18] mb-2.5 sm:mb-4">
+      <h1 class="text-2xl sm:text-4xl lg:text-5xl font-black tracking-tight text-slate-950 leading-[1.18] mb-3 sm:mb-4 max-w-2xl">
         Catatan Strategis, Riset, & Panduan Bisnis Digital
       </h1>
-      <p class="text-xs sm:text-base lg:text-lg text-slate-600 leading-relaxed font-normal">
+      <p class="text-xs sm:text-base lg:text-lg text-slate-600 leading-relaxed font-normal max-w-2xl">
         Tulisan mendalam tanpa basa-basi untuk membantu kreator, mentor, dan pengusaha digital membangun ekosistem bisnis yang menguntungkan dan mandiri.
       </p>
     </header>
