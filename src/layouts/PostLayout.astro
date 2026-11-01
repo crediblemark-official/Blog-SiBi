@@ -35,89 +35,90 @@ const filteredHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
 ---
 
 <BaseLayout title={title} description={description} type="article">
-  <!-- Full edge on mobile (px-0 py-0), padded container on desktop -->
-  <div class="w-full max-w-7xl mx-auto px-0 sm:px-6 lg:px-8 py-0 sm:py-8 lg:py-10">
-    
-    <!-- Main Layout Grid: Full edge on mobile / 12-column on desktop -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-0 lg:gap-10 items-start">
+  <!-- Article Header Section (Seamless full-bleed on clean white, no card box) -->
+  <header class="w-full bg-white border-b border-slate-200/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 sm:pt-10 pb-6 sm:pb-8">
       
-      <!-- Article Area: Full Edge on Mobile (flush edge-to-edge, zero outer card box) -->
-      <main class="w-full lg:col-span-8 bg-white px-4 py-5 sm:px-8 sm:py-10 lg:p-12 rounded-none sm:rounded-xl border-x-0 border-t-0 sm:border border-slate-200/80 shadow-none sm:shadow-2xs">
-        
-        <!-- Mobile-First Breadcrumbs (Inside content flow) -->
-        <nav class="flex items-center gap-1.5 text-xs text-slate-500 mb-4 sm:mb-8" aria-label="Breadcrumb">
-          <a href="/" class="hover:text-amber-600 transition-colors flex items-center gap-1">
-            <svg class="w-3.5 h-3.5 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-            </svg>
-            <span>Beranda</span>
-          </a>
-          <span class="text-slate-300">/</span>
-          <span class="inline-flex items-center text-amber-800 bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200/70 font-semibold text-[11px] truncate max-w-[200px] sm:max-w-none">
-            {primaryCategory}
-          </span>
-        </nav>
+      <!-- Clean Breadcrumbs -->
+      <nav class="flex items-center gap-1.5 text-xs text-slate-500 mb-3 sm:mb-4" aria-label="Breadcrumb">
+        <a href="/" class="hover:text-amber-600 transition-colors flex items-center gap-1 font-medium">
+          <svg class="w-3.5 h-3.5 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+          </svg>
+          <span>Beranda</span>
+        </a>
+        <span class="text-slate-300">/</span>
+        <span class="inline-flex items-center text-amber-800 bg-amber-50 px-2.5 py-0.5 rounded-full border border-amber-200/70 font-semibold text-[11px]">
+          {primaryCategory}
+        </span>
+      </nav>
 
-        <!-- Article Header -->
-        <header class="mb-8 pb-6 border-b border-slate-100">
-          <h1 class="text-2xl sm:text-3xl lg:text-[38px] font-black tracking-tight text-slate-950 leading-[1.25] mb-3 sm:mb-4">
-            {title}
-          </h1>
+      <!-- Main Headline -->
+      <h1 class="text-2xl sm:text-4xl lg:text-[42px] font-black tracking-tight text-slate-950 leading-[1.2] max-w-4xl mb-3 sm:mb-4">
+        {title}
+      </h1>
 
-          <p class="text-sm sm:text-base lg:text-lg text-slate-600 leading-relaxed font-normal mb-5 sm:mb-6">
-            {description}
-          </p>
+      <!-- Excerpt -->
+      <p class="text-sm sm:text-base lg:text-lg text-slate-600 leading-relaxed font-normal max-w-3xl mb-6">
+        {description}
+      </p>
 
-          <!-- Author & Time Row -->
-          <div class="flex flex-wrap items-center justify-between gap-3 pt-3.5 border-t border-slate-100 text-xs text-slate-500">
-            <div class="flex items-center gap-2.5">
-              <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-amber-50 border border-amber-200 flex items-center justify-center p-1 shrink-0">
-                <img src="/logo.png" alt="SitusBisnis" class="w-full h-full object-contain" />
-              </div>
-              <div>
-                <span class="font-bold text-slate-900 block leading-tight">{author}</span>
-                <span class="text-slate-400 text-[10px] sm:text-[11px]">SitusBisnis Editorial</span>
-              </div>
-            </div>
-
-            <div class="flex items-center gap-2.5 sm:gap-3 text-xs font-medium text-slate-500">
-              <span class="flex items-center gap-1 text-[11px] sm:text-xs">
-                <svg class="w-3.5 h-3.5 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-                {formattedDate}
-              </span>
-              <span>•</span>
-              <span class="flex items-center gap-1 text-amber-800 bg-amber-50 px-2 py-0.5 rounded font-mono text-[10px] sm:text-[11px] font-semibold border border-amber-200/60 shrink-0">
-                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                {readingTimeMinutes} mnt baca
-              </span>
-            </div>
+      <!-- Meta Author & Timestamp Row -->
+      <div class="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-slate-100 text-xs text-slate-500">
+        <div class="flex items-center gap-2.5">
+          <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-amber-50 border border-amber-200 flex items-center justify-center p-1 shrink-0">
+            <img src="/logo.png" alt="SitusBisnis" class="w-full h-full object-contain" />
           </div>
-        </header>
+          <div>
+            <span class="font-bold text-slate-900 block leading-tight">{author}</span>
+            <span class="text-slate-400 text-[10px] sm:text-[11px]">SitusBisnis Editorial</span>
+          </div>
+        </div>
 
-        <!-- Markdown Body (Full Edge Natural Reading Flow) -->
+        <div class="flex items-center gap-2.5 sm:gap-3 text-xs font-medium text-slate-500">
+          <span class="flex items-center gap-1 text-[11px] sm:text-xs">
+            <svg class="w-3.5 h-3.5 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            {formattedDate}
+          </span>
+          <span>•</span>
+          <span class="flex items-center gap-1 text-amber-800 bg-amber-50 px-2 py-0.5 rounded font-mono text-[10px] sm:text-[11px] font-semibold border border-amber-200/60 shrink-0">
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            {readingTimeMinutes} mnt baca
+          </span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Article Body & Sidebar Container (Pure Unboxed Editorial Flow) -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-start">
+      
+      <!-- Unboxed Article Body -->
+      <main class="w-full lg:col-span-8 min-w-0">
         <article class="prose prose-slate prose-base sm:prose-lg max-w-none 
           prose-headings:font-black prose-headings:tracking-tight prose-headings:text-slate-950
-          prose-h2:text-xl sm:prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4 prose-h2:pb-2 prose-h2:border-b prose-h2:border-slate-100
-          prose-h3:text-lg sm:prose-h3:text-xl prose-h3:mt-6 prose-h3:mb-2
-          prose-p:text-slate-700 prose-p:leading-[1.75] prose-p:mb-5
+          prose-h2:text-xl sm:prose-h2:2xl prose-h2:mt-12 prose-h2:mb-4 prose-h2:pb-2 prose-h2:border-b prose-h2:border-slate-100
+          prose-h3:text-lg sm:prose-h3:xl prose-h3:mt-8 prose-h3:mb-3
+          prose-p:text-slate-700 prose-p:leading-[1.8] prose-p:mb-6
           prose-a:text-amber-600 prose-a:font-semibold hover:prose-a:text-amber-700 prose-a:underline-offset-4
           prose-strong:text-slate-950 prose-strong:font-bold
-          prose-blockquote:border-l-4 prose-blockquote:border-amber-500 prose-blockquote:bg-amber-50/50 prose-blockquote:py-3 prose-blockquote:px-4 prose-blockquote:rounded-r-lg prose-blockquote:text-slate-800 prose-blockquote:not-italic
+          prose-blockquote:border-l-4 prose-blockquote:border-amber-500 prose-blockquote:bg-amber-50/40 prose-blockquote:py-3.5 prose-blockquote:px-5 prose-blockquote:rounded-r-lg prose-blockquote:text-slate-800 prose-blockquote:not-italic
           prose-table:text-xs sm:prose-table:text-sm
-          prose-th:bg-slate-50 prose-th:p-2.5 prose-th:text-slate-900
-          prose-td:p-2.5 prose-td:border-t prose-td:border-slate-100
+          prose-th:bg-slate-50 prose-th:p-3 prose-th:text-slate-900
+          prose-td:p-3 prose-td:border-t prose-td:border-slate-100
           prose-code:text-amber-700 prose-code:bg-amber-50 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-xs prose-code:font-mono
-          prose-pre:bg-slate-950 prose-pre:text-slate-100 prose-pre:rounded-lg prose-pre:p-3 sm:prose-pre:p-4 prose-pre:border prose-pre:border-slate-800">
+          prose-pre:bg-slate-950 prose-pre:text-slate-100 prose-pre:rounded-xl prose-pre:p-4 sm:prose-pre:p-5 prose-pre:border prose-pre:border-slate-800">
           <slot />
         </article>
 
-        <!-- Tags List -->
+        <!-- Topic Tags List -->
         {tags.length > 0 && (
-          <div class="mt-8 pt-5 border-t border-slate-100 flex flex-wrap items-center gap-2">
+          <div class="mt-12 pt-6 border-t border-slate-100 flex flex-wrap items-center gap-2">
             <span class="text-xs font-bold uppercase tracking-wider text-slate-400 mr-1 font-mono">Topik:</span>
             {tags.map((tag) => (
               <span class="text-xs font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 px-2.5 py-1 rounded-md transition-colors">
@@ -127,24 +128,24 @@ const filteredHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
           </div>
         )}
 
-        <!-- Mobile-First Call-to-Action (Full edge on mobile, card on desktop) -->
-        <section class="mt-10 -mx-4 px-4 py-6 sm:mx-0 sm:p-8 rounded-none sm:rounded-xl bg-gradient-to-br from-amber-500/10 via-amber-500/5 to-transparent border-y sm:border border-amber-500/25 relative overflow-hidden">
+        <!-- Embedded Call-to-Action (Natural Editorial Bridge) -->
+        <section class="mt-14 p-6 sm:p-8 rounded-2xl bg-amber-500/5 border border-amber-500/20 relative overflow-hidden">
           <div class="relative z-10">
-            <div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-amber-600 text-white font-bold text-[10px] uppercase tracking-wider mb-2.5">
-              Creator Solution
+            <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-600 text-white font-bold text-[10px] uppercase tracking-wider mb-3">
+              Solusi Terpadu
             </div>
             <h3 class="text-lg sm:text-2xl font-black text-slate-950 tracking-tight mb-2">
               Siap Menerapkan Strategi di Atas pada Bisnis Anda?
             </h3>
-            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-5 max-w-2xl">
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-6 max-w-2xl">
               Gunakan platform <strong>SitusBisnis</strong> untuk membuat landing page visual siap konversi, menjual e-book, kelas online, layanan konsultasi, hingga produk fisik dengan checkout instan (QRIS & Virtual Account).
             </p>
-            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3">
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
               <a 
                 href="https://situsbisnis.com" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-amber-600 hover:bg-amber-700 active:scale-95 text-white font-bold text-xs sm:text-sm transition-all shadow-sm"
+                class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 active:scale-95 text-white font-bold text-xs sm:text-sm transition-all shadow-sm"
               >
                 <span>Mulai Buat Toko Gratis</span>
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -155,7 +156,7 @@ const filteredHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
                 href="https://situsbisnis.com/#features" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                class="inline-flex items-center justify-center px-4 py-2 rounded-lg text-slate-700 hover:text-slate-950 font-semibold text-xs sm:text-sm transition-colors text-center"
+                class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl text-slate-700 hover:text-slate-950 font-semibold text-xs sm:text-sm transition-colors text-center"
               >
                 Lihat Semua Fitur →
               </a>
@@ -164,27 +165,27 @@ const filteredHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
         </section>
       </main>
 
-      <!-- Sticky Sidebar for Desktop (≥ lg) -->
+      <!-- Desktop Sticky Sidebar (TOC & About) -->
       <aside class="hidden lg:block lg:col-span-4 sticky top-24 space-y-6">
         
         <!-- Table of Contents Card -->
         {filteredHeadings.length > 0 && (
-          <div class="bg-white p-6 rounded-xl border border-slate-200/80 shadow-2xs">
+          <div class="p-5 rounded-2xl bg-slate-50/80 border border-slate-200/80">
             <h3 class="text-xs font-black uppercase tracking-wider text-slate-400 mb-4 font-mono flex items-center gap-2">
               <svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
               </svg>
               Daftar Isi Esai
             </h3>
-            <nav class="space-y-1 text-sm max-h-[60vh] overflow-y-auto scrollbar-hover pr-1">
+            <nav class="space-y-1 text-xs sm:text-[13px] max-h-[60vh] overflow-y-auto pr-1">
               {filteredHeadings.map((heading) => (
                 <a
                   href={`#${heading.slug}`}
                   class:list={[
                     'block py-1.5 transition-colors line-clamp-1',
                     heading.depth === 2
-                      ? 'font-semibold text-slate-700 hover:text-amber-600'
-                      : 'pl-4 text-xs text-slate-500 hover:text-amber-600'
+                      ? 'font-semibold text-slate-800 hover:text-amber-600'
+                      : 'pl-4 text-slate-500 hover:text-amber-600 text-xs'
                   ]}
                 >
                   {heading.text}
@@ -195,8 +196,8 @@ const filteredHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
         )}
 
         <!-- Quick About Card -->
-        <div class="bg-slate-900 text-white p-6 rounded-xl shadow-2xs">
-          <div class="flex items-center gap-2.5 mb-3">
+        <div class="p-5 rounded-2xl bg-slate-900 text-white shadow-xs">
+          <div class="flex items-center gap-2.5 mb-2.5">
             <img src="/logo.png" alt="SitusBisnis" class="w-6 h-6 object-contain" />
             <span class="font-bold text-sm tracking-tight">Tentang Blog SiBi</span>
           </div>
