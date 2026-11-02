@@ -225,6 +225,85 @@
       font-weight: 600 !important;
     }
 
+    /* Filter Kategori Sub-Tree di Bawah Collections / Artikel Blog */
+    .sibi-category-tree {
+      margin: 0.35rem 0.65rem 0.75rem;
+      padding: 0.5rem;
+      background: rgba(15, 23, 42, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 0.625rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+    .sibi-category-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.2rem 0.35rem 0.35rem;
+    }
+    .sibi-cat-label {
+      font-size: 0.625rem;
+      font-weight: 700;
+      color: #94a3b8;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .sibi-cat-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+    .sibi-cat-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 0.5rem;
+      border-radius: 0.375rem;
+      background: transparent;
+      border: 1px solid transparent;
+      color: #cbd5e1;
+      font-size: 0.75rem;
+      font-weight: 500;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.15s ease;
+      width: 100%;
+    }
+    .sibi-cat-item:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: #ffffff;
+    }
+    .sibi-cat-item.active {
+      background: rgba(245, 158, 11, 0.15);
+      border-color: rgba(245, 158, 11, 0.3);
+      color: #fbbf24;
+      font-weight: 600;
+    }
+    .sibi-cat-icon {
+      font-size: 0.8125rem;
+      flex: none;
+    }
+    .sibi-cat-name {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .sibi-cat-badge {
+      font-size: 0.6875rem;
+      color: #64748b;
+      font-weight: 600;
+      background: rgba(0, 0, 0, 0.25);
+      padding: 0.1rem 0.35rem;
+      border-radius: 9999px;
+      flex: none;
+    }
+    .sibi-cat-item.active .sibi-cat-badge {
+      color: #fbbf24;
+      background: rgba(245, 158, 11, 0.25);
+    }
+
     /* Sidebar Extension Box (Mengisi kekosongan bawah collection) */
     .sibi-sidebar-box {
       margin-top: auto;
@@ -490,10 +569,97 @@
       startSidebarObserver();
     }
 
+    // Filter Kategori
+    function applyCategoryFilter(catName) {
+      document.querySelectorAll('.sibi-cat-item').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.category === catName);
+      });
+
+      const searchInput = document.querySelector('.search-bar input, input[type="search"]');
+      if (searchInput) {
+        const proto = Object.getPrototypeOf(searchInput);
+        const nativeSet = Object.getOwnPropertyDescriptor(proto, 'value')?.set;
+        if (nativeSet) {
+          nativeSet.call(searchInput, catName);
+        } else {
+          searchInput.value = catName;
+        }
+        searchInput.dispatchEvent(new Event('input', { bubbles: true }));
+        searchInput.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    }
+
+    // Injeksi Tree Kategori di bawah tombol Collections / Artikel Blog
+    function injectCategoryTree(sidebar) {
+      const listbox = sidebar.querySelector('[role="listbox"]');
+      if (!listbox) return;
+      if (sidebar.querySelector('#sibi-category-tree')) return;
+
+      const tree = document.createElement('div');
+      tree.id = 'sibi-category-tree';
+      tree.className = 'sibi-category-tree';
+      tree.innerHTML = `
+        <div class="sibi-category-header">
+          <span class="sibi-cat-label">KATEGORI ARTIKEL</span>
+        </div>
+        <div class="sibi-cat-list">
+          <button type="button" class="sibi-cat-item active" data-category="">
+            <span class="sibi-cat-icon">📑</span>
+            <span class="sibi-cat-name">Semua Artikel</span>
+            <span class="sibi-cat-badge">63</span>
+          </button>
+          <button type="button" class="sibi-cat-item" data-category="Strategi Bisnis">
+            <span class="sibi-cat-icon">💼</span>
+            <span class="sibi-cat-name">Strategi Bisnis</span>
+            <span class="sibi-cat-badge">48</span>
+          </button>
+          <button type="button" class="sibi-cat-item" data-category="Monetisasi">
+            <span class="sibi-cat-icon">💰</span>
+            <span class="sibi-cat-name">Monetisasi</span>
+            <span class="sibi-cat-badge">42</span>
+          </button>
+          <button type="button" class="sibi-cat-item" data-category="Funnel Penjualan">
+            <span class="sibi-cat-icon">🎯</span>
+            <span class="sibi-cat-name">Funnel Penjualan</span>
+            <span class="sibi-cat-badge">20</span>
+          </button>
+          <button type="button" class="sibi-cat-item" data-category="Audience Growth">
+            <span class="sibi-cat-icon">🚀</span>
+            <span class="sibi-cat-name">Audience Growth</span>
+            <span class="sibi-cat-badge">11</span>
+          </button>
+          <button type="button" class="sibi-cat-item" data-category="Email Marketing">
+            <span class="sibi-cat-icon">✉️</span>
+            <span class="sibi-cat-name">Email Marketing</span>
+            <span class="sibi-cat-badge">5</span>
+          </button>
+        </div>
+      `;
+
+      listbox.after(tree);
+
+      tree.querySelectorAll('.sibi-cat-item').forEach(btn => {
+        btn.addEventListener('click', () => {
+          applyCategoryFilter(btn.dataset.category);
+        });
+      });
+
+      const mainBtn = listbox.querySelector('button');
+      if (mainBtn && !mainBtn.dataset.sibiHooked) {
+        mainBtn.dataset.sibiHooked = 'true';
+        mainBtn.addEventListener('click', () => {
+          applyCategoryFilter('');
+        });
+      }
+    }
+
     // Injeksi Widget ke Sidebar agar bagian bawah tidak kosong
     function injectSidebarExtension() {
       const sidebar = document.querySelector('.primary-sidebar');
       if (!sidebar) return;
+
+      injectCategoryTree(sidebar);
+
       if (sidebar.querySelector('#sibi-sidebar-extension')) return;
 
       const ext = document.createElement('div');
