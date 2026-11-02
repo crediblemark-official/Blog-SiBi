@@ -16,7 +16,7 @@ const blog = defineCollection({
       name: z.string(),
       part: z.number(),
       totalParts: z.number().optional(),
-    }).optional(),
+    }).optional().nullable(),
   }),
 });
 
