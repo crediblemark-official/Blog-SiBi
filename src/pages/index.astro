@@ -2,8 +2,10 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 import { slugify } from '../utils/slug';
+import { getAllSeries } from '../utils/series';
 
 const posts = await getCollection('blog');
+const allSeries = getAllSeries(posts);
 const sortedPosts = posts.sort(
   (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
 );
@@ -52,7 +54,7 @@ const allCategories = ['Semua', ...Array.from(new Set(sortedPosts.flatMap(p => p
               class="lg:col-span-7 aspect-[16/10] lg:aspect-[16/11] overflow-hidden bg-slate-100 block relative"
             >
               <img 
-                src={featuredPost.data.image || "/images/posts/funnel-cover.jpg"} 
+                src={featuredPost.data.image || "/images/posts/creator-commerce-cover.svg"} 
                 alt={featuredPost.data.title}
                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 loading="eager"
@@ -120,36 +122,77 @@ const allCategories = ['Semua', ...Array.from(new Set(sortedPosts.flatMap(p => p
       </section>
     )}
 
-    <!-- Spotlight: Masterclass Seri Khusus (Full Edge on mobile) -->
-    <section class="mb-10 sm:mb-16">
-      <div class="rounded-none sm:rounded-2xl border-x-0 sm:border border-y sm:border-y border-amber-300/80 bg-gradient-to-r from-amber-500/10 via-amber-100/30 to-amber-500/5 px-4 py-4 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div class="flex items-start sm:items-center gap-3.5">
-          <div class="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center font-bold text-lg shrink-0 shadow-2xs">
-            📚
-          </div>
-          <div>
-            <div class="flex items-center gap-2 mb-1">
-              <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-amber-900 bg-amber-200/80 px-2 py-0.2 rounded-full">
-                Seri Panduan Lengkap
-              </span>
-              <span class="text-xs text-amber-800 font-medium hidden sm:inline">7 Bagian Terstruktur</span>
+    <!-- Spotlight: Masterclass Seri Khusus -->
+    {allSeries.length > 0 && (
+      <section class="mb-12 sm:mb-20">
+        <div class="px-4 sm:px-0 flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 sm:pb-4 mb-5 sm:mb-6 border-b border-slate-200">
+          <div class="flex items-center gap-2.5">
+            <span class="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse"></span>
+            <div>
+              <h2 class="text-base sm:text-xl font-black text-slate-950 tracking-tight">
+                Seri Panduan &amp; Masterclass Terstruktur
+              </h2>
+              <p class="text-[11px] sm:text-xs text-slate-500 mt-0.5">
+                Kurikulum mendalam dari 0 sampai selesai untuk membangun ekosistem bisnis digital mandiri.
+              </p>
             </div>
-            <h3 class="text-sm sm:text-base font-black text-slate-950">
-              Cetak Biru Creator Commerce: Dari 0 Sampai Penjualan Mandiri
-            </h3>
           </div>
-        </div>
-
-        <div class="flex items-center gap-2 w-full sm:w-auto shrink-0">
-          <a
-            href="/seri/cetak-biru-creator-commerce/"
-            class="w-full sm:w-auto text-center px-4 py-2 rounded-xl bg-slate-950 hover:bg-slate-800 active:scale-95 text-white font-bold text-xs transition-all shadow-2xs"
+          <a 
+            href="/seri/"
+            class="text-xs sm:text-sm font-bold text-amber-600 hover:text-amber-700 transition-colors inline-flex items-center gap-1 shrink-0 self-start sm:self-auto"
           >
-            Buka Silabus Seri →
+            <span>Lihat Semua Seri ({allSeries.length})</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
           </a>
         </div>
-      </div>
-    </section>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 px-4 sm:px-0">
+          {allSeries.map((s) => {
+            const firstPost = s.posts[0];
+            const firstSlug = firstPost?.id.replace(/\.mdx?$/, '');
+            return (
+              <div class="group bg-white rounded-2xl border border-slate-200/90 hover:border-amber-400 p-5 sm:p-6 transition-all duration-300 hover:shadow-md flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center justify-between gap-2 text-xs font-mono mb-3">
+                    <span class="px-2.5 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-900 font-bold text-[10px] sm:text-xs">
+                      📚 {s.posts.length} Bagian
+                    </span>
+                    <span class="text-slate-400 text-[10px]">Kurikulum</span>
+                  </div>
+                  <h3 class="text-base sm:text-lg font-black text-slate-950 group-hover:text-amber-600 transition-colors leading-snug mb-2.5">
+                    <a href={`/seri/${s.id}/`}>
+                      {s.name}
+                    </a>
+                  </h3>
+                  <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed mb-4">
+                    {firstPost?.data.description || 'Panduan kurikulum bertahap dari awal hingga selesai.'}
+                  </p>
+                </div>
+
+                <div class="pt-4 border-t border-slate-100 flex items-center justify-between gap-2">
+                  <a
+                    href={`/seri/${s.id}/`}
+                    class="text-xs font-bold text-slate-600 hover:text-slate-950 transition-colors"
+                  >
+                    Buka Silabus →
+                  </a>
+                  {firstSlug && (
+                    <a
+                      href={`/posts/${firstSlug}/`}
+                      class="px-3.5 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-700 active:scale-95 text-white font-bold text-xs transition-all shadow-2xs"
+                    >
+                      Mulai Baca
+                    </a>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+    )}
 
     <!-- 3. All Articles Grid (Full edge on mobile, 3-column cards on desktop) -->
     <section class="mb-14 sm:mb-24">
@@ -201,7 +244,7 @@ const allCategories = ['Semua', ...Array.from(new Set(sortedPosts.flatMap(p => p
             >
               <a href={`/posts/${postSlug}/`} class="aspect-[16/10] overflow-hidden bg-slate-100 block relative">
                 <img 
-                  src={post.data.image || "/images/posts/funnel-cover.jpg"} 
+                  src={post.data.image || "/images/posts/creator-commerce-cover.svg"} 
                   alt={post.data.title}
                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   loading="lazy"
@@ -243,6 +286,32 @@ const allCategories = ['Semua', ...Array.from(new Set(sortedPosts.flatMap(p => p
             </article>
           );
         })}
+      </div>
+
+      <!-- Load More & Status Area -->
+      <div id="load-more-container" class="mt-8 sm:mt-12 flex flex-col items-center justify-center text-center">
+        <button
+          id="load-more-btn"
+          type="button"
+          class="group inline-flex items-center gap-2.5 px-6 py-3 rounded-full bg-slate-950 hover:bg-amber-600 active:scale-95 text-white font-bold text-xs sm:text-sm shadow-sm hover:shadow transition-all duration-200 cursor-pointer"
+        >
+          <span>Muat Lebih Banyak</span>
+          <svg class="w-4 h-4 text-slate-300 group-hover:text-white transition-transform duration-200 group-hover:translate-y-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <p id="post-count-label" class="text-xs text-slate-400 mt-3 font-mono"></p>
+      </div>
+
+      <!-- Empty State for Filter -->
+      <div id="empty-posts-state" class="hidden py-14 text-center">
+        <div class="w-12 h-12 mx-auto mb-3 rounded-full bg-slate-100 flex items-center justify-center text-slate-400">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+          </svg>
+        </div>
+        <p class="text-sm font-semibold text-slate-700">Belum ada artikel dalam kategori ini</p>
+        <p class="text-xs text-slate-400 mt-1">Silakan pilih kategori lain atau kembali ke "Semua".</p>
       </div>
     </section>
 
@@ -312,32 +381,142 @@ const allCategories = ['Semua', ...Array.from(new Set(sortedPosts.flatMap(p => p
   </div>
 </BaseLayout>
 
+<style>
+  @keyframes fadeInCard {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .card-fade-in {
+    animation: fadeInCard 0.25s ease-out forwards;
+  }
+</style>
+
 <script>
-  // Interactive Category Filter Logic
-  const filterBtns = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
-  const postCards = document.querySelectorAll<HTMLElement>('.post-card');
+  function initPostsPagination() {
+    const filterBtns = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+    const postCards = Array.from(document.querySelectorAll<HTMLElement>('.post-card'));
+    const loadMoreContainer = document.getElementById('load-more-container');
+    const loadMoreBtn = document.getElementById('load-more-btn');
+    const postCountLabel = document.getElementById('post-count-label');
+    const emptyState = document.getElementById('empty-posts-state');
 
-  filterBtns.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const selected = btn.dataset.cat || 'Semua';
-      
-      // Update active button state
-      filterBtns.forEach((b) => {
-        b.classList.remove('bg-slate-950', 'text-white', 'font-bold', 'shadow-2xs');
-        b.classList.add('bg-slate-100', 'text-slate-600');
+    if (!postCards.length) return;
+
+    const BATCH_SIZE = 9;
+    let currentCategory = 'Semua';
+    let visibleLimit = BATCH_SIZE;
+
+    function render() {
+      // Find cards matching current active category
+      const matchingCards = postCards.filter((card) => {
+        const cats = card.dataset.categories || '';
+        return currentCategory === 'Semua' || cats.includes(currentCategory);
       });
-      btn.classList.remove('bg-slate-100', 'text-slate-600');
-      btn.classList.add('bg-slate-950', 'text-white', 'font-bold', 'shadow-2xs');
 
-      // Filter cards
+      // Hide all non-matching cards immediately
       postCards.forEach((card) => {
         const cats = card.dataset.categories || '';
-        if (selected === 'Semua' || cats.includes(selected)) {
-          card.style.display = 'flex';
-        } else {
+        const isMatch = currentCategory === 'Semua' || cats.includes(currentCategory);
+        if (!isMatch) {
           card.style.display = 'none';
+          card.classList.remove('card-fade-in');
         }
       });
+
+      // Show matching cards up to visibleLimit
+      matchingCards.forEach((card, idx) => {
+        if (idx < visibleLimit) {
+          const wasHidden = card.style.display === 'none';
+          card.style.display = 'flex';
+          if (wasHidden) {
+            card.classList.add('card-fade-in');
+          }
+        } else {
+          card.style.display = 'none';
+          card.classList.remove('card-fade-in');
+        }
+      });
+
+      const totalMatching = matchingCards.length;
+      const currentlyShown = Math.min(visibleLimit, totalMatching);
+
+      // Handle Empty State
+      if (emptyState) {
+        emptyState.style.display = totalMatching === 0 ? 'block' : 'none';
+      }
+
+      // Handle Load More Container & Button
+      if (loadMoreContainer) {
+        if (totalMatching === 0) {
+          loadMoreContainer.style.display = 'none';
+        } else {
+          loadMoreContainer.style.display = 'flex';
+        }
+      }
+
+      if (loadMoreBtn) {
+        if (currentlyShown < totalMatching) {
+          loadMoreBtn.style.display = 'inline-flex';
+          const remaining = totalMatching - currentlyShown;
+          const btnSpan = loadMoreBtn.querySelector('span');
+          if (btnSpan) {
+            btnSpan.textContent = `Muat Lebih Banyak (${remaining} tersisa)`;
+          }
+        } else {
+          loadMoreBtn.style.display = 'none';
+        }
+      }
+
+      // Handle Post Count Label
+      if (postCountLabel) {
+        if (totalMatching === 0) {
+          postCountLabel.textContent = '';
+        } else if (currentlyShown >= totalMatching) {
+          postCountLabel.textContent = `Menampilkan semua ${totalMatching} artikel`;
+        } else {
+          postCountLabel.textContent = `Menampilkan ${currentlyShown} dari total ${totalMatching} artikel`;
+        }
+      }
+    }
+
+    // Attach filter button click handlers
+    filterBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const selected = btn.dataset.cat || 'Semua';
+        currentCategory = selected;
+        visibleLimit = BATCH_SIZE; // reset visible batch on category switch
+
+        // Update active filter button styling
+        filterBtns.forEach((b) => {
+          b.classList.remove('bg-slate-950', 'text-white', 'font-bold', 'shadow-2xs');
+          b.classList.add('bg-slate-100', 'text-slate-600');
+        });
+        btn.classList.remove('bg-slate-100', 'text-slate-600');
+        btn.classList.add('bg-slate-950', 'text-white', 'font-bold', 'shadow-2xs');
+
+        render();
+      });
     });
-  });
+
+    // Attach load more button click handler
+    if (loadMoreBtn) {
+      loadMoreBtn.addEventListener('click', () => {
+        visibleLimit += BATCH_SIZE;
+        render();
+      });
+    }
+
+    // Initial render
+    render();
+  }
+
+  // Run on initial page load
+  initPostsPagination();
+  document.addEventListener('astro:page-load', initPostsPagination);
 </script>

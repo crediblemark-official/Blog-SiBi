@@ -1,11 +1,11 @@
 ---
-title: "Part 6: The Launch Playbook — Strategi Kampanye 7 Hari Membuka Keran Penjualan Produk Digital"
+title: "Panduan Kampanye Peluncuran 7 Hari yang Membuka Keran Penjualan Produk Digital"
 description: "Cara merancang kampanye peluncuran terstruktur selama 7 hari agar tidak merilis produk ke ruang hampa. Alur pre-launch, cart open, bukti sosial, dan final urgency."
 date: 2026-11-01
 categories: [Funnel Penjualan, Strategi Bisnis]
 tags: [launch-strategy, sales-campaign, email-marketing, urgency, conversion]
 author: "Tim SitusBisnis"
-image: "/images/posts/funnel-cover.jpg"
+image: "/images/posts/creator-commerce-cover.svg"
 series:
   id: "cetak-biru-creator-commerce"
   name: "Cetak Biru Creator Commerce"
@@ -29,25 +29,30 @@ Dalam **Bagian 6** dari seri *Cetak Biru Creator Commerce*, kita akan membedah *
 Berikut adalah visualisasi alur kampanye 7 hari dari pembukaan keran penawaran hingga penutupan bonus eksklusif:
 
 ```mermaid
-graph LR
-  subgraph Fase 1: Antisipasi
-    D1["Hari 1: The Teaser & Waitlist"] 
-    --> D2["Hari 2: The Behind-the-Scenes"]
+graph TD
+  subgraph F1["Fase 1: Antisipasi & Daftar Tunggu"]
+    direction TB
+    D1["Hari 1: The Teaser & Waitlist"] --> D2["Hari 2: The Behind-the-Scenes"]
   end
 
-  subgraph Fase 2: Pintu Dibuka (Cart Open)
-    D2 --> D3["Hari 3: Cart Open & Early Bird"]
-    D3 --> D4["Hari 4: FAQ & Unboxing Materi"]
+  subgraph F2["Fase 2: Pintu Dibuka (Cart Open)"]
+    direction TB
+    D3["Hari 3: Cart Open & Early Bird"] --> D4["Hari 4: FAQ & Unboxing Materi"]
   end
 
-  subgraph Fase 3: Momentum & Bukti Sosial
-    D4 --> D5["Hari 5: Case Study & Testimoni Awal"]
+  subgraph F3["Fase 3: Momentum & Bukti Sosial"]
+    direction TB
+    D5["Hari 5: Case Study & Testimoni Awal"]
   end
 
-  subgraph Fase 4: Penutupan (Final Urgency)
-    D5 --> D6["Hari 6: Pengingat 24 Jam Terakhir"]
-    D6 --> D7["Hari 7: Closing Call (Pintu Bonus Ditutup)"]
+  subgraph F4["Fase 4: Penutupan (Final Urgency)"]
+    direction TB
+    D6["Hari 6: Pengingat 24 Jam Terakhir"] --> D7["Hari 7: Closing Call (Pintu Bonus Ditutup)"]
   end
+
+  D2 --> D3
+  D4 --> D5
+  D5 --> D6
 ```
 
 ---
@@ -61,7 +66,7 @@ graph LR
 
 ### Hari 2: The Behind-the-Scenes (Bukti Otoritas)
 - **Fokus Pesan:** Tunjukkan proses pembuatan dan bocoran materi (*sneak peek*).
-- **Isi Pesan:** Screenshot daftar modul di Notion atau video layar pendek saat Anda menyusun template kalkulator. Tunjukkan ketelitian dan bobot materi yang disiapkan.
+- **Isi Pesan:** Screenshot daftar modul di dokumen kerja atau video layar pendek saat Anda menyusun template kalkulator. Tunjukkan ketelitian dan bobot materi yang disiapkan.
 
 ### Hari 3: Cart Open (Hari Pembukaan Penjualan)
 - **Fokus Pesan:** Pengumuman resmi bahwa pendaftaran/pembelian telah resmi dibuka dengan **Penawaran Early Bird Terbatas (hanya 48 jam)**.

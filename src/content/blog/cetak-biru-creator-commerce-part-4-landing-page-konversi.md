@@ -1,11 +1,11 @@
 ---
-title: "Part 4: Landing Page Berdaya Konversi Tinggi — Menulis Copywriting Persuasif Tanpa Tipu-Tipu"
+title: "Menulis Landing Page Persuasif Tanpa Tipu-Tipu yang Bikin Pengunjung Yakin Membeli"
 description: "Mengapa landing page cantik sering sepi pembeli. Anatomi 7 blok esensial sales page, teknik meracik headline tajam berorientasi hasil, dan optimasi mobile-first."
 date: 2026-11-01
 categories: [Funnel Penjualan, Strategi Bisnis]
 tags: [landing-page, copywriting, conversion, social-proof]
 author: "Tim SitusBisnis"
-image: "/images/posts/funnel-cover.jpg"
+image: "/images/posts/creator-commerce-cover.svg"
 series:
   id: "cetak-biru-creator-commerce"
   name: "Cetak Biru Creator Commerce"

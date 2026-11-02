@@ -1,11 +1,11 @@
 ---
-title: "Part 7: Scaling & Flywheel Bisnis Mandiri — Mengubah Satu Produk Menjadi Ekosistem Pendapatan Berkelanjutan"
-description: "Cara mempertahankan arus kas masuk setiap hari tanpa harus terus-menerus meluncurkan produk baru. Strategi order bump, tangga nilai produk (Value Ladder), dan sistem evergreen."
+title: "Strategi Mengubah Satu Produk Menjadi Ekosistem Pendapatan Harian yang Stabil"
+description: "Cara mempertahankan arus kas masuk setiap hari tanpa harus terus-menerus meluncurkan produk baru. Strategi order bump, tangga nilai produk, dan sistem evergreen."
 date: 2026-11-01
 categories: [Strategi Bisnis, Monetisasi]
 tags: [scaling, upsell, retention, customer-lifetime-value, evergreen, creator-economy]
 author: "Tim SitusBisnis"
-image: "/images/posts/funnel-cover.jpg"
+image: "/images/posts/creator-commerce-cover.svg"
 series:
   id: "cetak-biru-creator-commerce"
   name: "Cetak Biru Creator Commerce"
@@ -13,15 +13,11 @@ series:
   totalParts: 7
 ---
 
-Selamat, Anda telah tiba di bab pamungkas dari rangkaian **Cetak Biru Creator Commerce**!
+Pernah nggak kamu ngalamin momen ini: peluncuran produk digitalmu sukses besar, tapi seminggu kemudian... penjualan mendadak kembali sepi dan hening.
 
-Jika Anda telah mempraktikkan langkah-langkah dari [Part 1](/posts/cetak-biru-creator-commerce-part-1-validasi-ide/) hingga [Part 6](/posts/cetak-biru-creator-commerce-part-6-launch-playbook/), Anda kini telah memiliki produk digital yang tervalidasi, halaman landing page yang persuasif, sistem checkout otomatis 24/7 di [SitusBisnis](https://situsbisnis.com), dan pengalaman menjalankan kampanye peluncuran yang menghasilkan penjualan nyata.
+Banyak kreator terjebak dalam siklus kelelahan ini. Mereka merasa harus selalu membuat produk baru dari nol setiap bulan agar dapur tetap mengepul.
 
-Namun, di sinilah banyak kreator terbentur pada masalah berikutnya: **"Peluncuran selesai, dan penjualan kembali hening."**
-
-Mereka terjebak dalam siklus kelelahan (*creator burnout*): merasa harus selalu membuat produk baru setiap bulan agar dapur tetap mengepul.
-
-Pebisnis digital kelas dunia tidak bekerja seperti itu. Mereka tidak terus-menerus membuat produk acak, melainkan membangun sebuah **Ekosistem Tangga Nilai (*Value Ladder*) dan Flywheel Bisnis Berkelanjutan**.
+Padahal, pebisnis digital yang cerdas tidak bekerja seperti itu. Mereka tidak terus-menerus membuat produk acak, melainkan membangun sebuah **Ekosistem Tangga Nilai dan Roda Penghasil Pendapatan (Flywheel) yang Berkelanjutan**.
 
 ---
 
@@ -32,22 +28,30 @@ Orang yang paling berpeluang membeli produk Anda di masa depan adalah **orang ya
 Berikut adalah arsitektur tangga produk ideal yang memaksimalkan *Customer Lifetime Value (LTV)*:
 
 ```mermaid
-graph LR
-  subgraph Level 1: Gratis
+graph TD
+  subgraph L1Box["Level 1: Pintu Masuk Gratis"]
+    direction TB
     L1["[Lead Magnet] Checklist / Template Gratis"]
   end
 
-  subgraph Level 2: Produk Pembuka
-    L1 --> L2["[Front-End / Tripwire] E-Book / Tools (Rp 49rb - Rp 99rb)"]
+  subgraph L2Box["Level 2: Produk Pembuka"]
+    direction TB
+    L2["[Front-End / Tripwire] E-Book / Tools (Rp 49rb - Rp 99rb)"]
   end
 
-  subgraph Level 3: Solusi Inti
-    L2 --> L3["[Core Product] Mini-Course Lengkap (Rp 199rb - Rp 499rb)"]
+  subgraph L3Box["Level 3: Solusi Inti"]
+    direction TB
+    L3["[Core Product] Mini-Course Lengkap (Rp 199rb - Rp 499rb)"]
   end
 
-  subgraph Level 4: Layanan Premium
-    L3 --> L4["[High-Ticket Backend] Mentoring / Konsultasi 1-on-1 (Rp 1jt - Rp 5jt)"]
+  subgraph L4Box["Level 4: Layanan Premium"]
+    direction TB
+    L4["[High-Ticket Backend] Mentoring / Konsultasi 1-on-1 (Rp 1jt - Rp 5jt)"]
   end
+
+  L1 --> L2
+  L2 --> L3
+  L3 --> L4
 ```
 
 ### Mengapa Struktur Ini Sangat Menghasilkan?

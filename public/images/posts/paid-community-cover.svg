@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 750" width="1200" height="750">
+  <defs>
+    <linearGradient id="lightCommunityBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="60%" stop-color="#fffbeb" />
+      <stop offset="100%" stop-color="#fef3c7" />
+    </linearGradient>
+    <linearGradient id="brandAmber" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#d97706" />
+      <stop offset="100%" stop-color="#f59e0b" />
+    </linearGradient>
+    <filter id="softShadowComm" x="-10%" y="-10%" width="125%" height="125%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#0f172a" flood-opacity="0.06" />
+    </filter>
+  </defs>
+
+  <!-- Clean Light Background -->
+  <rect width="1200" height="750" fill="url(#lightCommunityBg)" />
+
+  <!-- Subtle Grid -->
+  <g opacity="0.45" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="3 3">
+    <line x1="120" y1="0" x2="120" y2="750" />
+    <line x1="320" y1="0" x2="320" y2="750" />
+    <line x1="520" y1="0" x2="520" y2="750" />
+    <line x1="720" y1="0" x2="720" y2="750" />
+    <line x1="920" y1="0" x2="920" y2="750" />
+    <line x1="1120" y1="0" x2="1120" y2="750" />
+    <line x1="0" y1="150" x2="1200" y2="150" />
+    <line x1="0" y1="300" x2="1200" y2="300" />
+    <line x1="0" y1="450" x2="1200" y2="450" />
+    <line x1="0" y1="600" x2="1200" y2="600" />
+  </g>
+
+  <!-- Ambient Glow -->
+  <circle cx="1020" cy="180" r="280" fill="#fef3c7" opacity="0.7" />
+  <circle cx="180" cy="580" r="220" fill="#fffbeb" opacity="0.8" />
+
+  <!-- Right Visual: Paid Community Cards -->
+  <g transform="translate(680, 140)">
+    <!-- Card 1: Core Topic -->
+    <rect x="0" y="0" width="430" height="92" rx="18" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#softShadowComm)" />
+    <rect x="18" y="18" width="56" height="56" rx="14" fill="#fef3c7" />
+    <text x="46" y="53" font-family="monospace" font-size="22" text-anchor="middle">👑</text>
+    <text x="90" y="43" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="bold" fill="#0f172a">Topik Bernilai Tinggi (Outcome-Based)</text>
+    <text x="90" y="65" font-family="system-ui, -apple-system, sans-serif" font-size="13" fill="#64748b">Member bayar karena solusi nyata, bukan obrolan kosong</text>
+
+    <!-- Card 2: Onboarding (Featured) -->
+    <rect x="25" y="116" width="430" height="92" rx="18" fill="#ffffff" stroke="#f59e0b" stroke-width="2" filter="url(#softShadowComm)" />
+    <rect x="43" y="134" width="56" height="56" rx="14" fill="#fffbeb" />
+    <text x="71" y="169" font-family="monospace" font-size="22" text-anchor="middle">🚀</text>
+    <text x="115" y="159" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="bold" fill="#0f172a">Sistem Onboarding Hari 1-7</text>
+    <text x="115" y="181" font-family="system-ui, -apple-system, sans-serif" font-size="13" fill="#d97706" font-weight="600">Quick-win instan • Cegah grup sepi di minggu pertama</text>
+
+    <!-- Card 3: Peer-to-Peer Interaction -->
+    <rect x="10" y="232" width="430" height="92" rx="18" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#softShadowComm)" />
+    <rect x="28" y="250" width="56" height="56" rx="14" fill="#f8fafc" />
+    <text x="56" y="285" font-family="monospace" font-size="22" text-anchor="middle">💬</text>
+    <text x="100" y="275" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="bold" fill="#0f172a">Moderasi Asinkron &amp; Peer Value</text>
+    <text x="100" y="297" font-family="system-ui, -apple-system, sans-serif" font-size="13" fill="#64748b">Kreator tidak perlu online 24 jam nonstop</text>
+
+    <!-- Card 4: Retention & WA Auto-Renewal -->
+    <rect x="35" y="348" width="415" height="92" rx="18" fill="#fffbeb" stroke="#fcd34d" stroke-width="1.5" filter="url(#softShadowComm)" />
+    <rect x="53" y="366" width="56" height="56" rx="14" fill="#fef3c7" />
+    <text x="81" y="401" font-family="monospace" font-size="22" text-anchor="middle">🔄</text>
+    <text x="125" y="391" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="bold" fill="#92400e">Perpanjangan Otomatis via WhatsApp</text>
+    <text x="125" y="413" font-family="system-ui, -apple-system, sans-serif" font-size="13" fill="#b45309">Tekan churn bulanan • Pendapatan rutin terjamin</text>
+  </g>
+
+  <!-- Left Content Area -->
+  <g transform="translate(100, 210)">
+    <!-- Pill Badge -->
+    <rect x="0" y="0" width="310" height="36" rx="18" fill="#fef3c7" stroke="#fde68a" stroke-width="1" />
+    <circle cx="18" cy="18" r="4.5" fill="#d97706" />
+    <text x="32" y="23" font-family="monospace" font-size="12" font-weight="bold" fill="#92400e">MASTERCLASS PAID COMMUNITY</text>
+
+    <!-- Main Title -->
+    <text x="0" y="95" font-family="system-ui, -apple-system, sans-serif" font-size="52" font-weight="900" fill="#0f172a" letter-spacing="-1">
+      Komunitas Berbayar
+    </text>
+    <text x="0" y="155" font-family="system-ui, -apple-system, sans-serif" font-size="52" font-weight="900" fill="url(#brandAmber)" letter-spacing="-1">
+      &amp; Membership
+    </text>
+
+    <!-- Subtitle -->
+    <text x="0" y="210" font-family="system-ui, -apple-system, sans-serif" font-size="20" fill="#475569" font-weight="normal">
+      Membangun Komunitas VIP Mandiri dengan
+    </text>
+    <text x="0" y="240" font-family="system-ui, -apple-system, sans-serif" font-size="20" fill="#475569" font-weight="normal">
+      Arus Kas Berulang Tanpa Bikin Konten Tiap Hari
+    </text>
+
+    <!-- Bottom Feature Pills -->
+    <g transform="translate(0, 285)">
+      <rect x="0" y="0" width="135" height="34" rx="17" fill="#ffffff" stroke="#e2e8f0" />
+      <text x="67" y="21" font-family="monospace" font-size="12" font-weight="bold" fill="#334155" text-anchor="middle">Recurring Cash</text>
+
+      <rect x="145" y="0" width="155" height="34" rx="17" fill="#ffffff" stroke="#e2e8f0" />
+      <text x="222" y="21" font-family="monospace" font-size="12" font-weight="bold" fill="#334155" text-anchor="middle">Onboarding 7-Hari</text>
+
+      <rect x="310" y="0" width="145" height="34" rx="17" fill="#ffffff" stroke="#e2e8f0" />
+      <text x="382" y="21" font-family="monospace" font-size="12" font-weight="bold" fill="#d97706" text-anchor="middle">Anti-Churn WA</text>
+    </g>
+  </g>
+</svg>

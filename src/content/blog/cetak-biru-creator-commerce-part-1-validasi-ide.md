@@ -1,11 +1,11 @@
 ---
-title: "Part 1: Fondasi & Validasi Ide — Menemukan Unfair Advantage dan Menguji Masalah Nyata Pasar"
+title: "Cara Menemukan Unfair Advantage dan Menguji Masalah Nyata Pasar Sebelum Bikin Modul"
 description: "Mengapa 80% produk digital gagal terjual bukan karena materinya buruk, melainkan dibuat tanpa validasi. Panduan riset masalah spesifik dan teknik pre-sale tanpa modal."
 date: 2026-11-01
 categories: [Strategi Bisnis, Monetisasi]
 tags: [creator-economy, validation, product-design, ideation]
 author: "Tim SitusBisnis"
-image: "/images/posts/funnel-cover.jpg"
+image: "/images/posts/creator-commerce-cover.svg"
 series:
   id: "cetak-biru-creator-commerce"
   name: "Cetak Biru Creator Commerce"

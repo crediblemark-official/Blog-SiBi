@@ -121,7 +121,7 @@ const { categoryName, categorySlug, posts, allCategories } = Astro.props;
             <article class="group flex flex-col bg-white rounded-none sm:rounded-2xl border-x-0 sm:border border-y sm:border-y border-slate-200/80 overflow-hidden hover:border-amber-500/50 hover:shadow-md transition-all duration-200">
               <a href={`/posts/${postSlug}/`} class="aspect-[16/10] overflow-hidden bg-slate-100 block relative">
                 <img 
-                  src={post.data.image || "/images/posts/funnel-cover.jpg"} 
+                  src={post.data.image || "/images/posts/creator-commerce-cover.svg"} 
                   alt={post.data.title}
                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   loading="lazy"

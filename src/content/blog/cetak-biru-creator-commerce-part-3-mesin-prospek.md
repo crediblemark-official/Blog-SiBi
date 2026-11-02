@@ -1,11 +1,11 @@
 ---
-title: "Part 3: Lead Magnet & Mesin Prospek Mandiri — Mengubah Penonton Media Sosial Menjadi Database Calon Pembeli"
-description: "Bagaimana tidak bergantung pada algoritma media sosial dengan mengumpulkan database email/kontak mandiri. Panduan merancang lead magnet dan 4 rangkaian email nurture."
+title: "Membangun Mesin Prospek Mandiri yang Mengubah Penonton Medsos Menjadi Database Pembeli"
+description: "Bagaimana tidak bergantung pada algoritma media sosial dengan mengumpulkan database email/kontak mandiri. Panduan merancang lead magnet dan rangkaian email nurture."
 date: 2026-11-01
 categories: [Audience Growth, Email Marketing]
 tags: [lead-magnet, email-list, audience-growth, nurture, conversion]
 author: "Tim SitusBisnis"
-image: "/images/posts/funnel-cover.jpg"
+image: "/images/posts/creator-commerce-cover.svg"
 series:
   id: "cetak-biru-creator-commerce"
   name: "Cetak Biru Creator Commerce"
@@ -53,7 +53,7 @@ Lead magnet yang memiliki tingkat konversi 30%–50% di halaman landing page waj
 | Syarat Lead Magnet | Penjelasan Praktis | Contoh Implementasi |
 | :--- | :--- | :--- |
 | **1. Ultra-Spesifik** | Memecahkan SATU masalah teknis kecil, bukan masalah besar dunia. | ❌ "Panduan Bisnis Kuliner" <br>✅ "Kalkulator Food Cost Excel Otomatis untuk Menu Kafe" |
-| **2. Konsumsi Instan (<10 Menit)** | Bisa dipahami dan langsung dipakai dalam waktu kurang dari 10 menit. | Checklist SOP, Template Notion, Cheatsheet 1 Lembar, Prompt Library. |
+| **2. Konsumsi Instan (<10 Menit)** | Bisa dipahami dan langsung dipakai dalam waktu kurang dari 10 menit. | Checklist SOP, Template Spreadsheet & SOP, Cheatsheet 1 Lembar, Prompt Library. |
 | **3. Jembatan Alami ke Produk Berbayar** | Memberikan solusi *"Apa yang harus dilakukan"*, sementara produk berbayar memberikan *"Cara menerapkannya secara lengkap"*. | Lead magnet memberikan template, produk berbayar memberikan sistem implementasi terpandu. |
 
 ---

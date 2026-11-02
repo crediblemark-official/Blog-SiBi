@@ -1,11 +1,11 @@
 ---
-title: "Part 2: Arsitektur Produk Digital — Memilih Format, Kurikulum Berorientasi Hasil, & Formula Value-Based Pricing"
+title: "Memilih Format Produk Digital yang Paling Cepat Dibuat Tanpa Terjebak Course Bloat"
 description: "Cara memilih format produk digital (E-book vs Mini-Course vs Templates), merancang kurikulum transformasi cepat, dan menetapkan tier harga berbasis nilai di pasar Indonesia."
 date: 2026-11-01
 categories: [Monetisasi, Strategi Bisnis]
 tags: [digital-product, product-design, pricing, creator-economy]
 author: "Tim SitusBisnis"
-image: "/images/posts/funnel-cover.jpg"
+image: "/images/posts/creator-commerce-cover.svg"
 series:
   id: "cetak-biru-creator-commerce"
   name: "Cetak Biru Creator Commerce"
@@ -37,10 +37,12 @@ Berikut adalah perbandingan empat format produk digital terpopuler:
 
 ```mermaid
 graph TD
-  A["Karakter Solusi Anda"] -->|Berupa Rumus, Checklist, atau Alat Kerja| B["Template & SOP Kit (Notion/Excel)"]
-  A -->|Berupa Pola Pikir & Panduan Tekstual Terarah| C["Actionable E-Book (30-50 Hal)"]
-  A -->|Butuh Demonstrasi Layar / Praktek Visual| D["Mini-Course (5-7 Video Singkat)"]
-  A -->|Butuh Feedback Personal & Akuntabilitas| E["Group Coaching / Mentoring"]
+  A["Evaluasi Karakter Solusi Anda"]
+  
+  A --> B["Pilihan 1: Template & SOP Kit (Notion/Excel)<br/>Cocok untuk rumus, checklist, atau alat kerja langsung pakai"]
+  B --> C["Pilihan 2: Actionable E-Book (30–50 Halaman)<br/>Cocok untuk pola pikir, framework, & panduan tekstual terarah"]
+  C --> D["Pilihan 3: Mini-Course (5–7 Video Singkat)<br/>Cocok jika butuh demonstrasi layar & praktek visual teknis"]
+  D --> E["Pilihan 4: Group Coaching / Mentoring<br/>Cocok jika butuh feedback personal, bedah kasus, & akuntabilitas"]
 ```
 
 > **Rekomendasi Terbaik untuk Produk Pertama:** Mulailah dari **Template Kit** atau **E-book Praktis**. Keduanya memiliki kecepatan produksi tercepat, risiko teknis terendah, dan tingkat konsumsi tertinggi oleh pembeli.
@@ -64,7 +66,7 @@ Bagi materi Anda ke dalam tiga fase utama:
 
 ## 3. Menetapkan Harga Berbasis Nilai (Value-Based Pricing)
 
-Kesalahan fatal pebisnis pemula di Indonesia adalah menghitung harga berdasarkan **biaya produksi** (misal: "karena saya buatnya cuma 3 hari di Canva, saya jual Rp 25.000 saja").
+Kesalahan fatal pebisnis pemula di Indonesia adalah menghitung harga berdasarkan **biaya produksi** (misal: "karena saya buatnya cuma 3 hari di laptop, saya jual Rp 25.000 saja").
 
 Harga produk digital harus ditentukan oleh **nilai transformasi ekonomi atau emosional** yang diperoleh pembeli:
 

@@ -15,8 +15,9 @@ export async function GET(context: APIContext) {
     description: 'Catatan strategis, riset, dan panduan komprehensif seputar creator economy dari tim SitusBisnis.',
     site: siteUrl,
     items: sortedPosts.map((post) => {
-      const imgPath = post.data.image || '/images/posts/funnel-cover.jpg';
+      const imgPath = post.data.image || '/images/posts/creator-commerce-cover.svg';
       const absoluteImageUrl = imgPath.startsWith('http') ? imgPath : `${siteUrl}${imgPath.startsWith('/') ? '' : '/'}${imgPath}`;
+      const mimeType = imgPath.endsWith('.svg') ? 'image/svg+xml' : 'image/jpeg';
       return {
         title: post.data.title,
         pubDate: post.data.date,
@@ -27,7 +28,7 @@ export async function GET(context: APIContext) {
         enclosure: {
           url: absoluteImageUrl,
           length: 0,
-          type: 'image/jpeg',
+          type: mimeType,
         },
         customData: `<image>${absoluteImageUrl}</image>`,
       };

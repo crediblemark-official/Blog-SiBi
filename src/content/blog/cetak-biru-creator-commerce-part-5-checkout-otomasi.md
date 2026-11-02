@@ -1,11 +1,11 @@
 ---
-title: "Part 5: Sistem Checkout & Pengiriman Otomatis 24/7 — Menghilangkan Friksi Pembayaran (QRIS, VA, & Zero-Commission)"
-description: "Mengapa verifikasi transfer manual lewat chat membunuh konversi penjualan digital. Pentingnya frictionless single-page checkout, QRIS instan, dan keuntungan platform zero-fee."
+title: "Sistem Checkout dan Pengiriman Otomatis 24 Jam Nonstop Menggunakan QRIS Instan"
+description: "Mengapa verifikasi transfer manual lewat chat membunuh konversi penjualan digital. Pentingnya frictionless single-page checkout, QRIS instan, dan platform zero-fee."
 date: 2026-11-01
 categories: [Strategi Bisnis, Funnel Penjualan]
 tags: [checkout, qris, virtual-account, payment-gateway, automation, zero-fee]
 author: "Tim SitusBisnis"
-image: "/images/posts/funnel-cover.jpg"
+image: "/images/posts/creator-commerce-cover.svg"
 series:
   id: "cetak-biru-creator-commerce"
   name: "Cetak Biru Creator Commerce"
@@ -32,20 +32,24 @@ Berikut adalah perbandingan drastis antara alur transaksi tradisional manual vs 
 
 ```mermaid
 graph TD
-  subgraph Alur Manual (Friksi Tinggi - Drop-off 60%)
+  subgraph BoxManual["1. Alur Manual Tradisional (Friksi Tinggi - Drop-off 60%)"]
+    direction TB
     M1["Calon Pembeli Klik Chat WA"] --> M2["Menunggu Admin Membalas"]
     M2 --> M3["Kirim No Rekening Manual"]
-    M3 --> M4["Pembeli Upload Bukti Struk"]
-    M4 --> M5["Admin Cek Mutasi Bank"]
+    M3 --> M4["Pembeli Upload Bukti Struk Transfer"]
+    M4 --> M5["Admin Cek Mutasi Bank Manual"]
     M5 --> M6["Kirim Link File Manual"]
   end
 
-  subgraph Alur Otomasi SitusBisnis (Friksi Nol - Konversi Maksimal)
+  subgraph BoxOtomasi["2. Alur Otomasi SitusBisnis (Friksi Nol - Konversi Maksimal)"]
+    direction TB
     A1["Klik Beli di Landing Page"] --> A2["Single-Page Checkout"]
     A2 --> A3["Scan QRIS / Bayar VA Instan"]
     A3 --> A4["Verifikasi Otomatis Detik Itu Juga"]
     A4 --> A5["File Terkirim Otomatis ke Email & Dashboard 24/7"]
   end
+
+  BoxManual -.->|Bandingkan dengan Efisiensi| BoxOtomasi
 ```
 
 Dengan sistem otomatis, ketika ada pembeli yang bertransaksi pukul 02:30 pagi di hari Minggu, sistem memverifikasi dana dan mengirimkan file unduhan dalam hitungan **3 detik** tanpa Anda harus terbangun dari tidur.
