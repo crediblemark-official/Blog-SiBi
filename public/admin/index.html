@@ -713,33 +713,36 @@
       const sidebar = document.querySelector('.primary-sidebar');
       if (!sidebar) return;
 
-      const headerText = sidebar.querySelector('header h2')?.textContent?.trim().toLowerCase() || '';
-      const listbox = sidebar.querySelector('[role="listbox"]');
-      const listboxText = listbox?.textContent || '';
-
-      // Tentukan apakah kita di tampilan koleksi artikel (bukan di tab assets)
-      const isCollections = !location.hash.startsWith('#/assets') &&
-        (headerText.includes('collection') || listboxText.includes('Artikel Blog'));
-
+      const isAssets = location.hash.includes('assets');
       const catTree = getCategoryTree();
 
-      if (isCollections && listbox) {
-        // Posisikan Category Tree TEPAT di bawah listbox Artikel Blog
-        if (listbox.nextElementSibling !== catTree) {
-          listbox.after(catTree);
-        }
-        catTree.style.display = 'flex';
+      if (!isAssets) {
+        // Cari elemen tombol Artikel Blog di sidebar
+        const allButtons = Array.from(sidebar.querySelectorAll('button, [role="treeitem"]'));
+        const artikelBlogItem = allButtons.find(el => el.textContent.includes('Artikel Blog'));
 
-        // Hook tombol utama Artikel Blog untuk reset filter
-        const mainBtn = listbox.querySelector('button');
-        if (mainBtn && !mainBtn.dataset.sibiHooked) {
-          mainBtn.dataset.sibiHooked = 'true';
-          mainBtn.addEventListener('click', () => {
-            applyCategoryFilter('');
-          });
+        if (artikelBlogItem) {
+          // Cari container induk terdekat dari Artikel Blog
+          const target = artikelBlogItem.closest('[role="group"]') ||
+                         artikelBlogItem.closest('[role="tree"]') ||
+                         artikelBlogItem.parentElement ||
+                         artikelBlogItem;
+
+          if (target && target.nextElementSibling !== catTree) {
+            target.after(catTree);
+          }
+          catTree.style.display = 'flex';
+
+          // Hook tombol utama Artikel Blog untuk reset filter jika diklik
+          if (!artikelBlogItem.dataset.sibiHooked) {
+            artikelBlogItem.dataset.sibiHooked = 'true';
+            artikelBlogItem.addEventListener('click', () => {
+              applyCategoryFilter('');
+            });
+          }
         }
       } else {
-        // Jika sedang di tab Assets atau lainnya, lepaskan dari sidebar
+        // Jika sedang di tab Assets atau lainnya, lepaskan category tree dari sidebar
         catTree.remove();
       }
 
