@@ -3,11 +3,467 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin Dashboard | Blog SitusBisnis</title>
+  <title>Portal Penulis | Blog SitusBisnis</title>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <!-- Sveltia CMS: Modern, lightweight, fast Git-based CMS for Decap config -->
-  <script src="https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    }
+    body {
+      background-color: #0f172a;
+      color: #f8fafc;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .login-container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      background: radial-gradient(circle at top, rgba(245, 158, 11, 0.15) 0%, rgba(15, 23, 42, 1) 70%);
+    }
+    .login-card {
+      background: rgba(30, 41, 59, 0.85);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 1.25rem;
+      padding: 2.25rem 2rem;
+      width: 100%;
+      max-width: 440px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      animation: fadeIn 0.4s ease-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .brand-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .brand-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      color: #fbbf24;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .brand-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.3;
+    }
+    .brand-subtitle {
+      font-size: 0.875rem;
+      color: #94a3b8;
+      margin-top: 0.5rem;
+    }
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+    .form-label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #cbd5e1;
+      margin-bottom: 0.5rem;
+    }
+    .input-wrapper {
+      position: relative;
+    }
+    .form-input {
+      width: 100%;
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid #334155;
+      color: #ffffff;
+      padding: 0.75rem 1rem;
+      border-radius: 0.625rem;
+      font-size: 0.9375rem;
+      transition: all 0.2s;
+    }
+    .form-input:focus {
+      outline: none;
+      border-color: #f59e0b;
+      box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2);
+    }
+    .toggle-password {
+      position: absolute;
+      right: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: #64748b;
+      cursor: pointer;
+      font-size: 0.8125rem;
+      padding: 0.25rem;
+    }
+    .toggle-password:hover {
+      color: #cbd5e1;
+    }
+    .btn-submit {
+      width: 100%;
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      color: #ffffff;
+      font-weight: 600;
+      padding: 0.8125rem;
+      border: none;
+      border-radius: 0.625rem;
+      font-size: 0.9375rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: transform 0.15s, box-shadow 0.15s;
+      margin-top: 1.5rem;
+    }
+    .btn-submit:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 15px -3px rgba(245, 158, 11, 0.3);
+    }
+    .btn-submit:active {
+      transform: translateY(0);
+    }
+    .btn-submit:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    .alert-error {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #fca5a5;
+      padding: 0.75rem 1rem;
+      border-radius: 0.625rem;
+      font-size: 0.875rem;
+      margin-bottom: 1.25rem;
+      display: none;
+      animation: shake 0.3s ease-in-out;
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-6px); }
+      40%, 80% { transform: translateX(6px); }
+    }
+    .footer-note {
+      text-align: center;
+      font-size: 0.75rem;
+      color: #64748b;
+      margin-top: 1.75rem;
+      line-height: 1.5;
+    }
+    .logout-bar {
+      position: fixed;
+      bottom: 1rem;
+      right: 1rem;
+      z-index: 99999;
+      display: none;
+    }
+    .btn-logout {
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #94a3b8;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.4rem 0.85rem;
+      border-radius: 9999px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+      transition: all 0.2s;
+    }
+    .btn-logout:hover {
+      background: #ef4444;
+      color: #ffffff;
+      border-color: #dc2626;
+    }
+    .spinner {
+      width: 1rem;
+      height: 1rem;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: #ffffff;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
 </head>
 <body>
+
+  <!-- Login Form Wrapper -->
+  <div id="login-portal" class="login-container">
+    <div class="login-card">
+      <div class="brand-header">
+        <div class="brand-badge">⚡ Portal Penulis Blog</div>
+        <h1 class="brand-title">SitusBisnis Admin</h1>
+        <p class="brand-subtitle">Masuk dengan Username & PIN tim Anda untuk menulis dan mengelola postingan.</p>
+      </div>
+
+      <div id="error-box" class="alert-error"></div>
+
+      <form id="login-form">
+        <div class="form-group">
+          <label class="form-label" for="username">Username Tim</label>
+          <div class="input-wrapper">
+            <input
+              type="text"
+              id="username"
+              class="form-input"
+              placeholder="timSiBi"
+              value="timSiBi"
+              required
+              autocomplete="username"
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="pin">PIN / Password Akses</label>
+          <div class="input-wrapper">
+            <input
+              type="password"
+              id="pin"
+              class="form-input"
+              placeholder="Masukkan PIN rahasia..."
+              required
+              autocomplete="current-password"
+            />
+            <button type="button" id="toggle-pwd" class="toggle-password" tabindex="-1">Lihat</button>
+          </div>
+        </div>
+
+        <button type="submit" id="submit-btn" class="btn-submit">
+          <span>Masuk ke Dashboard</span>
+        </button>
+      </form>
+
+      <div class="footer-note">
+        Protected with AES-256 military-grade encryption.<br />
+        Hubungi Administrator jika belum memiliki PIN akses.
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Logout Pill -->
+  <div id="logout-bar" class="logout-bar">
+    <button id="logout-btn" class="btn-logout" title="Keluar dari sesi ini">
+      <span>🔒 Keluar (Logout)</span>
+    </button>
+  </div>
+
+  <script>
+    // Konfigurasi Terenkripsi (dihasilkan oleh: bun run setup-auth)
+    const AUTH_CONFIG = {
+      username: "timSiBi",
+      salt: "",
+      iv: "",
+      data: "",
+    };
+
+    const loginPortal = document.getElementById('login-portal');
+    const loginForm = document.getElementById('login-form');
+    const usernameInput = document.getElementById('username');
+    const pinInput = document.getElementById('pin');
+    const submitBtn = document.getElementById('submit-btn');
+    const errorBox = document.getElementById('error-box');
+    const logoutBar = document.getElementById('logout-bar');
+    const logoutBtn = document.getElementById('logout-btn');
+    const togglePwd = document.getElementById('toggle-pwd');
+
+    // Toggle lihat password
+    togglePwd.addEventListener('click', () => {
+      const isPwd = pinInput.type === 'password';
+      pinInput.type = isPwd ? 'text' : 'password';
+      togglePwd.textContent = isPwd ? 'Tutup' : 'Lihat';
+    });
+
+    // Dekripsi Token via Web Crypto PBKDF2 + AES-GCM
+    async function decryptToken(encryptedPayload, secret) {
+      const enc = new TextEncoder();
+      const salt = Uint8Array.from(atob(encryptedPayload.salt), c => c.charCodeAt(0));
+      const iv = Uint8Array.from(atob(encryptedPayload.iv), c => c.charCodeAt(0));
+      const data = Uint8Array.from(atob(encryptedPayload.data), c => c.charCodeAt(0));
+
+      const keyMaterial = await crypto.subtle.importKey(
+        'raw',
+        enc.encode(secret),
+        { name: 'PBKDF2' },
+        false,
+        ['deriveKey']
+      );
+
+      const key = await crypto.subtle.deriveKey(
+        {
+          name: 'PBKDF2',
+          salt,
+          iterations: 100000,
+          hash: 'SHA-256',
+        },
+        keyMaterial,
+        { name: 'AES-GCM', length: 256 },
+        false,
+        ['decrypt']
+      );
+
+      const decrypted = await crypto.subtle.decrypt(
+        { name: 'AES-GCM', iv },
+        key,
+        data
+      );
+
+      return new TextDecoder().decode(decrypted);
+    }
+
+    // Inisialisasi CMS
+    function bootCMS() {
+      loginPortal.style.display = 'none';
+      logoutBar.style.display = 'block';
+
+      // Load Sveltia CMS script secara dinamis
+      if (!document.getElementById('sveltia-script')) {
+        const script = document.createElement('script');
+        script.id = 'sveltia-script';
+        script.src = 'https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js';
+        document.body.appendChild(script);
+      }
+    }
+
+    // Periksa apakah sudah ada sesi aktif di localStorage
+    function checkExistingSession() {
+      try {
+        const stored = localStorage.getItem('sveltia-cms.user');
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          if (parsed && parsed.token) {
+            bootCMS();
+            return true;
+          }
+        }
+      } catch (e) {
+        // Abaikan jika corrupt
+      }
+      return false;
+    }
+
+    // Logout
+    logoutBtn.addEventListener('click', () => {
+      if (confirm('Apakah Anda yakin ingin keluar dari Portal Penulis?')) {
+        localStorage.removeItem('sveltia-cms.user');
+        localStorage.removeItem('decap-cms-user');
+        location.reload();
+      }
+    });
+
+    // Handle Submit Form Login
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errorBox.style.display = 'none';
+      errorBox.textContent = '';
+
+      const inputUser = usernameInput.value.trim();
+      const inputPin = pinInput.value.trim();
+
+      if (!inputUser || !inputPin) {
+        errorBox.textContent = 'Silakan isi Username dan PIN.';
+        errorBox.style.display = 'block';
+        return;
+      }
+
+      if (!AUTH_CONFIG.data) {
+        errorBox.textContent = '⚠️ Admin belum melakukan setup PIN & Token. Silakan hubungi Administrator.';
+        errorBox.style.display = 'block';
+        return;
+      }
+
+      // Validasi Username
+      if (inputUser.toLowerCase() !== AUTH_CONFIG.username.toLowerCase()) {
+        errorBox.textContent = '❌ Username atau PIN salah.';
+        errorBox.style.display = 'block';
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<div class="spinner"></div><span>Memverifikasi...</span>';
+
+      try {
+        // Coba dekripsi token dengan PIN
+        const secret = `${AUTH_CONFIG.username}:${inputPin}`;
+        const token = await decryptToken(AUTH_CONFIG, secret);
+
+        if (!token) {
+          throw new Error('Token kosong');
+        }
+
+        // Siapkan objek user untuk Sveltia CMS
+        let userProfile = {
+          backendName: 'github',
+          id: 1,
+          name: 'Tim SitusBisnis',
+          login: 'tim-situsbisnis',
+          email: 'admin@situsbisnis.com',
+          avatarURL: 'https://blog.situsbisnis.com/favicon.png',
+          profileURL: 'https://github.com/crediblemark-official/Blog-SiBi',
+          token: token,
+          bot: false,
+        };
+
+        // Coba ambil data asli dari GitHub jika memungkinkan
+        try {
+          const ghRes = await fetch('https://api.github.com/user', {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              Accept: 'application/vnd.github+json',
+            },
+          });
+          if (ghRes.ok) {
+            const ghData = await ghRes.json();
+            userProfile.id = ghData.id;
+            userProfile.name = ghData.name || ghData.login || userProfile.name;
+            userProfile.login = ghData.login;
+            userProfile.avatarURL = ghData.avatar_url || userProfile.avatarURL;
+            userProfile.profileURL = ghData.html_url || userProfile.profileURL;
+          }
+        } catch (_) {
+          // Tetap lanjutkan dengan fallback userProfile
+        }
+
+        // Simpan ke localStorage agar CMS mengenali pengguna
+        localStorage.setItem('sveltia-cms.user', JSON.stringify(userProfile));
+        localStorage.setItem('decap-cms-user', JSON.stringify({ backendName: 'github', token: token }));
+
+        // Buka CMS
+        bootCMS();
+      } catch (err) {
+        errorBox.textContent = '❌ Username atau PIN salah. Silakan periksa kembali.';
+        errorBox.style.display = 'block';
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<span>Masuk ke Dashboard</span>';
+      }
+    });
+
+    // Jalankan pengecekan sesi saat halaman dibuka
+    checkExistingSession();
+  </script>
 </body>
 </html>

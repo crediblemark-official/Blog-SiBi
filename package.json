@@ -6,7 +6,8 @@
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "setup-auth": "bun scripts/setup-admin-auth.js"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.19",
