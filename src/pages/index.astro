@@ -6,9 +6,26 @@ import { getAllSeries } from '../utils/series';
 
 const posts = await getCollection('blog');
 const allSeries = getAllSeries(posts);
-const sortedPosts = posts.sort(
-  (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
-);
+
+// Urutkan artikel berdasarkan tanggal & jam terbaru
+// Jika berada pada hari yang sama dan dalam satu seri, urutkan Part 1 -> Part 2 -> dst secara runtut
+const sortedPosts = posts.sort((a, b) => {
+  const timeA = new Date(a.data.date).getTime();
+  const timeB = new Date(b.data.date).getTime();
+  const dayA = new Date(a.data.date).toISOString().slice(0, 10);
+  const dayB = new Date(b.data.date).toISOString().slice(0, 10);
+  
+  if (dayA !== dayB) {
+    return timeB - timeA;
+  }
+  
+  // Jika dalam seri yang sama pada hari yang sama, tampilkan Part 1 sebelum Part 2 dst.
+  if (a.data.series && b.data.series && a.data.series.id === b.data.series.id) {
+    return (a.data.series.part || 0) - (b.data.series.part || 0);
+  }
+  
+  return timeB - timeA;
+});
 
 const featuredPost = sortedPosts[0];
 const allCategories = ['Semua', ...Array.from(new Set(sortedPosts.flatMap(p => p.data.categories || [])))];

@@ -31,10 +31,14 @@ Berikut adalah catatan metrik riil selama 30 hari pertama toko mandiri kami berj
 | :--- | :--- | :--- | :--- |
 | **Total Transaksi Penjualan** | 142 pesanan | 158 pesanan | **+11.2% (Ternyata Naik!)** |
 | **Omzet Kotor (Gross)** | Rp 28.400.000 | Rp 31.600.000 | +Rp 3.200.000 |
-| **Biaya Komisi Platform** | -Rp 4.260.000 (15%) | **Rp 0 (Zero-Commission)** | **Hemat Rp 4.260.000!** |
+| **Biaya Komisi Platform** | -Rp 4.260.000 (15%) | **Rp 0 (Paket Business Scale Zero-Fee)** | **Hemat Rp 4.260.000!** |
 | **Biaya Payment Gateway Riil (QRIS)** | Sudah termasuk di fee | -Rp 221.200 (~0.7%) | Sangat hemat |
+| **Biaya Langganan Toko Mandiri** | Rp 0 | -Rp 199.000 (Business Scale) | Biaya tetap flat |
 | **Database Email & No WA yang Didapat** | 0 (Disamarkan platform) | **158 Kontak Bersih (100% Milik Kami)** | **Aset Jangka Panjang Tak Ternilai** |
-| **Laba Bersih yang Masuk Rekening** | Rp 24.140.000 | **Rp 31.378.800** | **+Rp 7.238.800 (+30% Profit Tambahan!)** |
+| **Laba Bersih yang Masuk Rekening** | Rp 24.140.000 | **Rp 31.179.800** | **+Rp 7.039.800 (+29.1% Profit Tambahan!)** |
+
+> [!NOTE]
+> Eksperimen di atas menggunakan paket **Business Scale** di [SitusBisnis](https://situsbisnis.com) yang memiliki fasilitas **0% Potongan Penjualan (Zero Fee)** dengan biaya flat Rp 199.000/bulan. Bahkan setelah dikurangi biaya langganan tersebut, bisnis tetap mengantongi tambahan keuntungan bersih lebih dari **Rp 7.000.000** hanya dalam 30 hari pertama! Bagi kreator pemula, tersedia pula paket **Pro Creator** (hanya 1% fee transaksi, Rp 79rb/bln) dan paket **Starter** (Rp 0 gratis selamanya).
 
 ```mermaid
 graph TD

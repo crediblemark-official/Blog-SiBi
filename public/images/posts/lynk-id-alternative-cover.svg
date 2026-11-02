@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 750" width="1200" height="750">
+  <defs>
+    <linearGradient id="lightLynkBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="60%" stop-color="#fffbeb" />
+      <stop offset="100%" stop-color="#fef3c7" />
+    </linearGradient>
+    <linearGradient id="brandAmber" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#d97706" />
+      <stop offset="100%" stop-color="#f59e0b" />
+    </linearGradient>
+    <filter id="softShadowLynk" x="-10%" y="-10%" width="125%" height="125%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#0f172a" flood-opacity="0.06" />
+    </filter>
+  </defs>
+
+  <!-- Clean Light Background -->
+  <rect width="1200" height="750" fill="url(#lightLynkBg)" />
+
+  <!-- Grid Lines -->
+  <g opacity="0.45" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="3 3">
+    <line x1="120" y1="0" x2="120" y2="750" />
+    <line x1="320" y1="0" x2="320" y2="750" />
+    <line x1="520" y1="0" x2="520" y2="750" />
+    <line x1="720" y1="0" x2="720" y2="750" />
+    <line x1="920" y1="0" x2="920" y2="750" />
+    <line x1="1120" y1="0" x2="1120" y2="750" />
+    <line x1="0" y1="150" x2="1200" y2="150" />
+    <line x1="0" y1="300" x2="1200" y2="300" />
+    <line x1="0" y1="450" x2="1200" y2="450" />
+    <line x1="0" y1="600" x2="1200" y2="600" />
+  </g>
+
+  <!-- Ambient Glow -->
+  <circle cx="1020" cy="180" r="280" fill="#fef3c7" opacity="0.7" />
+  <circle cx="180" cy="580" r="220" fill="#fffbeb" opacity="0.8" />
+
+  <!-- Right Visual: Comparison Cards -->
+  <g transform="translate(680, 120)">
+    <!-- Card 1: Lynk.id Pro -->
+    <rect x="0" y="0" width="430" height="115" rx="18" fill="#ffffff" stroke="#fecaca" stroke-width="1.5" filter="url(#softShadowLynk)" />
+    <rect x="18" y="24" width="64" height="64" rx="14" fill="#fef2f2" />
+    <text x="50" y="64" font-family="monospace" font-size="24" text-anchor="middle">🔗</text>
+    <text x="96" y="46" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="bold" fill="#0f172a">Lynk.id Akun Pro (Rp 99.000/bln)</text>
+    <text x="96" y="68" font-family="system-ui, -apple-system, sans-serif" font-size="13" fill="#dc2626" font-weight="600">Tetap Dipotong Komisi 3% per Transaksi</text>
+    <text x="96" y="88" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#64748b">Format Link-in-Bio • Biaya Tarik Saldo Rp 5.000</text>
+
+    <!-- Card 2: SitusBisnis Pro Creator (Best Choice) -->
+    <rect x="15" y="135" width="430" height="135" rx="18" fill="#ffffff" stroke="#f59e0b" stroke-width="2.5" filter="url(#softShadowLynk)" />
+    <rect x="33" y="165" width="68" height="68" rx="14" fill="#fef3c7" />
+    <text x="67" y="208" font-family="monospace" font-size="28" text-anchor="middle">⭐</text>
+    <text x="115" y="168" font-family="system-ui, -apple-system, sans-serif" font-size="17" font-weight="bold" fill="#0f172a">SitusBisnis Pro Creator</text>
+    <text x="115" y="190" font-family="system-ui, -apple-system, sans-serif" font-size="14" fill="#d97706" font-weight="700">Rp 79rb/bln (Rp 468rb/thn) • Fee Cuma 1%</text>
+    <text x="115" y="210" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#059669" font-weight="600">✓ Custom Domain CNAME • White-Label Murni</text>
+    <text x="115" y="228" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#64748b">✓ Kelola 3 Toko • Bebas Iklan • 25 GB Cloud S3</text>
+
+    <!-- Card 3: SitusBisnis Business Scale -->
+    <rect x="0" y="290" width="430" height="105" rx="18" fill="#ffffff" stroke="#10b981" stroke-width="2" filter="url(#softShadowLynk)" />
+    <rect x="18" y="310" width="64" height="64" rx="14" fill="#ecfdf5" />
+    <text x="50" y="352" font-family="monospace" font-size="24" text-anchor="middle">👑</text>
+    <text x="96" y="332" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="bold" fill="#0f172a">SitusBisnis Business Scale</text>
+    <text x="96" y="354" font-family="system-ui, -apple-system, sans-serif" font-size="14" fill="#059669" font-weight="700">0% Potongan Komisi (Zero Fee) ⭐</text>
+    <text x="96" y="374" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#64748b">Unlimited Produk &amp; Page • 10 Toko • 100 GB Cloud</text>
+  </g>
+
+  <!-- Left Content: Typography & Value Props -->
+  <g transform="translate(100, 150)">
+    <!-- Category Pill -->
+    <rect x="0" y="0" width="230" height="36" rx="18" fill="#fef3c7" stroke="#fde68a" stroke-width="1" />
+    <circle cx="18" cy="18" r="6" fill="#d97706" />
+    <text x="34" y="23" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="bold" fill="#92400e" letter-spacing="0.5">ALTERNATIF PLATFORM KREATOR</text>
+
+    <!-- Main Title Lines -->
+    <text x="0" y="85" font-family="system-ui, -apple-system, sans-serif" font-size="44" font-weight="900" fill="#0f172a" letter-spacing="-1">Alternatif Lynk id</text>
+    <text x="0" y="140" font-family="system-ui, -apple-system, sans-serif" font-size="44" font-weight="900" fill="url(#brandAmber)" letter-spacing="-1">Terbaik untuk Kreator</text>
+    <text x="0" y="195" font-family="system-ui, -apple-system, sans-serif" font-size="44" font-weight="900" fill="#0f172a" letter-spacing="-1">Produk Digital</text>
+
+    <!-- Description -->
+    <text x="0" y="250" font-family="system-ui, -apple-system, sans-serif" font-size="17" fill="#475569">Kenapa bayar Rp 99rb/bln masih dipotong komisi 3%?</text>
+    <text x="0" y="278" font-family="system-ui, -apple-system, sans-serif" font-size="17" fill="#475569">Beralih ke SitusBisnis dengan fee 1% hingga 0% Zero Fee.</text>
+
+    <!-- Bullets -->
+    <g transform="translate(0, 320)">
+      <circle cx="10" cy="10" r="5" fill="#d97706" />
+      <text x="26" y="14" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="600" fill="#334155">White-label murni tanpa watermark dan bebas iklan</text>
+
+      <circle cx="10" cy="38" r="5" fill="#d97706" />
+      <text x="26" y="42" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="600" fill="#334155">Dukungan Custom Domain CNAME (.com / .id)</text>
+
+      <circle cx="10" cy="66" r="5" fill="#d97706" />
+      <text x="26" y="70" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="600" fill="#334155">Database CRM WhatsApp &amp; Email 100% milik Anda</text>
+    </g>
+  </g>
+</svg>

@@ -36,39 +36,40 @@
   <circle cx="180" cy="580" r="220" fill="#fffbeb" opacity="0.8" />
 
   <!-- Right Visual: Comparison Cards -->
-  <g transform="translate(670, 130)">
-    <!-- Card 1: Platform Pihak Ketiga (High Fee) -->
+  <g transform="translate(670, 110)">
+    <!-- Card 1: Platform Lain (Lynk 3-5%, Mayar 3-4%, KK 10%) -->
     <rect x="0" y="0" width="440" height="110" rx="18" fill="#ffffff" stroke="#fecaca" stroke-width="1.5" filter="url(#softShadowComp)" />
     <rect x="20" y="24" width="62" height="62" rx="14" fill="#fef2f2" />
     <text x="51" y="62" font-family="monospace" font-size="24" text-anchor="middle">📉</text>
-    <text x="100" y="46" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="bold" fill="#0f172a">Platform Pihak Ketiga (Lynk, Mayar, dll)</text>
-    <text x="100" y="68" font-family="system-ui, -apple-system, sans-serif" font-size="13" fill="#dc2626" font-weight="600">Komisi 3% - 10% + Tarik Dana + Data Terkunci</text>
-    <text x="100" y="88" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#64748b">Omzet Rp 20 Jt dipotong hingga Rp 2.000.000/bln</text>
+    <text x="100" y="46" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="bold" fill="#0f172a">Platform Lain (Lynk, Mayar, KK)</text>
+    <text x="100" y="68" font-family="system-ui, -apple-system, sans-serif" font-size="13" fill="#dc2626" font-weight="600">Komisi 3% - 10% Terus Memotong Omzet</text>
+    <text x="100" y="88" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#64748b">Lynk Pro tetap 3% • KaryaKarsa 10% • Data Terkunci</text>
 
-    <!-- Card 2: Toko Mandiri SitusBisnis (Winner) -->
-    <rect x="15" y="135" width="440" height="125" rx="18" fill="#ffffff" stroke="#f59e0b" stroke-width="2.5" filter="url(#softShadowComp)" />
-    <rect x="35" y="162" width="68" height="68" rx="14" fill="#fef3c7" />
-    <text x="69" y="204" font-family="monospace" font-size="26" text-anchor="middle">👑</text>
-    <text x="120" y="167" font-family="system-ui, -apple-system, sans-serif" font-size="17" font-weight="bold" fill="#0f172a">Toko Mandiri SitusBisnis</text>
-    <text x="120" y="190" font-family="system-ui, -apple-system, sans-serif" font-size="14" fill="#d97706" font-weight="700">0% Potongan Komisi Platform (Rp 0)</text>
-    <text x="120" y="210" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#059669" font-weight="600">✓ 100% Data WhatsApp &amp; Email Milik Anda</text>
-    <text x="120" y="228" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#64748b">✓ QRIS Langsung &amp; Akses Berkas Otomatis</text>
+    <!-- Card 2: SitusBisnis Pro Creator (Paling Populer) -->
+    <rect x="15" y="130" width="440" height="125" rx="18" fill="#ffffff" stroke="#f59e0b" stroke-width="2.5" filter="url(#softShadowComp)" />
+    <rect x="35" y="157" width="68" height="68" rx="14" fill="#fef3c7" />
+    <text x="69" y="199" font-family="monospace" font-size="26" text-anchor="middle">⭐</text>
+    <text x="120" y="162" font-family="system-ui, -apple-system, sans-serif" font-size="17" font-weight="bold" fill="#0f172a">SitusBisnis Pro Creator (Rp 79rb/bln)</text>
+    <text x="120" y="185" font-family="system-ui, -apple-system, sans-serif" font-size="14" fill="#d97706" font-weight="700">Fee Hanya 1% • White-Label Murni</text>
+    <text x="120" y="205" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#059669" font-weight="600">✓ Kelola 3 Toko • Bebas Iklan • Unlimited Landing Page</text>
+    <text x="120" y="223" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#64748b">✓ 25 GB Cloud S3 • 5.000 CRM Kontak • Custom Domain</text>
 
-    <!-- Card 3: Kalkulasi Margin Bersih -->
-    <rect x="0" y="285" width="440" height="100" rx="18" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#softShadowComp)" />
-    <rect x="20" y="304" width="62" height="62" rx="14" fill="#f8fafc" />
-    <text x="51" y="342" font-family="monospace" font-size="24" text-anchor="middle">💰</text>
-    <text x="100" y="328" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="bold" fill="#0f172a">Efisiensi Profit Jangka Panjang</text>
-    <text x="100" y="350" font-family="system-ui, -apple-system, sans-serif" font-size="13" fill="#0f172a" font-weight="600">Hemat Hingga Belasan Juta Rupiah per Tahun</text>
-    <text x="100" y="370" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#64748b">Margin laba utuh untuk biaya riset &amp; iklan mandiri</text>
+    <!-- Card 3: SitusBisnis Business Scale (Zero Fee) -->
+    <rect x="0" y="275" width="440" height="115" rx="18" fill="#ffffff" stroke="#10b981" stroke-width="2" filter="url(#softShadowComp)" />
+    <rect x="20" y="297" width="68" height="68" rx="14" fill="#ecfdf5" />
+    <text x="54" y="339" font-family="monospace" font-size="26" text-anchor="middle">👑</text>
+    <text x="105" y="306" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="bold" fill="#0f172a">SitusBisnis Business Scale (Rp 199rb/bln)</text>
+    <text x="105" y="328" font-family="system-ui, -apple-system, sans-serif" font-size="14" fill="#059669" font-weight="700">0% Potongan Komisi (Zero Fee) ⭐</text>
+    <text x="105" y="348" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#334155" font-weight="600">✓ Unlimited Produk &amp; Page • 10 Toko • 100 GB Cloud</text>
+    <text x="105" y="366" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#64748b">✓ 25.000 CRM • 10 Akun Tim • Auto-Split Afiliasi 0%</text>
   </g>
 
   <!-- Left Content: Typography & Value Props -->
-  <g transform="translate(100, 160)">
+  <g transform="translate(100, 150)">
     <!-- Category Pill -->
-    <rect x="0" y="0" width="220" height="36" rx="18" fill="#fef3c7" stroke="#fde68a" stroke-width="1" />
+    <rect x="0" y="0" width="230" height="36" rx="18" fill="#fef3c7" stroke="#fde68a" stroke-width="1" />
     <circle cx="18" cy="18" r="6" fill="#d97706" />
-    <text x="34" y="23" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="bold" fill="#92400e" letter-spacing="0.5">RISET KOMPETITOR &amp; PLATFORM</text>
+    <text x="34" y="23" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="bold" fill="#92400e" letter-spacing="0.5">KOMPARASI BIAYA &amp; FITUR RIIL</text>
 
     <!-- Main Title Lines -->
     <text x="0" y="85" font-family="system-ui, -apple-system, sans-serif" font-size="44" font-weight="900" fill="#0f172a" letter-spacing="-1">Perbandingan Platform</text>
@@ -76,19 +77,19 @@
     <text x="0" y="195" font-family="system-ui, -apple-system, sans-serif" font-size="44" font-weight="900" fill="#0f172a" letter-spacing="-1">di Indonesia</text>
 
     <!-- Description -->
-    <text x="0" y="250" font-family="system-ui, -apple-system, sans-serif" font-size="18" fill="#475569">Bedah komparasi biaya transaksi, potongan komisi,</text>
-    <text x="0" y="278" font-family="system-ui, -apple-system, sans-serif" font-size="18" fill="#475569">kepemilikan database pembeli, dan kalkulasi profit riil.</text>
+    <text x="0" y="250" font-family="system-ui, -apple-system, sans-serif" font-size="17" fill="#475569">Bedah akurat skema Starter (5%), Pro Creator (1%),</text>
+    <text x="0" y="278" font-family="system-ui, -apple-system, sans-serif" font-size="17" fill="#475569">hingga Business Scale (0% Zero Fee) vs Lynk.id &amp; Mayar.</text>
 
     <!-- Bullets -->
     <g transform="translate(0, 320)">
       <circle cx="10" cy="10" r="5" fill="#d97706" />
-      <text x="26" y="14" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="600" fill="#334155">Lynk id vs Mayar vs KaryaKarsa vs Toko Mandiri</text>
+      <text x="26" y="14" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="600" fill="#334155">Data resmi fitur &amp; tabel komparasi biaya terbaru</text>
 
       <circle cx="10" cy="38" r="5" fill="#d97706" />
-      <text x="26" y="42" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="600" fill="#334155">Simulasi omzet Rp 20 juta dan potongan biaya bersih</text>
+      <text x="26" y="42" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="600" fill="#334155">Simulasi profit riil omzet Rp 20 juta - Rp 50 juta</text>
 
       <circle cx="10" cy="66" r="5" fill="#d97706" />
-      <text x="26" y="70" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="600" fill="#334155">Kenapa toko mandiri 0% komisi adalah masa depan kreator</text>
+      <text x="26" y="70" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="600" fill="#334155">Kepemilikan database CRM WhatsApp &amp; Custom Domain</text>
     </g>
   </g>
 </svg>

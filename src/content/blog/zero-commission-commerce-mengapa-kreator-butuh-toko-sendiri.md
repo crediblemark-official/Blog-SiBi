@@ -33,7 +33,7 @@ graph TD
 ### 1. Erosi Margin Laba Bersih
 Jika bisnis digital Anda menghasilkan omzet Rp 50.000.000 per bulan:
 - Potongan komisi 15% berarti Anda menyetorkan **Rp 7.500.000 setiap bulan** (Rp 90.000.000 per tahun!) hanya untuk biaya transaksi platform.
-- Dengan sistem *Zero-Commission* seperti di [SitusBisnis](https://situsbisnis.com), Anda hanya membayar biaya payment gateway riil (seperti biaya QRIS standar Bank Indonesia ~0.7%), sehingga margin laba bersih Anda tetap utuh.
+- Dengan sistem berjenjang di [SitusBisnis](https://situsbisnis.com)—mulai dari paket Starter (5%), paket Pro Creator (hanya 1% fee), hingga paket Business Scale dengan **0% Potongan Komisi (Zero Fee)**—Anda hanya perlu membayar biaya gateway pembayaran riil (seperti QRIS standar Bank Indonesia ~0.7%), sehingga margin laba bersih Anda terselamatkan secara maksimal.
 
 ### 2. Algoritma Pembajakan Audiens (Audience Poaching)
 Pernahkah Anda membawa ribuan followers dari akun Instagram Anda ke halaman produk di marketplace, lalu tepat di bawah produk Anda muncul rekomendasi: *"Pengguna lain juga melihat produk [Nama Kompetitor] yang lebih murah"*?
@@ -48,7 +48,7 @@ Aset paling bernilai dari sebuah bisnis digital bukanlah produknya hari ini, mel
 
 | Dimensi Penilaian | Platform Marketplace Konvensional | Toko Digital Berdaulat (SitusBisnis) |
 | :--- | :--- | :--- |
-| **Biaya Komisi Platform** | 5% hingga 30% per transaksi | **0% Komisi (Zero-Commission)** |
+| **Biaya Komisi Platform** | 5% hingga 30% per transaksi | **0% Komisi (Paket Business Scale)** atau **hanya 1% (Paket Pro Creator)** |
 | **Kepemilikan Data Pembeli** | Disamarkan / Dikunci platform | **100% Milik Anda** (Nama, Email, No. WA diekspor instan) |
 | **Kustomisasi Brand & Domain** | Menggunakan subdomain platform yang seragam | Bisa memakai nama brand dan estetika visual eksklusif |
 | **Metode Pembayaran Lokal** | Sering kali terbatas / Payout manual mingguan | **QRIS & Virtual Account instan**, dana langsung masuk |

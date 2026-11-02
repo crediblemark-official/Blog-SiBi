@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 750" width="1200" height="750">
+  <defs>
+    <linearGradient id="lightMigBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="60%" stop-color="#fffbeb" />
+      <stop offset="100%" stop-color="#fef3c7" />
+    </linearGradient>
+    <linearGradient id="brandAmber" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#d97706" />
+      <stop offset="100%" stop-color="#f59e0b" />
+    </linearGradient>
+    <filter id="softShadowMig" x="-10%" y="-10%" width="125%" height="125%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#0f172a" flood-opacity="0.06" />
+    </filter>
+  </defs>
+
+  <!-- Clean Light Background -->
+  <rect width="1200" height="750" fill="url(#lightMigBg)" />
+
+  <!-- Subtle Grid Lines -->
+  <g opacity="0.45" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="3 3">
+    <line x1="120" y1="0" x2="120" y2="750" />
+    <line x1="320" y1="0" x2="320" y2="750" />
+    <line x1="520" y1="0" x2="520" y2="750" />
+    <line x1="720" y1="0" x2="720" y2="750" />
+    <line x1="920" y1="0" x2="920" y2="750" />
+    <line x1="1120" y1="0" x2="1120" y2="750" />
+    <line x1="0" y1="150" x2="1200" y2="150" />
+    <line x1="0" y1="300" x2="1200" y2="300" />
+    <line x1="0" y1="450" x2="1200" y2="450" />
+    <line x1="0" y1="600" x2="1200" y2="600" />
+  </g>
+
+  <!-- Ambient Glow -->
+  <circle cx="1020" cy="180" r="280" fill="#fef3c7" opacity="0.7" />
+  <circle cx="180" cy="580" r="220" fill="#fffbeb" opacity="0.8" />
+
+  <!-- Right Visual: Step Process Cards -->
+  <g transform="translate(680, 110)">
+    <!-- Step 1 -->
+    <rect x="0" y="0" width="430" height="88" rx="16" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#softShadowMig)" />
+    <rect x="18" y="16" width="56" height="56" rx="14" fill="#f1f5f9" />
+    <text x="46" y="51" font-family="monospace" font-size="20" text-anchor="middle">📦</text>
+    <text x="90" y="38" font-family="system-ui, -apple-system, sans-serif" font-size="15" font-weight="bold" fill="#0f172a">1. Amankan Berkas &amp; Data Pembeli</text>
+    <text x="90" y="60" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#64748b">Unduh riwayat transaksi &amp; siapkan file master</text>
+
+    <!-- Step 2 -->
+    <rect x="15" y="105" width="430" height="92" rx="16" fill="#ffffff" stroke="#f59e0b" stroke-width="2" filter="url(#softShadowMig)" />
+    <rect x="33" y="121" width="56" height="56" rx="14" fill="#fef3c7" />
+    <text x="61" y="156" font-family="monospace" font-size="20" text-anchor="middle">🚀</text>
+    <text x="105" y="143" font-family="system-ui, -apple-system, sans-serif" font-size="15" font-weight="bold" fill="#0f172a">2. Aktifkan Toko Mandiri di SitusBisnis</text>
+    <text x="105" y="165" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#d97706" font-weight="600">Pilih Pro Creator (1% Fee) atau Scale (0% Fee)</text>
+
+    <!-- Step 3 -->
+    <rect x="30" y="215" width="430" height="88" rx="16" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#softShadowMig)" />
+    <rect x="48" y="231" width="56" height="56" rx="14" fill="#f1f5f9" />
+    <text x="76" y="266" font-family="monospace" font-size="20" text-anchor="middle">🌐</text>
+    <text x="120" y="253" font-family="system-ui, -apple-system, sans-serif" font-size="15" font-weight="bold" fill="#0f172a">3. Hubungkan Custom Domain CNAME</text>
+    <text x="120" y="275" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#64748b">Brand sendiri bebas watermark &amp; bebas iklan</text>
+
+    <!-- Step 4 -->
+    <rect x="15" y="320" width="430" height="92" rx="16" fill="#ffffff" stroke="#10b981" stroke-width="2" filter="url(#softShadowMig)" />
+    <rect x="33" y="336" width="56" height="56" rx="14" fill="#ecfdf5" />
+    <text x="61" y="371" font-family="monospace" font-size="20" text-anchor="middle">🎉</text>
+    <text x="105" y="358" font-family="system-ui, -apple-system, sans-serif" font-size="15" font-weight="bold" fill="#0f172a">4. Alihkan Bio &amp; Sapa Pelanggan</text>
+    <text x="105" y="380" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#059669" font-weight="600">Laba bersih maksimal &amp; database CRM 100% milik Anda</text>
+  </g>
+
+  <!-- Left Content: Typography & Value Props -->
+  <g transform="translate(100, 150)">
+    <!-- Category Pill -->
+    <rect x="0" y="0" width="220" height="36" rx="18" fill="#fef3c7" stroke="#fde68a" stroke-width="1" />
+    <circle cx="18" cy="18" r="6" fill="#d97706" />
+    <text x="34" y="23" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="bold" fill="#92400e" letter-spacing="0.5">PANDUAN TAKTIS MIGRASI</text>
+
+    <!-- Main Title Lines -->
+    <text x="0" y="85" font-family="system-ui, -apple-system, sans-serif" font-size="44" font-weight="900" fill="#0f172a" letter-spacing="-1">Panduan Praktis Migrasi</text>
+    <text x="0" y="140" font-family="system-ui, -apple-system, sans-serif" font-size="44" font-weight="900" fill="url(#brandAmber)" letter-spacing="-1">ke SitusBisnis</text>
+    <text x="0" y="195" font-family="system-ui, -apple-system, sans-serif" font-size="44" font-weight="900" fill="#0f172a" letter-spacing="-1">Bebas Komisi Liar</text>
+
+    <!-- Description -->
+    <text x="0" y="250" font-family="system-ui, -apple-system, sans-serif" font-size="17" fill="#475569">Langkah aman memindahkan produk digital dari Lynk id</text>
+    <text x="0" y="278" font-family="system-ui, -apple-system, sans-serif" font-size="17" fill="#475569">atau marketplace lain ke SitusBisnis tanpa friksi.</text>
+
+    <!-- Bullets -->
+    <g transform="translate(0, 320)">
+      <circle cx="10" cy="10" r="5" fill="#d97706" />
+      <text x="26" y="14" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="600" fill="#334155">Cara memindahkan materi tanpa mengganggu pembeli aktif</text>
+
+      <circle cx="10" cy="38" r="5" fill="#d97706" />
+      <text x="26" y="42" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="600" fill="#334155">Pengalihan tautan bio media sosial secara terencana</text>
+
+      <circle cx="10" cy="66" r="5" fill="#d97706" />
+      <text x="26" y="70" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="600" fill="#334155">Broadcast notifikasi WhatsApp pengumuman rumah baru</text>
+    </g>
+  </g>
+</svg>
