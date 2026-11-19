@@ -13,10 +13,6 @@ const isEn = Astro.currentLocale === 'en' || Astro.url.pathname.startsWith('/en'
         <a href="https://situsbisnis.com" target="_blank" rel="noopener noreferrer" class="hover:text-amber-700 transition-colors">
           {isEn ? "SitusBisnis Platform" : "Platform SitusBisnis"}
         </a>
-        <span class="text-slate-300 select-none">|</span>
-        <a href={isEn ? "/en/" : "/"} class="hover:text-amber-700 transition-colors">
-          {isEn ? "All Articles" : "Semua Artikel"}
-        </a>
         {!isEn && (
           <>
             <span class="text-slate-300 select-none">|</span>
