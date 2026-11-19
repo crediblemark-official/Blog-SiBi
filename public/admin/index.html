@@ -31,7 +31,7 @@
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: var(--font-sans); -webkit-tap-highlight-color: transparent; }
-    html, body { background-color: var(--bg); color: var(--text); min-height: 100vh; font-size: 14px; line-height: 1.5; }
+    html, body { background-color: var(--bg); color: var(--text); min-height: 100vh; font-size: 14px; line-height: 1.5; overflow-x: hidden; }
 
     /* Utilities */
     .hidden { display: none !important; }
@@ -85,6 +85,11 @@
       border-color: var(--border);
     }
     .btn-secondary:hover { background: #334155; }
+    .btn-secondary.active {
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--primary);
+      border-color: rgba(245, 158, 11, 0.3);
+    }
     .btn-ghost {
       background: transparent;
       color: var(--text-muted);
@@ -296,19 +301,20 @@
       flex-shrink: 0;
     }
 
-    /* Editor Layout (Mobile First Segmented vs Desktop 2-Col) */
+    /* ======================================================== */
+    /* BULLETPROOF EDITOR WORKSPACE (Mobile Segmented vs Desktop Grid) */
+    /* ======================================================== */
     .editor-container {
       display: flex;
       flex-direction: column;
-      min-height: calc(100vh - 3.5rem);
+      height: 100vh;
+      overflow: hidden;
     }
     .editor-tabs-mobile {
       display: flex;
       border-bottom: 1px solid var(--border);
       background: #0f172a;
-    }
-    @media (min-width: 1024px) {
-      .editor-tabs-mobile { display: none; }
+      flex-shrink: 0;
     }
     .editor-tab-btn {
       flex: 1;
@@ -334,15 +340,9 @@
       display: flex;
       flex-direction: column;
       flex: 1;
+      min-height: 0;
+      overflow: hidden;
     }
-    @media (min-width: 1024px) {
-      .editor-body-grid {
-        display: grid;
-        grid-template-columns: 320px 1fr;
-        height: calc(100vh - 3.5rem);
-      }
-    }
-
     .meta-sidebar {
       padding: 1rem;
       background: var(--surface);
@@ -357,7 +357,9 @@
       flex-direction: column;
       flex: 1;
       min-width: 0;
+      min-height: 0;
       height: 100%;
+      overflow: hidden;
     }
 
     /* Editor Toolbar */
@@ -369,6 +371,7 @@
       align-items: center;
       gap: 0.25rem;
       overflow-x: auto;
+      flex-shrink: 0;
     }
     .tbar-btn {
       background: #1e293b;
@@ -383,15 +386,22 @@
     }
     .tbar-btn:hover { background: #334155; color: #fff; }
 
-    /* Dual Pane Split */
+    /* Dual Pane Split with Guaranteed CSS Grid (Zero Squishing) */
     .editor-split {
-      display: flex;
+      display: grid;
+      grid-template-columns: 1fr;
       flex: 1;
-      min-height: 400px;
+      min-height: 0;
       height: 100%;
+      overflow: hidden;
+    }
+    #panel-content, #panel-preview {
+      min-width: 0;
+      width: 100%;
+      height: 100%;
+      overflow-y: auto;
     }
     .code-editor {
-      flex: 1;
       width: 100%;
       height: 100%;
       background: #090d16;
@@ -403,9 +413,9 @@
       border: none;
       resize: none;
       outline: none;
+      min-width: 0;
     }
     .preview-box {
-      flex: 1;
       background: #0f172a;
       border-left: 1px solid var(--border);
       padding: 1.25rem;
@@ -413,6 +423,8 @@
       color: #cbd5e1;
       font-size: 0.9375rem;
       line-height: 1.7;
+      min-width: 0;
+      word-break: break-word;
     }
     .preview-box h1 { font-size: 1.5rem; color: #fff; margin-bottom: 0.75rem; padding-bottom: 0.35rem; border-bottom: 1px solid var(--border); }
     .preview-box h2 { font-size: 1.25rem; color: #fff; margin: 1.25rem 0 0.5rem; padding-bottom: 0.25rem; border-bottom: 1px solid var(--border); }
@@ -421,12 +433,62 @@
     .preview-box ul, .preview-box ol { margin: 0 0 0.875rem 1.25rem; }
     .preview-box blockquote { border-left: 3px solid var(--primary); padding-left: 0.875rem; color: var(--text-muted); font-style: italic; margin-bottom: 0.875rem; }
     .preview-box code { font-family: var(--font-mono); background: #090d16; padding: 0.15rem 0.35rem; border-radius: 0.25rem; font-size: 0.85em; color: var(--primary); }
-    .preview-box pre code { display: block; padding: 0.75rem; overflow-x: auto; color: #e2e8f0; border-radius: 0.375rem; }
+    .preview-box pre { max-width: 100%; overflow-x: auto; background: #090d16; border-radius: 0.375rem; margin-bottom: 1rem; border: 1px solid var(--border); }
+    .preview-box pre code { display: block; padding: 0.75rem; color: #e2e8f0; }
     .preview-box img { max-width: 100%; border-radius: 0.375rem; margin: 0.75rem 0; }
 
-    /* Mobile Visibility Controls */
+    /* Desktop Breakpoints (>= 1024px) */
+    @media (min-width: 1024px) {
+      .desktop-only { display: inline-flex !important; }
+      .editor-tabs-mobile { display: none !important; }
+      
+      .editor-body-grid {
+        display: grid;
+        grid-template-columns: 320px 1fr;
+      }
+      .editor-body-grid.sidebar-hidden {
+        grid-template-columns: 1fr;
+      }
+      .editor-body-grid.sidebar-hidden #panel-meta {
+        display: none !important;
+      }
+
+      #panel-meta { display: flex !important; }
+      #panel-editor-wrap { display: flex !important; }
+      #panel-content { display: block !important; }
+
+      .editor-split {
+        grid-template-columns: 1fr 1fr; /* Exact 50% / 50% split */
+      }
+      .editor-split.preview-hidden {
+        grid-template-columns: 1fr;
+      }
+      .editor-split.preview-hidden #panel-preview {
+        display: none !important;
+      }
+    }
+
+    /* Mobile Breakpoints (< 1024px) */
     @media (max-width: 1023px) {
-      .panel-mobile-hidden { display: none !important; }
+      .desktop-only { display: none !important; }
+      .editor-tabs-mobile { display: flex; }
+      
+      /* In Content Tab */
+      .mobile-mode-content #panel-meta { display: none !important; }
+      .mobile-mode-content #panel-editor-wrap { display: flex !important; }
+      .mobile-mode-content #panel-content { display: block !important; }
+      .mobile-mode-content #panel-preview { display: none !important; }
+
+      /* In Meta Tab */
+      .mobile-mode-meta #panel-meta { display: flex !important; width: 100%; height: 100%; }
+      .mobile-mode-meta #panel-editor-wrap { display: none !important; }
+
+      /* In Preview Tab */
+      .mobile-mode-preview #panel-meta { display: none !important; }
+      .mobile-mode-preview #panel-editor-wrap { display: flex !important; }
+      .mobile-mode-preview .editor-toolbar { display: none !important; }
+      .mobile-mode-preview #panel-content { display: none !important; }
+      .mobile-mode-preview #panel-preview { display: block !important; width: 100%; height: 100%; border-left: none; }
     }
 
     /* Toast Container */
@@ -475,7 +537,7 @@
 <body>
 
   <!-- ========================================== -->
-  <!-- 1. LOGIN PORTAL (Compact & Mobile First)   -->
+  <!-- 1. LOGIN PORTAL                            -->
   <!-- ========================================== -->
   <div id="login-portal" class="flex items-center justify-center" style="min-height: 100vh; padding: 1rem;">
     <div style="width: 100%; max-width: 360px; background: var(--surface); border: 1px solid var(--border); border-radius: 0.75rem; padding: 1.75rem 1.25rem;">
@@ -506,7 +568,7 @@
   </div>
 
   <!-- ========================================== -->
-  <!-- 2. DASHBOARD VIEW (Full-Edge Mobile First) -->
+  <!-- 2. DASHBOARD VIEW                          -->
   <!-- ========================================== -->
   <div id="dashboard-view" class="hidden">
     <!-- App Bar -->
@@ -588,19 +650,32 @@
   </div>
 
   <!-- ========================================== -->
-  <!-- 3. EDITOR VIEW (Mobile-First Segmented)    -->
+  <!-- 3. EDITOR VIEW                             -->
   <!-- ========================================== -->
-  <div id="editor-view" class="editor-container hidden">
+  <div id="editor-view" class="editor-container mobile-mode-content hidden">
     <!-- Editor Header -->
     <header class="app-bar">
       <div class="flex items-center gap-2 min-w-0">
-        <button class="btn btn-ghost btn-icon-only" onclick="app.showDashboard()" title="Kembali">
+        <button class="btn btn-ghost btn-icon-only" onclick="app.showDashboard()" title="Kembali ke Daftar">
           <svg style="width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
         </button>
         <div id="editor-title-badge" class="truncate" style="font-weight: 700; font-size: 0.875rem;">Tulis Artikel</div>
       </div>
 
-      <div class="flex items-center gap-2">
+      <div class="flex items-center gap-1.5">
+        <!-- Desktop Sidebar Toggle -->
+        <button type="button" id="btn-toggle-sidebar" class="btn btn-secondary desktop-only active" onclick="app.toggleDesktopSidebar()" title="Toggle Sidebar Pengaturan">
+          <svg style="width: 14px; height: 14px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16"/></svg>
+          <span>Pengaturan</span>
+        </button>
+
+        <!-- Desktop Preview Toggle -->
+        <button type="button" id="btn-toggle-preview" class="btn btn-secondary desktop-only active" onclick="app.toggleDesktopPreview()" title="Toggle Pratinjau 50/50">
+          <svg style="width: 14px; height: 14px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+          <span>Pratinjau</span>
+        </button>
+
+        <!-- Save Button -->
         <button id="save-btn" class="btn btn-primary" onclick="app.saveArticle()">
           <svg style="width: 14px; height: 14px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
           <span>Simpan</span>
@@ -616,9 +691,9 @@
     </div>
 
     <!-- Main Workspace -->
-    <div class="editor-body-grid">
+    <div class="editor-body-grid" id="editor-body-grid">
       <!-- 1. Metadata Panel (Sidebar on Desktop, Tab on Mobile) -->
-      <aside class="meta-sidebar panel-mobile-hidden" id="panel-meta">
+      <aside class="meta-sidebar" id="panel-meta">
         <div>
           <label class="form-label">Bahasa</label>
           <div class="seg-pill w-full">
@@ -698,15 +773,15 @@
           <span style="font-size: 0.75rem; color: var(--text-dim); font-family: var(--font-mono);" id="word-count">0 kata</span>
         </div>
 
-        <!-- Split Editor / Preview -->
-        <div class="editor-split">
-          <!-- Textarea (Hidden when Preview tab active on Mobile) -->
-          <div class="w-full" id="panel-content" style="height: 100%;">
+        <!-- Split Grid (Strict 50/50 Desktop, 100% Mobile) -->
+        <div class="editor-split" id="editor-split">
+          <!-- Textarea Pane -->
+          <div id="panel-content">
             <textarea id="markdown-body" class="code-editor" placeholder="Mulai menulis artikel dengan Markdown di sini..." oninput="app.handleContentInput(this.value)"></textarea>
           </div>
 
-          <!-- Preview Pane (Hidden on Mobile unless tab selected) -->
-          <div class="preview-box panel-mobile-hidden" id="panel-preview">
+          <!-- Preview Pane -->
+          <div class="preview-box" id="panel-preview">
             <p style="color: var(--text-dim); font-style: italic;">Pratinjau artikel akan tampil di sini...</p>
           </div>
         </div>
@@ -796,6 +871,8 @@
         this.editorLang = 'id';
         this.existingSha = null;
         this.currentMobileTab = 'content';
+        this.desktopSidebarOpen = true;
+        this.desktopPreviewOpen = true;
       }
 
       init() {
@@ -1023,7 +1100,8 @@
 
       showEditor() {
         document.getElementById('dashboard-view').classList.add('hidden');
-        document.getElementById('editor-view').classList.remove('hidden');
+        const ev = document.getElementById('editor-view');
+        ev.classList.remove('hidden');
         this.switchMobileTab('content');
       }
 
@@ -1033,28 +1111,25 @@
         document.getElementById('tab-btn-meta').classList.toggle('active', tab === 'meta');
         document.getElementById('tab-btn-preview').classList.toggle('active', tab === 'preview');
 
-        const pMeta = document.getElementById('panel-meta');
-        const pContent = document.getElementById('panel-content');
-        const pPreview = document.getElementById('panel-preview');
-        const pWrap = document.getElementById('panel-editor-wrap');
+        const ev = document.getElementById('editor-view');
+        ev.classList.remove('mobile-mode-content', 'mobile-mode-meta', 'mobile-mode-preview');
+        ev.classList.add(`mobile-mode-${tab}`);
+      }
 
-        // Reset desktop default classes
-        pMeta.classList.remove('panel-mobile-hidden');
-        pPreview.classList.remove('panel-mobile-hidden');
-        pContent.classList.remove('hidden');
-        pWrap.classList.remove('hidden');
+      toggleDesktopSidebar() {
+        this.desktopSidebarOpen = !this.desktopSidebarOpen;
+        const grid = document.getElementById('editor-body-grid');
+        const btn = document.getElementById('btn-toggle-sidebar');
+        grid.classList.toggle('sidebar-hidden', !this.desktopSidebarOpen);
+        btn.classList.toggle('active', this.desktopSidebarOpen);
+      }
 
-        if (window.innerWidth < 1024) {
-          if (tab === 'content') {
-            pMeta.classList.add('panel-mobile-hidden');
-            pPreview.classList.add('panel-mobile-hidden');
-          } else if (tab === 'meta') {
-            pWrap.classList.add('hidden');
-          } else if (tab === 'preview') {
-            pMeta.classList.add('panel-mobile-hidden');
-            pContent.classList.add('hidden');
-          }
-        }
+      toggleDesktopPreview() {
+        this.desktopPreviewOpen = !this.desktopPreviewOpen;
+        const split = document.getElementById('editor-split');
+        const btn = document.getElementById('btn-toggle-preview');
+        split.classList.toggle('preview-hidden', !this.desktopPreviewOpen);
+        btn.classList.toggle('active', this.desktopPreviewOpen);
       }
 
       setEditorLanguage(lang) {
