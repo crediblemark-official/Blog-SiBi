@@ -16,6 +16,8 @@ interface Props {
   tags?: string[];
   breadcrumbs?: { name: string; url: string }[];
   noindex?: boolean;
+  idUrl?: string;
+  enUrl?: string;
 }
 
 const {
@@ -31,11 +33,58 @@ const {
   tags = [],
   breadcrumbs = [],
   noindex = false,
+  idUrl,
+  enUrl,
 } = Astro.props;
 
 const siteUrl = (Astro.site ? Astro.site.toString() : 'https://blog.situsbisnis.com').replace(/\/$/, '');
-const currentPath = Astro.url.pathname.replace(/\/$/, '') + '/';
-const currentCanonical = canonicalURL || `${siteUrl}${currentPath === '//' ? '/' : currentPath}`;
+const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isEn = Astro.currentLocale === 'en' || pathname.startsWith('/en');
+
+// Smart bilingual routing resolution
+let targetIdUrl = idUrl;
+let targetEnUrl = enUrl;
+
+if (!targetIdUrl) {
+  if (isEn) {
+    if (pathname === '/en') {
+      targetIdUrl = '/';
+    } else if (pathname.startsWith('/en/brand-guide')) {
+      targetIdUrl = '/brand-guide/';
+    } else if (pathname.startsWith('/en/rss.xml')) {
+      targetIdUrl = '/rss.xml';
+    } else {
+      targetIdUrl = pathname.replace(/^\/en/, '') || '/';
+    }
+  } else {
+    targetIdUrl = pathname === '/' ? '/' : `${pathname}/`;
+  }
+}
+
+if (!targetEnUrl) {
+  if (!isEn) {
+    if (pathname === '/') {
+      targetEnUrl = '/en/';
+    } else if (pathname.startsWith('/brand-guide')) {
+      targetEnUrl = '/en/brand-guide/';
+    } else if (pathname.startsWith('/rss.xml')) {
+      targetEnUrl = '/en/rss.xml';
+    } else {
+      targetEnUrl = '/en/';
+    }
+  } else {
+    targetEnUrl = pathname === '/en' ? '/en/' : `${pathname}/`;
+  }
+}
+
+if (targetIdUrl && !targetIdUrl.endsWith('/') && !targetIdUrl.includes('.')) {
+  targetIdUrl = `${targetIdUrl}/`;
+}
+if (targetEnUrl && !targetEnUrl.endsWith('/') && !targetEnUrl.includes('.')) {
+  targetEnUrl = `${targetEnUrl}/`;
+}
+
+const currentCanonical = canonicalURL || `${siteUrl}${pathname === '/' ? '/' : `${pathname}/`}`;
 
 // Normalize image to absolute URL
 const absoluteImage = image.startsWith('http') 
@@ -146,7 +195,7 @@ const breadcrumbSchema = breadcrumbs.length > 0 ? {
 ---
 
 <!doctype html>
-<html lang="id" class="scroll-smooth">
+<html lang={isEn ? "en" : "id"} class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -161,13 +210,18 @@ const breadcrumbSchema = breadcrumbs.length > 0 ? {
     <!-- Canonical URL -->
     <link rel="canonical" href={currentCanonical} />
 
+    <!-- Multilingual Alternate Hreflang Tags for International SEO -->
+    <link rel="alternate" hreflang="id" href={`${siteUrl}${targetIdUrl}`} />
+    <link rel="alternate" hreflang="en" href={`${siteUrl}${targetEnUrl}`} />
+    <link rel="alternate" hreflang="x-default" href={`${siteUrl}${targetIdUrl}`} />
+
     <!-- Geographic & Localization Meta Tags (GEO) -->
     <meta name="geo.region" content="ID" />
     <meta name="geo.placename" content="Indonesia" />
-    <meta name="language" content="Indonesian" />
+    <meta name="language" content={isEn ? "English" : "Indonesian"} />
 
     <!-- RSS Feed Discovery -->
-    <link rel="alternate" type="application/rss+xml" title="Blog SiBi — RSS Feed" href="/rss.xml" />
+    <link rel="alternate" type="application/rss+xml" title={isEn ? "Blog SiBi — English RSS Feed" : "Blog SiBi — RSS Feed"} href={isEn ? "/en/rss.xml" : "/rss.xml"} />
 
     <!-- SEO Meta Tags -->
     <title>{siteTitle}</title>
@@ -186,7 +240,8 @@ const breadcrumbSchema = breadcrumbs.length > 0 ? {
     )}
 
     <!-- Open Graph / Facebook -->
-    <meta property="og:locale" content="id_ID" />
+    <meta property="og:locale" content={isEn ? "en_US" : "id_ID"} />
+    <meta property="og:locale:alternate" content={isEn ? "id_ID" : "en_US"} />
     <meta property="og:type" content={type} />
     <meta property="og:url" content={currentCanonical} />
     <meta property="og:title" content={siteTitle} />
@@ -225,7 +280,7 @@ const breadcrumbSchema = breadcrumbs.length > 0 ? {
     {breadcrumbSchema && <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />}
   </head>
   <body class="min-h-screen flex flex-col bg-white text-slate-900 selection:bg-amber-100 selection:text-amber-900">
-    <Header />
+    <Header idUrl={targetIdUrl} enUrl={targetEnUrl} />
     <main class="flex-1">
       <slot />
     </main>

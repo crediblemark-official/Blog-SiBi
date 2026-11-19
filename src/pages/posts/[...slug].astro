@@ -6,17 +6,39 @@ import { getSeriesContext } from '../../utils/series';
 export async function getStaticPaths() {
   const allPosts = await getCollection('blog');
   const idPosts = allPosts.filter((p) => (p.data.lang || 'id') === 'id');
-  return idPosts.map((post) => ({
-    params: { slug: post.id.replace(/\.mdx?$/, '') },
-    props: { 
-      post,
-      allPosts: idPosts.filter((p) => p.id !== post.id),
-      rawAllPosts: allPosts,
-    },
-  }));
+  const enPosts = allPosts.filter((p) => p.data.lang === 'en');
+
+  return idPosts.map((post) => {
+    const idSlug = post.id.replace(/\.mdx?$/, '');
+
+    // Resolve matching English article where translationOf equals post.id (or post.id without .md)
+    let enUrl = '/en/';
+    let enPost = null;
+    enPost = enPosts.find((en) => {
+      const targetSlug = en.data.translationOf?.replace(/\.mdx?$/, '');
+      return targetSlug === idSlug || en.data.translationOf === post.id;
+    });
+
+    if (enPost) {
+      const enSlug = enPost.id.replace(/^en\//, '').replace(/\.mdx?$/, '');
+      enUrl = `/en/posts/${enSlug}/`;
+    }
+
+    return {
+      params: { slug: idSlug },
+      props: { 
+        post,
+        allPosts: idPosts.filter((p) => p.id !== post.id),
+        rawAllPosts: allPosts,
+        idUrl: `/posts/${idSlug}/`,
+        enUrl,
+        enPostTitle: enPost?.data?.title,
+      },
+    };
+  });
 }
 
-const { post, allPosts, rawAllPosts } = Astro.props;
+const { post, allPosts, rawAllPosts, idUrl, enUrl, enPostTitle } = Astro.props;
 const { Content, headings } = await render(post);
 
 // Estimasi waktu baca (sekitar 200 kata/menit)
@@ -44,6 +66,9 @@ const seriesContext = getSeriesContext(post, rawAllPosts);
   readingTimeMinutes={readingTimeMinutes}
   relatedPosts={relatedPosts}
   seriesContext={seriesContext}
+  idUrl={idUrl}
+  enUrl={enUrl}
+  alternateTitle={enPostTitle}
 >
   <Content />
 </PostLayout>

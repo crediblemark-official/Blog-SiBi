@@ -6,20 +6,37 @@ import { getSeriesContext } from '../../../utils/series';
 export async function getStaticPaths() {
   const allBlogPosts = await getCollection('blog');
   const enPosts = allBlogPosts.filter((p) => p.data.lang === 'en');
+  const idPosts = allBlogPosts.filter((p) => (p.data.lang || 'id') === 'id');
+
   return enPosts.map((post) => {
     const slug = post.id.replace(/^en\//, '').replace(/\.mdx?$/, '');
+
+    // Resolve matching Indonesian article via translationOf
+    let idUrl = '/';
+    let idPost = null;
+    if (post.data.translationOf) {
+      const targetIdSlug = post.data.translationOf.replace(/\.mdx?$/, '');
+      idPost = idPosts.find((p) => p.id.replace(/\.mdx?$/, '') === targetIdSlug);
+      if (idPost) {
+        idUrl = `/posts/${targetIdSlug}/`;
+      }
+    }
+
     return {
       params: { slug },
       props: { 
         post,
         allPosts: enPosts.filter((p) => p.id !== post.id),
         rawAllPosts: allBlogPosts,
+        idUrl,
+        enUrl: `/en/posts/${slug}/`,
+        idPostTitle: idPost?.data?.title,
       },
     };
   });
 }
 
-const { post, allPosts, rawAllPosts } = Astro.props;
+const { post, allPosts, rawAllPosts, idUrl, enUrl, idPostTitle } = Astro.props;
 const { Content, headings } = await render(post);
 
 // Reading time calculation (average 200 words/min)
@@ -47,6 +64,9 @@ const seriesContext = getSeriesContext(post, rawAllPosts);
   readingTimeMinutes={readingTimeMinutes}
   relatedPosts={relatedPosts}
   seriesContext={seriesContext}
+  idUrl={idUrl}
+  enUrl={enUrl}
+  alternateTitle={idPostTitle}
 >
   <Content />
 </PostLayout>
