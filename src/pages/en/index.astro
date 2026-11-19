@@ -1,0 +1,227 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('blog');
+const posts = allPosts.filter((p) => p.data.lang === 'en');
+
+// Sort by date descending
+const sortedPosts = posts.sort((a, b) => {
+  return new Date(b.data.date).getTime() - new Date(a.data.date).getTime();
+});
+
+const featuredPost = sortedPosts[0];
+const remainingPosts = sortedPosts.slice(1);
+const allCategories = ['All', ...Array.from(new Set(sortedPosts.flatMap(p => p.data.categories || [])))];
+---
+
+<BaseLayout 
+  title="Blog SiBi — In-Depth Essays & Creator Commerce Strategy"
+  description="Strategic insights, conversion teardowns, and comprehensive playbooks on creator commerce from the SitusBisnis team."
+>
+  <div class="w-full max-w-7xl mx-auto px-0 sm:px-6 lg:px-8 py-4 sm:py-12 lg:py-14">
+    
+    <!-- 1. Header / Intro Hero Section -->
+    <header class="w-full max-w-3xl mx-auto px-4 sm:px-6 mb-10 sm:mb-16 text-center flex flex-col items-center">
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-900 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-3.5 sm:mb-4 font-mono">
+        <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
+        Official Publication of SitusBisnis
+      </div>
+      <h1 class="text-2xl sm:text-4xl lg:text-5xl font-black tracking-tight text-slate-950 leading-[1.18] mb-3 sm:mb-4 max-w-2xl">
+        Strategic Playbooks & Creator Commerce Research
+      </h1>
+      <p class="text-xs sm:text-base lg:text-lg text-slate-600 leading-relaxed font-normal max-w-2xl">
+        In-depth, battle-tested operational essays helping creators, software engineers, and digital entrepreneurs scale sovereign, zero-commission commerce.
+      </p>
+    </header>
+
+    <!-- 2. Featured Post Card -->
+    {featuredPost && (
+      <section class="mb-10 sm:mb-20">
+        <div class="px-4 sm:px-0 flex items-center gap-2 mb-3 sm:mb-4">
+          <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+          <h2 class="text-xs font-black uppercase tracking-wider text-slate-400 font-mono">
+            Editor's Choice
+          </h2>
+        </div>
+
+        <article class="group bg-white rounded-none sm:rounded-3xl border-x-0 sm:border border-y sm:border-y border-slate-200/90 overflow-hidden hover:border-amber-500/50 hover:shadow-lg transition-all duration-300">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-0 items-center">
+            
+            <a 
+              href={`/en/posts/${featuredPost.id.replace(/^en\//, '').replace(/\.mdx?$/, '')}/`} 
+              class="lg:col-span-7 aspect-[16/10] lg:aspect-[16/11] overflow-hidden bg-slate-100 block relative"
+            >
+              <img 
+                src={featuredPost.data.image || "/images/posts/creator-commerce-cover.svg"} 
+                alt={featuredPost.data.title}
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                loading="eager"
+              />
+            </a>
+
+            <div class="lg:col-span-5 px-4 py-5 sm:p-8 lg:p-10 flex flex-col justify-between">
+              <div>
+                <div class="flex flex-wrap items-center gap-2 mb-2.5 sm:mb-3.5">
+                  <span class="text-amber-800 bg-amber-50 px-2.5 py-0.5 rounded-full border border-amber-200/80 font-semibold font-mono text-[11px]">
+                    {featuredPost.data.categories?.[0] || 'Strategy'}
+                  </span>
+                  <span class="text-slate-300">•</span>
+                  <span class="text-slate-500 font-medium text-xs">
+                    {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(featuredPost.data.date))}
+                  </span>
+                </div>
+
+                <h3 class="text-lg sm:text-2xl lg:text-3xl font-black text-slate-950 tracking-tight leading-snug mb-2.5 sm:mb-3 group-hover:text-amber-600 transition-colors">
+                  <a href={`/en/posts/${featuredPost.id.replace(/^en\//, '').replace(/\.mdx?$/, '')}/`}>
+                    {featuredPost.data.title}
+                  </a>
+                </h3>
+
+                <p class="text-slate-600 text-xs sm:text-sm lg:text-base leading-relaxed mb-5 sm:mb-6 font-normal">
+                  {featuredPost.data.description}
+                </p>
+              </div>
+
+              <div class="pt-4 sm:pt-5 border-t border-slate-100 flex items-center justify-between gap-4">
+                <div class="flex items-center gap-2.5">
+                  <div class="w-8 h-8 rounded-full bg-amber-50 border border-amber-200 p-1 flex items-center justify-center shrink-0">
+                    <img src="/logo.png" alt="SitusBisnis" class="w-full h-full object-contain" />
+                  </div>
+                  <div>
+                    <span class="font-bold text-slate-900 text-xs block leading-tight">{featuredPost.data.author}</span>
+                    <span class="text-slate-400 text-[10px]">SitusBisnis Editorial</span>
+                  </div>
+                </div>
+
+                <a 
+                  href={`/en/posts/${featuredPost.id.replace(/^en\//, '').replace(/\.mdx?$/, '')}/`}
+                  class="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-amber-600 group-hover:text-amber-700 transition-colors shrink-0"
+                >
+                  <span>Read Essay</span>
+                  <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+
+          </div>
+        </article>
+      </section>
+    )}
+
+    <!-- 3. Category Filter & Article Grid -->
+    <section class="space-y-6 sm:space-y-8">
+      <div class="px-4 sm:px-0 flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200">
+        <div>
+          <h2 class="text-xl sm:text-2xl font-black tracking-tight text-slate-950">
+            Latest Publications
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-500 mt-0.5">
+            Published weekly by practitioners and core engineers.
+          </p>
+        </div>
+
+        <!-- Category Pills -->
+        <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1">
+          {allCategories.map((cat, idx) => (
+            <button
+              type="button"
+              class:list={[
+                "px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all select-none shrink-0",
+                idx === 0
+                  ? "bg-slate-950 text-white font-bold shadow-2xs"
+                  : "bg-white hover:bg-slate-100 text-slate-600 border border-slate-200/80"
+              ]}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <!-- Articles Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 px-4 sm:px-0">
+        {sortedPosts.map((post) => {
+          const postSlug = post.id.replace(/^en\//, '').replace(/\.mdx?$/, '');
+          return (
+            <article class="group bg-white rounded-2xl border border-slate-200/80 overflow-hidden hover:border-amber-500/40 hover:shadow-md transition-all duration-200 flex flex-col justify-between">
+              <div>
+                <a href={`/en/posts/${postSlug}/`} class="aspect-[16/10] overflow-hidden bg-slate-100 block">
+                  <img 
+                    src={post.data.image || "/images/posts/creator-commerce-cover.svg"} 
+                    alt={post.data.title}
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    loading="lazy"
+                  />
+                </a>
+
+                <div class="p-4 sm:p-5 space-y-2.5">
+                  <div class="flex items-center gap-2 text-[11px] font-mono">
+                    <span class="text-amber-800 bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200/70 font-semibold">
+                      {post.data.categories?.[0] || 'Strategy'}
+                    </span>
+                    <span class="text-slate-300">•</span>
+                    <span class="text-slate-400 font-medium">
+                      {new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).format(new Date(post.data.date))}
+                    </span>
+                  </div>
+
+                  <h3 class="text-base sm:text-lg font-black text-slate-950 tracking-tight leading-snug group-hover:text-amber-600 transition-colors">
+                    <a href={`/en/posts/${postSlug}/`}>
+                      {post.data.title}
+                    </a>
+                  </h3>
+
+                  <p class="text-xs sm:text-sm text-slate-600 leading-relaxed line-clamp-3">
+                    {post.data.description}
+                  </p>
+                </div>
+              </div>
+
+              <div class="p-4 sm:p-5 pt-0 border-t border-slate-50 flex items-center justify-between mt-auto">
+                <span class="text-[11px] font-medium text-slate-400">
+                  {post.data.author}
+                </span>
+                <a 
+                  href={`/en/posts/${postSlug}/`}
+                  class="text-xs font-bold text-amber-600 group-hover:text-amber-700 inline-flex items-center gap-1"
+                >
+                  <span>Read</span> →
+                </a>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+    </section>
+
+    <!-- 4. Global Platform CTA Banner -->
+    <section class="mt-16 sm:mt-24 px-4 sm:px-0">
+      <div class="rounded-3xl bg-gradient-to-br from-slate-950 via-slate-900 to-amber-950 p-6 sm:p-10 lg:p-12 text-white border border-slate-800 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="space-y-3 max-w-xl text-center md:text-left">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 text-xs font-mono font-bold">
+            ⭐ 0% Take Rate Platform
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-black tracking-tight">
+            Ready to Launch Your Sovereign Storefront?
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+            Sell digital products, courses, consultations, and memberships on your own domain with instant QRIS and Virtual Accounts. Keep 100% of your earnings.
+          </p>
+        </div>
+
+        <a 
+          href="https://situsbisnis.com" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="px-6 py-3.5 rounded-2xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-sm transition-all shadow-md active:scale-95 whitespace-nowrap"
+        >
+          Build Your Free Store →
+        </a>
+      </div>
+    </section>
+
+  </div>
+</BaseLayout>

@@ -1,5 +1,6 @@
 ---
 const currentYear = new Date().getFullYear();
+const isEn = Astro.currentLocale === 'en' || Astro.url.pathname.startsWith('/en');
 ---
 
 <footer class="border-t border-slate-200/90 bg-white py-8 sm:py-10 px-4 sm:px-6 lg:px-8 mt-16 sm:mt-24 select-none">
@@ -10,34 +11,42 @@ const currentYear = new Date().getFullYear();
       <!-- Navigation Links with Pipe Dividers (Centered on Mobile) -->
       <nav class="flex flex-wrap items-center justify-center md:justify-start gap-x-2.5 sm:gap-x-3 gap-y-1.5 text-xs sm:text-[13px] font-medium text-slate-600">
         <a href="https://situsbisnis.com" target="_blank" rel="noopener noreferrer" class="hover:text-amber-700 transition-colors">
-          Platform SitusBisnis
+          {isEn ? "SitusBisnis Platform" : "Platform SitusBisnis"}
         </a>
         <span class="text-slate-300 select-none">|</span>
-        <a href="/" class="hover:text-amber-700 transition-colors">
-          Semua Artikel
+        <a href={isEn ? "/en/" : "/"} class="hover:text-amber-700 transition-colors">
+          {isEn ? "All Articles" : "Semua Artikel"}
         </a>
-        <span class="text-slate-300 select-none">|</span>
-        <a href="/seri/" class="hover:text-amber-700 transition-colors font-semibold text-amber-900">
-          Seri Panduan
-        </a>
+        {!isEn && (
+          <>
+            <span class="text-slate-300 select-none">|</span>
+            <a href="/seri/" class="hover:text-amber-700 transition-colors font-semibold text-amber-900">
+              Seri Panduan
+            </a>
+          </>
+        )}
         <span class="text-slate-300 select-none">|</span>
         <a href="https://situsbisnis.com/terms" target="_blank" rel="noopener noreferrer" class="hover:text-amber-700 transition-colors">
-          Syarat &amp; Ketentuan
+          {isEn ? "Terms of Service" : "Syarat & Ketentuan"}
         </a>
         <span class="text-slate-300 select-none">|</span>
         <a href="https://situsbisnis.com/privacy-policy" target="_blank" rel="noopener noreferrer" class="hover:text-amber-700 transition-colors">
-          Kebijakan Privasi
+          {isEn ? "Privacy Policy" : "Kebijakan Privasi"}
         </a>
         <span class="text-slate-300 select-none">|</span>
         <a href="https://situsbisnis.com/kontak" target="_blank" rel="noopener noreferrer" class="hover:text-amber-700 transition-colors">
-          Kontak
+          {isEn ? "Contact" : "Kontak"}
+        </a>
+        <span class="text-slate-300 select-none">|</span>
+        <a href={isEn ? "/en/brand-guide/" : "/brand-guide/"} class="hover:text-amber-700 transition-colors">
+          Brand Guide
         </a>
         <span class="text-slate-300 select-none">|</span>
         <a href="/sitemap-index.xml" target="_blank" class="hover:text-amber-700 transition-colors">
           Sitemap
         </a>
         <span class="text-slate-300 select-none">|</span>
-        <a href="/rss.xml" target="_blank" class="hover:text-amber-700 transition-colors">
+        <a href={isEn ? "/en/rss.xml" : "/rss.xml"} target="_blank" class="hover:text-amber-700 transition-colors">
           RSS Feed
         </a>
       </nav>

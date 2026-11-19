@@ -1,0 +1,208 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Brand Guidelines & Panduan Identitas Visual — Blog SiBi"
+  description="Standar resmi identitas visual, tipografi, palet warna, dan aset logo resmi Blog SiBi & SitusBisnis untuk media, mitra, dan kreator."
+  breadcrumbs={[
+    { name: 'Beranda', url: '/' },
+    { name: 'Brand Guide', url: '/brand-guide/' },
+  ]}
+>
+  <div class="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-14">
+    
+    <!-- Header -->
+    <header class="mb-10 sm:mb-14 text-center max-w-2xl mx-auto flex flex-col items-center">
+      <nav class="flex items-center gap-2 text-xs text-slate-500 mb-4 font-medium" aria-label="Breadcrumb">
+        <a href="/" class="hover:text-amber-600 transition-colors">Beranda</a>
+        <span class="text-slate-300">/</span>
+        <span class="text-slate-900 font-semibold">Brand Guide</span>
+      </nav>
+
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-900 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-3 sm:mb-4 font-mono">
+        <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+        Panduan Identitas Visual Resmi
+      </div>
+
+      <h1 class="text-2xl sm:text-4xl lg:text-5xl font-black tracking-tight text-slate-950 leading-[1.18] mb-3 sm:mb-4">
+        Brand Guidelines Blog SiBi
+      </h1>
+
+      <p class="text-xs sm:text-base text-slate-600 leading-relaxed font-normal">
+        Pedoman resmi aset visual, palet warna, tipografi, dan tata penulisan nama publikasi Blog SiBi serta platform SitusBisnis.
+      </p>
+    </header>
+
+    <div class="space-y-12 sm:space-y-16">
+      
+      <!-- Section 1: Logo & Aset Resmi -->
+      <section class="space-y-6">
+        <div class="border-b border-slate-200 pb-3">
+          <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-950">
+            1. Logo &amp; Emblema Resmi
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-500 mt-1">
+            Gunakan file vektor atau raster beresolusi tinggi resmi tanpa mengubah rasio proporsi.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Logo Card -->
+          <div class="bg-white rounded-2xl border border-slate-200/90 p-6 flex flex-col items-center justify-between text-center gap-6 shadow-xs">
+            <div class="w-full py-8 bg-slate-50 rounded-xl border border-slate-100 flex items-center justify-center">
+              <img src="/logo.png" alt="Logo Resmi SitusBisnis" width="140" height="42" class="h-10 w-auto object-contain" />
+            </div>
+            <div class="w-full flex items-center justify-between gap-4 text-left">
+              <div>
+                <p class="text-sm font-bold text-slate-900">Logo Primer Horizontal</p>
+                <p class="text-xs text-slate-500">Format PNG transparan resolusi tinggi</p>
+              </div>
+              <a href="/logo.png" download="situsbisnis-logo.png" class="px-3.5 py-1.5 text-xs font-bold text-amber-900 bg-amber-50 hover:bg-amber-100 border border-amber-200/70 rounded-lg transition-colors shrink-0">
+                Unduh PNG
+              </a>
+            </div>
+          </div>
+
+          <!-- Icon Emblem Card -->
+          <div class="bg-white rounded-2xl border border-slate-200/90 p-6 flex flex-col items-center justify-between text-center gap-6 shadow-xs">
+            <div class="w-full py-8 bg-slate-50 rounded-xl border border-slate-100 flex items-center justify-center">
+              <img src="/favicon.svg" alt="Emblem Icon SitusBisnis" width="48" height="48" class="w-12 h-12 object-contain" />
+            </div>
+            <div class="w-full flex items-center justify-between gap-4 text-left">
+              <div>
+                <p class="text-sm font-bold text-slate-900">Emblem Vector Icon</p>
+                <p class="text-xs text-slate-500">Format SVG scalable vector</p>
+              </div>
+              <a href="/favicon.svg" download="situsbisnis-icon.svg" class="px-3.5 py-1.5 text-xs font-bold text-amber-900 bg-amber-50 hover:bg-amber-100 border border-amber-200/70 rounded-lg transition-colors shrink-0">
+                Unduh SVG
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Rules Box -->
+        <div class="bg-slate-50 rounded-xl border border-slate-200/80 p-5 text-xs sm:text-sm space-y-3 text-slate-600">
+          <p class="font-bold text-slate-900 flex items-center gap-1.5">
+            <span class="text-amber-600">✓</span> Ketentuan Penggunaan Logo:
+          </p>
+          <ul class="list-disc list-inside space-y-1.5 text-slate-600">
+            <li>Pertahankan ruang kosong (clear space) di sekeliling logo setara dengan tinggi simbol emblem.</li>
+            <li>Jangan memutar, mendistorsi aspek rasio, atau menambahkan bayangan/efek gradasi asing.</li>
+            <li>Pastikan kontras latar belakang cukup agar logo tetap terbaca dengan jelas dan tajam.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Section 2: Palet Warna -->
+      <section class="space-y-6">
+        <div class="border-b border-slate-200 pb-3">
+          <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-950">
+            2. Palet Warna Utama (Color Palette)
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-500 mt-1">
+            Kombinasi warna utama yang mencerminkan ketegasan bisnis, kehangatan editorial, dan kejelasan modern.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <!-- Amber Brand -->
+          <div class="bg-white rounded-xl border border-slate-200/90 overflow-hidden shadow-xs">
+            <div class="h-20 bg-amber-600"></div>
+            <div class="p-3 space-y-0.5">
+              <p class="text-xs font-bold text-slate-900">Amber Gold</p>
+              <p class="text-[11px] font-mono text-slate-500">#D97706</p>
+              <p class="text-[10px] text-slate-400">Primary Accent</p>
+            </div>
+          </div>
+
+          <!-- Deep Slate -->
+          <div class="bg-white rounded-xl border border-slate-200/90 overflow-hidden shadow-xs">
+            <div class="h-20 bg-slate-950"></div>
+            <div class="p-3 space-y-0.5">
+              <p class="text-xs font-bold text-slate-900">Deep Slate</p>
+              <p class="text-[11px] font-mono text-slate-500">#020617</p>
+              <p class="text-[10px] text-slate-400">Headings &amp; Text</p>
+            </div>
+          </div>
+
+          <!-- Amber Warm -->
+          <div class="bg-white rounded-xl border border-slate-200/90 overflow-hidden shadow-xs">
+            <div class="h-20 bg-amber-500"></div>
+            <div class="p-3 space-y-0.5">
+              <p class="text-xs font-bold text-slate-900">Warm Amber</p>
+              <p class="text-[11px] font-mono text-slate-500">#F59E0B</p>
+              <p class="text-[10px] text-slate-400">Badge &amp; Hover</p>
+            </div>
+          </div>
+
+          <!-- Neutral Slate -->
+          <div class="bg-white rounded-xl border border-slate-200/90 overflow-hidden shadow-xs">
+            <div class="h-20 bg-slate-600"></div>
+            <div class="p-3 space-y-0.5">
+              <p class="text-xs font-bold text-slate-900">Neutral Slate</p>
+              <p class="text-[11px] font-mono text-slate-500">#475569</p>
+              <p class="text-[10px] text-slate-400">Editorial Prose</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3: Tata Penulisan Nama -->
+      <section class="space-y-6">
+        <div class="border-b border-slate-200 pb-3">
+          <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-950">
+            3. Tata Cara Penulisan Nama (Naming Standards)
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-500 mt-1">
+            Standar ejaan dan penyebutan nama merek dalam artikel, siaran pers, dan materi promosi.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <!-- Format Benar -->
+          <div class="bg-emerald-50/70 border border-emerald-200/80 rounded-xl p-5 space-y-3">
+            <p class="text-xs font-black uppercase tracking-wider text-emerald-800 flex items-center gap-1.5 font-mono">
+              <span>✓</span> Format Penulisan Benar
+            </p>
+            <ul class="space-y-2 text-xs sm:text-sm text-emerald-950">
+              <li><strong>Blog SiBi</strong> — Publikasi blog resmi (kapital S dan B pada SiBi).</li>
+              <li><strong>SitusBisnis</strong> — Nama platform digital (satu kata, kapital S dan B).</li>
+              <li><strong>situsbisnis.com</strong> — Alamat domain resmi (huruf kecil semua).</li>
+              <li><strong>PT HORIZON DIGITAL INDONESIA</strong> — Badan usaha resmi penerbit.</li>
+            </ul>
+          </div>
+
+          <!-- Format Dihindari -->
+          <div class="bg-rose-50/70 border border-rose-200/80 rounded-xl p-5 space-y-3">
+            <p class="text-xs font-black uppercase tracking-wider text-rose-800 flex items-center gap-1.5 font-mono">
+              <span>✕</span> Format yang Dihindari
+            </p>
+            <ul class="space-y-2 text-xs sm:text-sm text-rose-950">
+              <li><em>Situs Bisnis</em> (dipisah dua kata).</li>
+              <li><em>BlogSibi</em> atau <em>sibi blog</em> (tanpa spasi / huruf kecil sembarangan).</li>
+              <li><em>Situs-Bisnis</em> (menggunakan tanda hubung strip).</li>
+              <li><em>Situs Bisnis dot com</em> (penyebutan ejaan domain tidak resmi).</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 4: Kontak & Media Inquiries -->
+      <section class="bg-white rounded-2xl border border-slate-200/90 p-6 sm:p-8 space-y-4 shadow-xs">
+        <h2 class="text-lg sm:text-xl font-bold text-slate-950">
+          Izin Liputan &amp; Pertanyaan Media
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+          Media massa, jurnalis, penerbit, dan kreator dipersilakan mengutip konten dan menyertakan logo resmi Blog SiBi untuk keperluan liputan edukatif, ulasan non-komersial, serta studi kasus dengan tetap mencantumkan atribusi tautan ke sumber aslinya.
+        </p>
+        <div class="pt-2">
+          <a href="https://situsbisnis.com/kontak" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-slate-950 hover:bg-slate-800 text-white text-xs font-bold transition-colors">
+            Hubungi Tim Media &amp; Humas &rarr;
+          </a>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</BaseLayout>

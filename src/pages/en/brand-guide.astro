@@ -1,0 +1,206 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Brand Guidelines & Visual Identity Standards — Blog SiBi"
+  description="Official visual identity standards, typography, color palettes, and official logo assets of Blog SiBi & SitusBisnis for media, partners, and creators."
+  breadcrumbs={[
+    { name: 'Home', url: '/en/' },
+    { name: 'Brand Guide', url: '/en/brand-guide/' },
+  ]}
+>
+  <div class="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-14">
+    
+    <!-- Header -->
+    <header class="mb-10 sm:mb-14 text-center max-w-2xl mx-auto flex flex-col items-center">
+      <nav class="flex items-center gap-2 text-xs text-slate-500 mb-4 font-medium" aria-label="Breadcrumb">
+        <a href="/en/" class="hover:text-amber-600 transition-colors">Home</a>
+        <span class="text-slate-300">/</span>
+        <span class="text-slate-900 font-semibold">Brand Guide</span>
+      </nav>
+
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-900 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-3 sm:mb-4 font-mono">
+        <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+        Official Visual Standards
+      </div>
+
+      <h1 class="text-2xl sm:text-4xl lg:text-5xl font-black tracking-tight text-slate-950 leading-[1.18] mb-3 sm:mb-4">
+        Blog SiBi Brand Guidelines
+      </h1>
+
+      <p class="text-xs sm:text-base text-slate-600 leading-relaxed font-normal">
+        Official guidance for visual assets, color palettes, typography, and editorial naming conventions for Blog SiBi and the SitusBisnis platform.
+      </p>
+    </header>
+
+    <div class="space-y-12 sm:space-y-16">
+      
+      <!-- Section 1: Official Logo & Emblems -->
+      <section class="space-y-6">
+        <div class="border-b border-slate-200 pb-3">
+          <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-950">
+            1. Official Logo &amp; Emblems
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-500 mt-1">
+            Always use official high-resolution vector or raster assets without distorting the aspect ratio.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Logo Primary Light -->
+          <div class="p-6 sm:p-8 rounded-2xl bg-white border border-slate-200/90 shadow-2xs flex flex-col justify-between space-y-6">
+            <div class="flex items-center justify-center p-8 bg-slate-50 rounded-xl border border-dashed border-slate-200">
+              <div class="flex items-center gap-3">
+                <img src="/logo.png" alt="SitusBisnis Mark" class="w-10 h-10 object-contain" />
+                <div class="flex items-center gap-1.5">
+                  <span class="text-2xl font-black tracking-tight text-slate-950">Blog <span class="text-amber-600">SiBi</span></span>
+                  <span class="text-[10px] font-bold text-amber-900 bg-amber-100 border border-amber-300/80 px-2 py-0.5 rounded-full font-mono">official</span>
+                </div>
+              </div>
+            </div>
+            <div>
+              <h3 class="font-bold text-sm text-slate-900 mb-1">Primary Lockup (Light Canvas)</h3>
+              <p class="text-xs text-slate-500 mb-4">Recommended for white and light-tinted editorial layouts.</p>
+              <div class="flex items-center gap-2">
+                <a href="/logo.png" download class="px-3 py-1.5 rounded-lg bg-slate-900 text-white text-xs font-semibold hover:bg-slate-800 transition-colors">
+                  Download PNG
+                </a>
+                <a href="/favicon.svg" download class="px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 text-xs font-semibold hover:bg-slate-200 transition-colors">
+                  Download SVG
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Logo Primary Dark -->
+          <div class="p-6 sm:p-8 rounded-2xl bg-slate-950 border border-slate-900 shadow-2xs flex flex-col justify-between space-y-6 text-white">
+            <div class="flex items-center justify-center p-8 bg-slate-900 rounded-xl border border-dashed border-slate-800">
+              <div class="flex items-center gap-3">
+                <img src="/logo.png" alt="SitusBisnis Mark" class="w-10 h-10 object-contain" />
+                <div class="flex items-center gap-1.5">
+                  <span class="text-2xl font-black tracking-tight text-white">Blog <span class="text-amber-500">SiBi</span></span>
+                  <span class="text-[10px] font-bold text-amber-400 bg-amber-950/60 border border-amber-500/50 px-2 py-0.5 rounded-full font-mono">official</span>
+                </div>
+              </div>
+            </div>
+            <div>
+              <h3 class="font-bold text-sm text-white mb-1">Inverted Lockup (Dark Canvas)</h3>
+              <p class="text-xs text-slate-400 mb-4">For dark backgrounds, terminal headers, and video lower-thirds.</p>
+              <div class="flex items-center gap-2">
+                <a href="/logo.png" download class="px-3 py-1.5 rounded-lg bg-amber-500 text-slate-950 text-xs font-bold hover:bg-amber-400 transition-colors">
+                  Download PNG
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 2: Color Palette -->
+      <section class="space-y-6">
+        <div class="border-b border-slate-200 pb-3">
+          <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-950">
+            2. Color Palette
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-500 mt-1">
+            Carefully curated contrast values adhering to WCAG 2.1 AA accessibility guidelines.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <!-- Amber 600 -->
+          <div class="space-y-2">
+            <div class="h-20 sm:h-24 rounded-xl bg-amber-600 shadow-xs border border-amber-700/20"></div>
+            <div>
+              <div class="font-bold text-xs text-slate-900">Brand Primary</div>
+              <div class="text-[11px] font-mono text-slate-500">#D97706 (Amber-600)</div>
+            </div>
+          </div>
+
+          <!-- Slate 950 -->
+          <div class="space-y-2">
+            <div class="h-20 sm:h-24 rounded-xl bg-slate-950 shadow-xs border border-slate-900"></div>
+            <div>
+              <div class="font-bold text-xs text-slate-900">Text Primary</div>
+              <div class="text-[11px] font-mono text-slate-500">#020617 (Slate-950)</div>
+            </div>
+          </div>
+
+          <!-- Emerald 600 -->
+          <div class="space-y-2">
+            <div class="h-20 sm:h-24 rounded-xl bg-emerald-600 shadow-xs border border-emerald-700/20"></div>
+            <div>
+              <div class="font-bold text-xs text-slate-900">Accent Success</div>
+              <div class="text-[11px] font-mono text-slate-500">#059669 (Emerald-600)</div>
+            </div>
+          </div>
+
+          <!-- Amber 50 -->
+          <div class="space-y-2">
+            <div class="h-20 sm:h-24 rounded-xl bg-amber-50 shadow-xs border border-amber-200/80"></div>
+            <div>
+              <div class="font-bold text-xs text-slate-900">Subtle Tint</div>
+              <div class="text-[11px] font-mono text-slate-500">#FFFBEB (Amber-50)</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3: Editorial Naming Guidelines -->
+      <section class="space-y-6">
+        <div class="border-b border-slate-200 pb-3">
+          <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-950">
+            3. Editorial Naming Guidelines
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-500 mt-1">
+            Rules for citing the publication across articles, newsletters, and press releases.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="p-5 rounded-xl bg-emerald-50/70 border border-emerald-200/80 space-y-2">
+            <div class="flex items-center gap-2 text-emerald-800 font-bold text-sm">
+              <span>✓ Correct Usage</span>
+            </div>
+            <ul class="text-xs text-slate-700 space-y-1.5 list-disc list-inside">
+              <li><strong>Blog SiBi</strong> (Capital S and capital B)</li>
+              <li><strong>SitusBisnis</strong> (One word, CamelCase)</li>
+              <li><strong>situsbisnis.com</strong> or <strong>blog.situsbisnis.com</strong> (All lowercase)</li>
+            </ul>
+          </div>
+
+          <div class="p-5 rounded-xl bg-red-50/70 border border-red-200/80 space-y-2">
+            <div class="flex items-center gap-2 text-red-800 font-bold text-sm">
+              <span>✕ Incorrect Usage</span>
+            </div>
+            <ul class="text-xs text-slate-700 space-y-1.5 list-disc list-inside">
+              <li><del>Blog Sibi</del> or <del>Blog SIBI</del></li>
+              <li><del>Situs Bisnis</del> (Avoid separating the words)</li>
+              <li><del>Situsbisnis</del> (Without camel case for editorial mentions)</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 4: Press & Partnership Inquiries -->
+      <section class="p-6 sm:p-8 rounded-2xl bg-slate-900 text-white space-y-4">
+        <h2 class="text-lg sm:text-xl font-bold tracking-tight text-white">
+          Media &amp; Partnership Inquiries
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+          For custom asset requests, high-resolution vector packs, or editorial collaboration, reach out to our communications desk.
+        </p>
+        <div class="pt-2 flex flex-wrap items-center gap-3">
+          <a href="https://situsbisnis.com/kontak" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs transition-colors">
+            Contact Editorial Team →
+          </a>
+          <a href="/en/rss.xml" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs transition-colors">
+            Subscribe via RSS (EN)
+          </a>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</BaseLayout>

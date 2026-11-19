@@ -33,14 +33,16 @@ const {
 
 const primaryCategory = categories[0] || 'Strategi Bisnis';
 
-const formattedDate = new Intl.DateTimeFormat('id-ID', {
+const isEn = Astro.currentLocale === 'en' || Astro.url.pathname.startsWith('/en');
+
+const formattedDate = new Intl.DateTimeFormat(isEn ? 'en-US' : 'id-ID', {
   year: 'numeric',
   month: 'long',
   day: 'numeric'
 }).format(new Date(date));
 const breadcrumbs = [
-  { name: 'Beranda', url: '/' },
-  { name: primaryCategory, url: `/kategori/${slugify(primaryCategory)}/` },
+  { name: isEn ? 'Home' : 'Beranda', url: isEn ? '/en/' : '/' },
+  { name: primaryCategory, url: isEn ? '/en/' : `/kategori/${slugify(primaryCategory)}/` },
   { name: title, url: Astro.url.pathname },
 ];
 ---
@@ -64,13 +66,13 @@ const breadcrumbs = [
       <!-- 1. Back to Blog Link (Padded on mobile) -->
       <div class="px-4 sm:px-0 mb-4 sm:mb-8">
         <a 
-          href="/" 
+          href={isEn ? "/en/" : "/"} 
           class="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-amber-600 hover:text-amber-700 transition-colors group"
         >
           <svg class="w-4 h-4 text-amber-600 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
           </svg>
-          <span>Kembali ke Blog</span>
+          <span>{isEn ? "Back to Blog" : "Kembali ke Blog"}</span>
         </a>
       </div>
 
@@ -394,13 +396,15 @@ const breadcrumbs = [
       <div class="rounded-none sm:rounded-3xl border-x-0 sm:border border-y sm:border-y border-slate-200/90 bg-gradient-to-br from-slate-50 via-white to-amber-50/40 px-4 py-8 sm:p-10 lg:p-12 shadow-none sm:shadow-xs flex flex-col lg:flex-row items-center justify-between gap-8 sm:gap-10">
         <div class="w-full lg:max-w-xl">
           <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-900 text-[10px] font-bold uppercase tracking-wider mb-3 font-mono">
-            Ekosistem SitusBisnis
+            {isEn ? "SitusBisnis Ecosystem" : "Ekosistem SitusBisnis"}
           </div>
           <h2 class="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight leading-tight mb-3">
-            Tingkatkan Pertumbuhan Bisnis Digital Anda
+            {isEn ? "Scale Your Sovereign Digital Business" : "Tingkatkan Pertumbuhan Bisnis Digital Anda"}
           </h2>
           <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-6">
-            Gunakan platform <strong>SitusBisnis</strong> untuk membuat landing page visual siap konversi, menjual e-book, kelas online, layanan konsultasi, hingga produk fisik dengan checkout instan (QRIS & Virtual Account) tanpa potongan komisi.
+            {isEn
+              ? "Use the SitusBisnis platform to create high-converting visual landing pages, sell digital products, courses, and consulting with instant QRIS & Virtual Accounts at 0% commission."
+              : "Gunakan platform SitusBisnis untuk membuat landing page visual siap konversi, menjual e-book, kelas online, layanan konsultasi, hingga produk fisik dengan checkout instan (QRIS & Virtual Account) tanpa potongan komisi."}
           </p>
           <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
             <a 
@@ -409,7 +413,7 @@ const breadcrumbs = [
               rel="noopener noreferrer"
               class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 active:scale-95 text-white font-bold text-xs sm:text-sm transition-all shadow-sm text-center"
             >
-              <span>Mulai Buat Toko Gratis</span>
+              <span>{isEn ? "Build Your Free Store" : "Mulai Buat Toko Gratis"}</span>
               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
               </svg>
@@ -420,7 +424,7 @@ const breadcrumbs = [
               rel="noopener noreferrer"
               class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl text-slate-700 hover:text-slate-950 font-semibold text-xs sm:text-sm transition-colors text-center"
             >
-              Lihat Semua Fitur →
+              {isEn ? "Explore Features →" : "Lihat Semua Fitur →"}
             </a>
           </div>
         </div>

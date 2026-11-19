@@ -4,7 +4,8 @@ import { getCollection } from 'astro:content';
 import { slugify } from '../utils/slug';
 import { getAllSeries } from '../utils/series';
 
-const posts = await getCollection('blog');
+const rawPosts = await getCollection('blog');
+const posts = rawPosts.filter((p) => (p.data.lang || 'id') === 'id');
 const allSeries = getAllSeries(posts);
 
 // Urutkan artikel berdasarkan tanggal & jam terbaru

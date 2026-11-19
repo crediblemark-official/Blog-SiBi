@@ -1,0 +1,52 @@
+---
+import { getCollection, render } from 'astro:content';
+import PostLayout from '../../../layouts/PostLayout.astro';
+import { getSeriesContext } from '../../../utils/series';
+
+export async function getStaticPaths() {
+  const allBlogPosts = await getCollection('blog');
+  const enPosts = allBlogPosts.filter((p) => p.data.lang === 'en');
+  return enPosts.map((post) => {
+    const slug = post.id.replace(/^en\//, '').replace(/\.mdx?$/, '');
+    return {
+      params: { slug },
+      props: { 
+        post,
+        allPosts: enPosts.filter((p) => p.id !== post.id),
+        rawAllPosts: allBlogPosts,
+      },
+    };
+  });
+}
+
+const { post, allPosts, rawAllPosts } = Astro.props;
+const { Content, headings } = await render(post);
+
+// Reading time calculation (average 200 words/min)
+const wordCount = post.body ? post.body.split(/\s+/).length : 600;
+const readingTimeMinutes = Math.max(1, Math.ceil(wordCount / 200));
+
+// Related English posts
+const relatedPosts = allPosts
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
+  .slice(0, 3);
+
+// Series context if part of an English series
+const seriesContext = getSeriesContext(post, rawAllPosts);
+---
+
+<PostLayout
+  title={post.data.title}
+  description={post.data.description}
+  date={post.data.date}
+  categories={post.data.categories}
+  tags={post.data.tags}
+  author={post.data.author}
+  image={post.data.image}
+  headings={headings}
+  readingTimeMinutes={readingTimeMinutes}
+  relatedPosts={relatedPosts}
+  seriesContext={seriesContext}
+>
+  <Content />
+</PostLayout>
