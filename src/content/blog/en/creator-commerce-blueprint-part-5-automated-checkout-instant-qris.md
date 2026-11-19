@@ -4,7 +4,7 @@ description: "Why manual payment verification over chat destroys sales conversio
 date: 2026-11-01
 lang: "en"
 translationOf: "cetak-biru-creator-commerce-part-5-checkout-otomasi.md"
-categories: ["Business Strategy", "Sales Funnel"]
+categories: ["Business Strategy", "Sales Funnels"]
 tags: ["checkout", "qris", "virtual-account", "payment-gateway", "automation", "zero-fee"]
 author: "SitusBisnis Editorial Team"
 image: "/images/posts/creator-commerce-cover.svg"

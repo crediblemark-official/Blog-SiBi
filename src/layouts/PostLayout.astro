@@ -48,7 +48,7 @@ const formattedDate = new Intl.DateTimeFormat(isEn ? 'en-US' : 'id-ID', {
 }).format(new Date(date));
 const breadcrumbs = [
   { name: isEn ? 'Home' : 'Beranda', url: isEn ? '/en/' : '/' },
-  { name: primaryCategory, url: isEn ? '/en/' : `/kategori/${slugify(primaryCategory)}/` },
+  { name: primaryCategory, url: isEn ? `/en/kategori/${slugify(primaryCategory)}/` : `/kategori/${slugify(primaryCategory)}/` },
   { name: title, url: Astro.url.pathname },
 ];
 ---
@@ -126,7 +126,7 @@ const breadcrumbs = [
           <div class="flex flex-wrap items-center gap-2 mb-3.5 sm:mb-4">
             {categories.map((cat, idx) => (
               <a 
-                href={isEn ? "/en/" : `/kategori/${slugify(cat)}/`}
+                href={isEn ? `/en/kategori/${slugify(cat)}/` : `/kategori/${slugify(cat)}/`}
                 class:list={[
                   "px-3 py-1 rounded-full text-xs font-bold font-mono tracking-tight transition-all hover:scale-105 active:scale-95",
                   idx === 0 

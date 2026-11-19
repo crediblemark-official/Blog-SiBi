@@ -1,0 +1,20 @@
+---
+export function getStaticPaths() {
+  const slugs = ['business-strategy', 'monetization', 'sales-funnel', 'sales-funnels', 'audience-growth', 'email-marketing'];
+  return slugs.map((category) => ({ params: { category } }));
+}
+
+const { category } = Astro.params;
+---
+
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="refresh" content={`0;url=/en/kategori/${category}/`} />
+    <link rel="canonical" href={`https://blog.situsbisnis.com/en/kategori/${category}/`} />
+  </head>
+  <body>
+    <p>Redirecting to <a href={`/en/kategori/${category}/`}>/en/kategori/{category}/</a>...</p>
+  </body>
+</html>

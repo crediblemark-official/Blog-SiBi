@@ -2,11 +2,13 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection, type CollectionEntry } from 'astro:content';
 import { slugify } from '../../utils/slug';
+import { CATEGORY_MAP_ID_TO_EN } from '../../utils/categories';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog');
+  const allPosts = await getCollection('blog');
+  const posts = allPosts.filter((p) => (p.data.lang || 'id') === 'id');
   
-  // Extract all categories map: slug -> { name, posts }
+  // Extract all categories map for Indonesian: slug -> { name, posts }
   const categoryMap = new Map<string, { name: string; posts: CollectionEntry<'blog'>[] }>();
   
   for (const post of posts) {
@@ -25,18 +27,23 @@ export async function getStaticPaths() {
     count: data.posts.length
   }));
 
-  return Array.from(categoryMap.entries()).map(([slug, data]) => ({
-    params: { category: slug },
-    props: {
-      categoryName: data.name,
-      categorySlug: slug,
-      posts: data.posts.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()),
-      allCategories,
-    },
-  }));
+  return Array.from(categoryMap.entries()).map(([slug, data]) => {
+    const enSlug = CATEGORY_MAP_ID_TO_EN[slug] || slug;
+    return {
+      params: { category: slug },
+      props: {
+        categoryName: data.name,
+        categorySlug: slug,
+        posts: data.posts.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()),
+        allCategories,
+        idUrl: `/kategori/${slug}/`,
+        enUrl: `/en/kategori/${enSlug}/`,
+      },
+    };
+  });
 }
 
-const { categoryName, categorySlug, posts, allCategories } = Astro.props;
+const { categoryName, categorySlug, posts, allCategories, idUrl, enUrl } = Astro.props;
 ---
 
 <BaseLayout 
@@ -47,6 +54,8 @@ const { categoryName, categorySlug, posts, allCategories } = Astro.props;
     { name: 'Kategori', url: '/kategori/' },
     { name: categoryName, url: `/kategori/${categorySlug}/` },
   ]}
+  idUrl={idUrl}
+  enUrl={enUrl}
 >
   <!-- Main Page Container (Full edge on mobile px-0, padded on desktop) -->
   <div class="w-full max-w-7xl mx-auto px-0 sm:px-6 lg:px-8 py-4 sm:py-12 lg:py-14">
@@ -185,36 +194,34 @@ const { categoryName, categorySlug, posts, allCategories } = Astro.props;
               </svg>
             </a>
             <a 
-              href="/" 
+              href="https://situsbisnis.com/#features" 
+              target="_blank" 
+              rel="noopener noreferrer"
               class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl text-slate-700 hover:text-slate-950 font-semibold text-xs sm:text-sm transition-colors text-center"
             >
-              ← Kembali ke Semua Artikel
+              Pelajari Fitur Platform &rarr;
             </a>
           </div>
         </div>
 
-        <!-- Dashboard Stat Card -->
+        <!-- Dashboard illustration -->
         <div class="w-full lg:w-72 shrink-0 bg-white rounded-2xl border border-slate-200/80 p-5 shadow-xs space-y-3">
           <div class="flex items-center justify-between pb-3 border-b border-slate-100">
             <div class="flex items-center gap-2">
               <img src="/logo.png" alt="SitusBisnis" class="w-5 h-5 object-contain" />
-              <span class="font-bold text-xs text-slate-900">SitusBisnis Hub</span>
+              <span class="font-bold text-xs text-slate-900">SitusBisnis Platform</span>
             </div>
-            <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-mono text-[9px] font-black">ONLINE</span>
+            <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-mono text-[9px] font-black">AKTIF</span>
           </div>
           <div class="space-y-1.5 text-xs">
             <div class="flex justify-between text-slate-500 text-[11px]">
-              <span>Total Pendapatan</span>
-              <span class="text-emerald-600 font-bold font-mono">100% Anda</span>
+              <span>Komisi Penjualan</span>
+              <span class="text-emerald-600 font-bold font-mono">0% (Scale)</span>
             </div>
-            <div class="text-lg font-black text-slate-950 font-mono">Rp 18.450.000</div>
+            <div class="text-lg font-black text-slate-950 font-mono">100% Milik Anda</div>
             <div class="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
-              <div class="h-full bg-amber-500 rounded-full w-4/5"></div>
+              <div class="h-full bg-amber-500 rounded-full w-full"></div>
             </div>
-          </div>
-          <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-[10px] text-slate-400 font-mono">
-            <span>Biaya Transaksi</span>
-            <span class="text-amber-700 font-bold">0% (Zero Fee ⭐)</span>
           </div>
         </div>
       </div>

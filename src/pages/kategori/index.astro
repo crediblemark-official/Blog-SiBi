@@ -3,7 +3,8 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection, type CollectionEntry } from 'astro:content';
 import { slugify } from '../../utils/slug';
 
-const posts = await getCollection('blog');
+const allPosts = await getCollection('blog');
+const posts = allPosts.filter((p) => (p.data.lang || 'id') === 'id');
 
 // Aggregate categories with their post lists
 const categoryMap = new Map<string, { name: string; posts: CollectionEntry<'blog'>[] }>();
@@ -33,6 +34,8 @@ const categories = Array.from(categoryMap.entries()).map(([slug, data]) => ({
     { name: 'Beranda', url: '/' },
     { name: 'Kategori', url: '/kategori/' },
   ]}
+  idUrl="/kategori/"
+  enUrl="/en/kategori/"
 >
   <div class="w-full max-w-7xl mx-auto px-0 sm:px-6 lg:px-8 py-4 sm:py-12 lg:py-14">
     

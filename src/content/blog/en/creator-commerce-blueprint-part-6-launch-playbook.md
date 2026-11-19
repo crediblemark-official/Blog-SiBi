@@ -4,7 +4,7 @@ description: "How to orchestrate a structured 7-day launch campaign instead of r
 date: 2026-11-01
 lang: "en"
 translationOf: "cetak-biru-creator-commerce-part-6-launch-playbook.md"
-categories: ["Sales Funnel", "Business Strategy"]
+categories: ["Sales Funnels", "Business Strategy"]
 tags: ["launch-strategy", "sales-campaign", "email-marketing", "urgency", "conversion"]
 author: "SitusBisnis Editorial Team"
 image: "/images/posts/creator-commerce-cover.svg"

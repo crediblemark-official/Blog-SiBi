@@ -4,7 +4,7 @@ description: "Why gorgeously designed pages often yield zero sales. The 7 essent
 date: 2026-11-01
 lang: "en"
 translationOf: "cetak-biru-creator-commerce-part-4-landing-page-konversi.md"
-categories: ["Sales Funnel", "Business Strategy"]
+categories: ["Sales Funnels", "Business Strategy"]
 tags: ["landing-page", "copywriting", "conversion", "social-proof"]
 author: "SitusBisnis Editorial Team"
 image: "/images/posts/creator-commerce-cover.svg"

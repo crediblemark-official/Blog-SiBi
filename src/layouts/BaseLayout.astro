@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import { getAlternateCategoryUrl } from '../utils/categories';
 
 interface Props {
   title?: string;
@@ -44,6 +45,13 @@ const isEn = Astro.currentLocale === 'en' || pathname.startsWith('/en');
 // Smart bilingual routing resolution
 let targetIdUrl = idUrl;
 let targetEnUrl = enUrl;
+
+// Check category route mappings first if not explicitly provided
+if (!targetIdUrl || !targetEnUrl) {
+  const catAlt = getAlternateCategoryUrl(pathname);
+  if (!targetIdUrl && catAlt.idUrl) targetIdUrl = catAlt.idUrl;
+  if (!targetEnUrl && catAlt.enUrl) targetEnUrl = catAlt.enUrl;
+}
 
 if (!targetIdUrl) {
   if (isEn) {
