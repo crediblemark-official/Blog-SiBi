@@ -900,6 +900,26 @@
       return new TextDecoder().decode(decrypted);
     }
 
+    // Helper Encode & Decode Base64 UTF-8 Aman
+    function decodeBase64Utf8(base64Str) {
+      const cleanBase64 = (base64Str || '').replace(/\s/g, '');
+      const binaryString = atob(cleanBase64);
+      const bytes = new Uint8Array(binaryString.length);
+      for (let i = 0; i < binaryString.length; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+      return new TextDecoder('utf-8').decode(bytes);
+    }
+
+    function encodeBase64Utf8(str) {
+      const bytes = new TextEncoder().encode(str);
+      let binary = '';
+      for (let i = 0; i < bytes.byteLength; i++) {
+        binary += String.fromCharCode(bytes[i]);
+      }
+      return btoa(binary);
+    }
+
     // Application State Manager
     class BlogAdminApp {
       constructor() {
@@ -1251,7 +1271,8 @@
 
       async editArticle(id) {
         this.showToast('Mengambil konten artikel dari GitHub...', 'info');
-        const targetPath = id.startsWith('en/') ? `src/content/blog/${id}` : `src/content/blog/${id}`;
+        const cleanId = id.endsWith('.md') ? id : `${id}.md`;
+        const targetPath = `src/content/blog/${cleanId}`;
 
         try {
           const res = await fetch(`${GITHUB_API}/repos/${REPO_OWNER}/${REPO_NAME}/contents/${targetPath}`, {
@@ -1261,10 +1282,10 @@
           if (!res.ok) throw new Error(`HTTP ${res.status}`);
           const fileData = await res.json();
           this.existingSha = fileData.sha;
-          this.currentArticle = id;
+          this.currentArticle = cleanId;
 
           // Decode base64 UTF-8
-          const decodedContent = decodeURIComponent(escape(atob(fileData.content)));
+          const decodedContent = decodeBase64Utf8(fileData.content);
           
           // Parse Frontmatter vs Body
           const fmMatch = decodedContent.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
@@ -1289,12 +1310,13 @@
             });
           }
 
-          const isEn = id.startsWith('en/');
+          const isEn = cleanId.startsWith('en/');
           this.setEditorLanguage(isEn ? 'en' : 'id');
 
-          document.getElementById('editor-title-badge').textContent = `Mengedit: ${id}`;
+          const cleanSlug = cleanId.replace(/^en\//, '').replace(/\.md$/, '');
+          document.getElementById('editor-title-badge').textContent = `Mengedit: ${cleanSlug}`;
           document.getElementById('edit-title').value = fm.title || '';
-          document.getElementById('edit-slug').value = id.replace(/^en\//, '').replace(/\.md$/, '');
+          document.getElementById('edit-slug').value = cleanSlug;
           document.getElementById('edit-desc').value = fm.description || '';
           document.getElementById('edit-author').value = fm.author || (isEn ? 'SitusBisnis Editorial Team' : 'Tim Editorial SitusBisnis');
           
@@ -1384,7 +1406,8 @@
         saveBtn.innerHTML = '<div class="spinner"></div><span>Menyimpan ke GitHub...</span>';
 
         const isEn = this.editorLang === 'en';
-        const targetFilename = slug.endsWith('.md') ? slug : `${slug}.md`;
+        const cleanSlug = slug.replace(/^en\//, '').replace(/\.md$/, '');
+        const targetFilename = `${cleanSlug}.md`;
         const targetPath = isEn ? `src/content/blog/en/${targetFilename}` : `src/content/blog/${targetFilename}`;
 
         // Build Frontmatter YAML
@@ -1411,7 +1434,7 @@
 
         const fullContent = fmLines.join('\n');
         // Encode UTF-8 Base64 safely
-        const base64Content = btoa(unescape(encodeURIComponent(fullContent)));
+        const base64Content = encodeBase64Utf8(fullContent);
 
         try {
           // Check existing sha if not known
@@ -1458,11 +1481,12 @@
       }
 
       async deleteArticle(id) {
-        if (!confirm(`Apakah Anda yakin ingin menghapus artikel: ${id}? Tindakan ini akan meng-commit penghapusan file di GitHub!`)) {
+        const cleanId = id.endsWith('.md') ? id : `${id}.md`;
+        if (!confirm(`Apakah Anda yakin ingin menghapus artikel: ${cleanId}? Tindakan ini akan meng-commit penghapusan file di GitHub!`)) {
           return;
         }
 
-        const targetPath = id.startsWith('en/') ? `src/content/blog/${id}` : `src/content/blog/${id}`;
+        const targetPath = `src/content/blog/${cleanId}`;
         this.showToast('Menghapus artikel dari GitHub...', 'info');
 
         try {

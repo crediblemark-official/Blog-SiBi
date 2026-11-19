@@ -10,8 +10,10 @@ export async function GET(context: APIContext) {
       ? p.id.replace(/^en\//, '').replace(/\.mdx?$/, '')
       : p.id.replace(/\.mdx?$/, '');
 
+    const fileRelPath = p.id.endsWith('.md') ? p.id : `${p.id}.md`;
+
     return {
-      id: p.id,
+      id: fileRelPath,
       slug,
       lang: p.data.lang || 'id',
       title: p.data.title,
@@ -22,7 +24,7 @@ export async function GET(context: APIContext) {
       author: p.data.author || 'Tim Editorial SitusBisnis',
       image: p.data.image || '/images/posts/creator-commerce-cover.svg',
       translationOf: p.data.translationOf || null,
-      filePath: isEn ? `src/content/blog/${p.id}` : `src/content/blog/${p.id}`,
+      filePath: `src/content/blog/${fileRelPath}`,
     };
   });
 
