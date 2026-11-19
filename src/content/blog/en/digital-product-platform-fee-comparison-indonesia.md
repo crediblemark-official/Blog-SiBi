@@ -1,14 +1,15 @@
 ---
 title: "The Ultimate Comparison of Digital Product Selling Platforms and Transaction Fees"
 description: "In-depth research comparing fee structures across Lynk.id, Mayar, KaryaKarsa, Tribelio, and SitusBisnis (Starter 5%, Pro 1%, Scale 0% Zero Fee)."
-date: 2026-11-02T15:00:00.000Z
-lang: "en"
-translationOf: "perbandingan-biaya-platform-jual-produk-digital-indonesia.md"
-categories: ["Business Strategy", "Monetization"]
+date: 2026-11-02T08:00:00.000Z
+categories: ["Business Strategy"]
 tags: ["platform-comparison", "digital-product-fees", "platform-costs", "situsbisnis", "creator-economy", "low-commissions"]
 author: "SitusBisnis Editorial Team"
 image: "/images/posts/platform-comparison-cover.svg"
+lang: "en"
+translationOf: "perbandingan-biaya-platform-jual-produk-digital-indonesia.md"
 ---
+
 
 For anyone selling digital assets—from e-books and operational spreadsheets to video masterclasses, LMS courses, productized services, and physical items—the initial operational question is always:
 
