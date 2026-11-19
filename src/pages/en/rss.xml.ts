@@ -13,20 +13,20 @@ export async function GET(context: APIContext) {
 
   return rss({
     title: 'Blog SiBi — Official Publication of SitusBisnis',
-    description: 'Strategic insights, research, and comprehensive playbooks on creator commerce from the SitusBisnis team.',
-    site: siteUrl,
+    description: 'Strategic playbooks, deep dives, and research on creator economy, digital products, and automated commerce from the SitusBisnis team.',
+    site: `${siteUrl}/en/`,
     items: sortedPosts.map((post) => {
+      const slug = post.id.replace(/^en\//, '').replace(/\.mdx?$/, '');
       const imgPath = post.data.image || '/images/posts/creator-commerce-cover.svg';
       const absoluteImageUrl = imgPath.startsWith('http') ? imgPath : `${siteUrl}${imgPath.startsWith('/') ? '' : '/'}${imgPath}`;
       const mimeType = imgPath.endsWith('.svg') ? 'image/svg+xml' : 'image/jpeg';
-      const cleanSlug = post.id.replace(/^en\//, '').replace(/\.mdx?$/, '');
       return {
         title: post.data.title,
         pubDate: post.data.date,
         description: post.data.description,
         categories: post.data.categories,
         author: post.data.author,
-        link: `/en/posts/${cleanSlug}/`,
+        link: `/en/posts/${slug}/`,
         enclosure: {
           url: absoluteImageUrl,
           length: 0,

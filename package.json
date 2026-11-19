@@ -7,6 +7,7 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "indexnow": "bun scripts/submit-indexnow.ts",
     "setup-auth": "bun scripts/setup-admin-auth.js"
   },
   "dependencies": {

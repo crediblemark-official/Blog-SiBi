@@ -33,3 +33,7 @@ Host: https://blog.situsbisnis.com
 Sitemap: https://blog.situsbisnis.com/sitemap.xml
 Sitemap: https://blog.situsbisnis.com/sitemap-index.xml
 Sitemap: https://blog.situsbisnis.com/sitemap-0.xml
+
+# Feeds
+# RSS (ID): https://blog.situsbisnis.com/rss.xml
+# RSS (EN): https://blog.situsbisnis.com/en/rss.xml
