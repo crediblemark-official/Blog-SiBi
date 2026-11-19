@@ -4,496 +4,836 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow" />
-  <title>Portal Penulis | Blog SitusBisnis</title>
+  <title>Portal Admin Blog | SitusBisnis</title>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <!-- Marked for Client-Side Markdown Rendering -->
+  <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    :root {
+      --bg-dark: #0b0f19;
+      --card-bg: #111827;
+      --card-border: #1f293d;
+      --card-hover: #162032;
+      --primary: #f59e0b;
+      --primary-hover: #d97706;
+      --primary-glow: rgba(245, 158, 11, 0.15);
+      --accent: #e0a82e;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --border-color: rgba(255, 255, 255, 0.08);
+      --success: #10b981;
+      --danger: #ef4444;
+      --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
     }
-    body {
-      background-color: #0f172a;
-      color: #f8fafc;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: var(--font-sans); }
+    body { background-color: var(--bg-dark); color: var(--text-main); min-height: 100vh; overflow-x: hidden; }
+
+    /* Utilities */
+    .hidden { display: none !important; }
+    .flex { display: flex; }
+    .flex-col { flex-direction: column; }
+    .items-center { align-items: center; }
+    .justify-between { justify-content: space-between; }
+    .gap-2 { gap: 0.5rem; }
+    .gap-4 { gap: 1rem; }
+    .w-full { width: 100%; }
+
+    /* Scrollbars */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg-dark); }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+    /* Login Portal */
     .login-container {
-      flex: 1;
+      min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 1.5rem;
-      background: radial-gradient(circle at top, rgba(245, 158, 11, 0.15) 0%, rgba(15, 23, 42, 1) 70%);
+      background: radial-gradient(circle at top, rgba(245, 158, 11, 0.15) 0%, rgba(11, 15, 25, 1) 75%);
     }
     .login-card {
-      background: rgba(30, 41, 59, 0.85);
-      backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(17, 24, 39, 0.95);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--card-border);
       border-radius: 1.25rem;
       padding: 2.25rem 2rem;
       width: 100%;
       max-width: 440px;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-      animation: fadeIn 0.4s ease-out;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+      animation: fadeIn 0.3s ease-out;
     }
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(12px); }
+      from { opacity: 0; transform: translateY(8px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    .brand-header {
-      text-align: center;
-      margin-bottom: 2rem;
-    }
-    .brand-badge {
-      display: inline-flex;
+    .brand-logo {
+      display: flex;
       align-items: center;
-      gap: 0.5rem;
-      background: rgba(245, 158, 11, 0.15);
-      border: 1px solid rgba(245, 158, 11, 0.3);
-      color: #fbbf24;
-      font-size: 0.75rem;
-      font-weight: 600;
-      padding: 0.25rem 0.75rem;
-      border-radius: 9999px;
-      margin-bottom: 1rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+      justify-content: center;
     }
-    .brand-title {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: #ffffff;
-      line-height: 1.3;
-    }
-    .brand-subtitle {
-      font-size: 0.875rem;
-      color: #94a3b8;
-      margin-top: 0.5rem;
-    }
-    .form-group {
-      margin-bottom: 1.25rem;
-    }
-    .form-label {
+    .brand-logo svg { width: 32px; height: 32px; color: var(--primary); }
+    .brand-title { font-size: 1.35rem; font-weight: 800; letter-spacing: -0.025em; }
+    .brand-title span { color: var(--primary); }
+    .form-group { margin-bottom: 1.25rem; }
+    .form-group label {
       display: block;
-      font-size: 0.875rem;
+      font-size: 0.85rem;
       font-weight: 600;
-      color: #cbd5e1;
+      color: var(--text-muted);
       margin-bottom: 0.5rem;
     }
-    .input-wrapper {
-      position: relative;
-    }
-    .form-input {
+    .input-control {
       width: 100%;
-      background: rgba(15, 23, 42, 0.7);
-      border: 1px solid #334155;
-      color: #ffffff;
+      background: #0b0f19;
+      border: 1px solid var(--border-color);
+      border-radius: 0.65rem;
       padding: 0.75rem 1rem;
-      border-radius: 0.625rem;
-      font-size: 0.9375rem;
+      color: var(--text-main);
+      font-size: 0.95rem;
       transition: all 0.2s;
     }
-    .form-input:focus {
+    .input-control:focus {
       outline: none;
-      border-color: #f59e0b;
-      box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2);
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-glow);
     }
-    .toggle-password {
-      position: absolute;
-      right: 0.75rem;
-      top: 50%;
-      transform: translateY(-50%);
-      background: none;
-      border: none;
-      color: #64748b;
-      cursor: pointer;
-      font-size: 0.8125rem;
-      padding: 0.25rem;
-    }
-    .toggle-password:hover {
-      color: #cbd5e1;
-    }
-    .btn-submit {
+    .btn-primary {
       width: 100%;
-      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-      color: #ffffff;
-      font-weight: 600;
-      padding: 0.8125rem;
+      background: linear-gradient(135deg, var(--primary) 0%, #d97706 100%);
+      color: #0b0f19;
       border: none;
-      border-radius: 0.625rem;
-      font-size: 0.9375rem;
+      border-radius: 0.65rem;
+      padding: 0.85rem;
+      font-size: 0.95rem;
+      font-weight: 700;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 0.5rem;
-      transition: transform 0.15s, box-shadow 0.15s;
-      margin-top: 1.5rem;
+      transition: all 0.2s;
     }
-    .btn-submit:hover {
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #fbbf24 0%, var(--primary) 100%);
       transform: translateY(-1px);
-      box-shadow: 0 10px 15px -3px rgba(245, 158, 11, 0.3);
+      box-shadow: 0 4px 14px rgba(245, 158, 11, 0.3);
     }
-    .btn-submit:active {
-      transform: translateY(0);
-    }
-    .btn-submit:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-    .alert-error {
+    .btn-primary:active { transform: translateY(0); }
+    .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+    .error-alert {
       background: rgba(239, 68, 68, 0.15);
       border: 1px solid rgba(239, 68, 68, 0.3);
       color: #fca5a5;
-      padding: 0.75rem 1rem;
-      border-radius: 0.625rem;
-      font-size: 0.875rem;
+      padding: 0.75rem;
+      border-radius: 0.65rem;
+      font-size: 0.85rem;
       margin-bottom: 1.25rem;
       display: none;
-      animation: shake 0.3s ease-in-out;
-    }
-    @keyframes shake {
-      0%, 100% { transform: translateX(0); }
-      20%, 60% { transform: translateX(-6px); }
-      40%, 80% { transform: translateX(6px); }
-    }
-    .footer-note {
-      text-align: center;
-      font-size: 0.75rem;
-      color: #64748b;
-      margin-top: 1.75rem;
-      line-height: 1.5;
-    }
-    .logout-bar {
-      display: none !important;
-    }
-    .btn-logout {
-      display: none !important;
-    }
-    .spinner {
-      width: 1rem;
-      height: 1rem;
-      border: 2px solid rgba(255, 255, 255, 0.3);
-      border-radius: 50%;
-      border-top-color: #ffffff;
-      animation: spin 0.8s linear infinite;
-    }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
     }
 
-    /* Kustomisasi Sveltia CMS UI & Sidebar */
-    :root {
-      --sui-primary-accent-color: #f59e0b !important;
-      --sui-button-primary-background-color: #f59e0b !important;
-      --sui-button-primary-foreground-color: #0f172a !important;
-      --sui-button-primary-background-color-focus: #d97706 !important;
-      --sui-button-primary-border-color: #d97706 !important;
+    /* Dashboard Layout */
+    .dashboard-wrapper { min-height: 100vh; display: flex; flex-direction: column; }
+    .navbar {
+      background: rgba(17, 24, 39, 0.9);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--card-border);
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      padding: 0.85rem 1.5rem;
     }
-
-    /* Sembunyikan promo infobar mobile */
-    [class*="infobar"],
-    .sui.infobar,
-    aside[class*="banner"] {
-      display: none !important;
-    }
-
-    /* Sidebar Styling */
-    .primary-sidebar {
-      background-color: #0b1329 !important;
-      border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
-      display: flex !important;
-      flex-direction: column !important;
-      justify-content: flex-start !important;
-    }
-    .primary-sidebar header h2 {
-      font-size: 0.75rem !important;
-      text-transform: uppercase !important;
-      letter-spacing: 0.06em !important;
-      color: #94a3b8 !important;
-      font-weight: 700 !important;
-    }
-    .primary-sidebar [role="listbox"] button[aria-selected="true"] {
-      background: rgba(245, 158, 11, 0.15) !important;
-      color: #fbbf24 !important;
-      border-left: 3px solid #f59e0b !important;
-      font-weight: 600 !important;
-    }
-
-    /* Filter Kategori Sub-Tree di Bawah Collections / Artikel Blog */
-    .sibi-category-tree {
-      margin: 0.35rem 0.65rem 0.75rem;
-      padding: 0.5rem;
-      background: rgba(15, 23, 42, 0.65);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 0.625rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.25rem;
-    }
-    .sibi-category-header {
+    .navbar-container {
+      max-width: 1400px;
+      margin: 0 auto;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0.2rem 0.35rem 0.35rem;
+      gap: 1rem;
     }
-    .sibi-cat-label {
-      font-size: 0.625rem;
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: inherit;
+    }
+    .badge-admin {
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--primary);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      font-size: 0.7rem;
       font-weight: 700;
-      color: #94a3b8;
-      letter-spacing: 0.06em;
+      padding: 0.2rem 0.5rem;
+      border-radius: 9999px;
       text-transform: uppercase;
+      letter-spacing: 0.05em;
     }
-    .sibi-cat-list {
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .btn-icon {
+      background: #1e293b;
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 0.5rem 0.85rem;
+      border-radius: 0.5rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s;
+    }
+    .btn-icon:hover { background: #334155; }
+    .btn-create {
+      background: var(--primary);
+      color: #0b0f19;
+      border: none;
+      padding: 0.55rem 1.15rem;
+      border-radius: 0.5rem;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s;
+    }
+    .btn-create:hover { background: var(--primary-hover); }
+
+    /* Dashboard Main Content */
+    .main-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+      width: 100%;
+      flex: 1;
+    }
+
+    /* Stats Overview */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .stat-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 0.85rem;
+      padding: 1.25rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .stat-card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--primary), transparent);
+    }
+    .stat-title { font-size: 0.8rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+    .stat-value { font-size: 1.75rem; font-weight: 800; margin-top: 0.4rem; color: #fff; }
+    .stat-desc { font-size: 0.75rem; color: var(--text-dim); margin-top: 0.25rem; }
+
+    /* Filter & Search Bar */
+    .filter-panel {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 0.85rem;
+      padding: 1rem 1.25rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .search-box {
+      flex: 1;
+      min-width: 260px;
+      position: relative;
+    }
+    .search-input {
+      width: 100%;
+      background: #0b0f19;
+      border: 1px solid var(--border-color);
+      border-radius: 0.5rem;
+      padding: 0.6rem 1rem 0.6rem 2.2rem;
+      color: #fff;
+      font-size: 0.85rem;
+    }
+    .search-icon {
+      position: absolute;
+      left: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-dim);
+      width: 16px;
+      height: 16px;
+    }
+    .filter-group { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+    .lang-btn {
+      background: #1e293b;
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      padding: 0.45rem 0.85rem;
+      border-radius: 0.5rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .lang-btn.active {
+      background: var(--primary);
+      color: #0b0f19;
+      border-color: var(--primary);
+    }
+    .select-control {
+      background: #0b0f19;
+      border: 1px solid var(--border-color);
+      color: #fff;
+      padding: 0.55rem 0.85rem;
+      border-radius: 0.5rem;
+      font-size: 0.8rem;
+      cursor: pointer;
+    }
+
+    /* Article List Table */
+    .table-container {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 0.85rem;
+      overflow: hidden;
+    }
+    .article-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+    .article-table th {
+      background: rgba(15, 23, 42, 0.75);
+      padding: 0.85rem 1.25rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid var(--card-border);
+    }
+    .article-table td {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      font-size: 0.875rem;
+      vertical-align: middle;
+    }
+    .article-table tr:hover { background: var(--card-hover); }
+    .article-title {
+      font-weight: 600;
+      color: #fff;
+      display: block;
+      margin-bottom: 0.25rem;
+      line-height: 1.35;
+      text-decoration: none;
+    }
+    .article-title:hover { color: var(--primary); }
+    .article-meta {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-family: var(--font-mono);
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      padding: 0.2rem 0.55rem;
+      border-radius: 0.375rem;
+      font-size: 0.72rem;
+      font-weight: 700;
+    }
+    .badge-id { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); }
+    .badge-en { background: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3); }
+    .badge-category { background: rgba(245, 158, 11, 0.12); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.25); }
+    .badge-pair {
+      background: rgba(16, 185, 129, 0.12);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      font-size: 0.7rem;
+      padding: 0.15rem 0.45rem;
+      cursor: pointer;
+    }
+    .badge-pair:hover { text-decoration: underline; }
+    .table-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      justify-content: flex-end;
+    }
+    .btn-table {
+      background: #1e293b;
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      padding: 0.35rem 0.65rem;
+      border-radius: 0.375rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .btn-table:hover { color: #fff; background: #334155; }
+    .btn-table.delete:hover { background: rgba(239, 68, 68, 0.2); color: #f87171; border-color: rgba(239, 68, 68, 0.4); }
+
+    /* Editor View */
+    .editor-wrapper {
       display: flex;
       flex-direction: column;
-      gap: 0.2rem;
+      gap: 1.5rem;
     }
-    .sibi-cat-item {
+    .editor-header {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 0.85rem;
+      padding: 1rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .editor-grid {
+      display: grid;
+      grid-template-columns: 340px 1fr;
+      gap: 1.5rem;
+      align-items: start;
+    }
+    @media (max-width: 1024px) {
+      .editor-grid { grid-template-columns: 1fr; }
+    }
+    .sidebar-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 0.85rem;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.15rem;
+    }
+    .editor-main-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 0.85rem;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .toolbar {
+      background: #0f172a;
+      border-bottom: 1px solid var(--card-border);
+      padding: 0.6rem 0.85rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      align-items: center;
+    }
+    .tool-btn {
+      background: #1e293b;
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      padding: 0.35rem 0.6rem;
+      border-radius: 0.35rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .tool-btn:hover { background: #334155; color: #fff; }
+    .split-pane {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 550px;
+      height: 70vh;
+    }
+    @media (max-width: 768px) {
+      .split-pane { grid-template-columns: 1fr; height: auto; }
+      .preview-pane { display: none; }
+      .split-pane.preview-active .editor-pane { display: none; }
+      .split-pane.preview-active .preview-pane { display: block; }
+    }
+    .editor-textarea {
+      width: 100%;
+      height: 100%;
+      background: #0b0f19;
+      color: #e2e8f0;
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      line-height: 1.6;
+      padding: 1.25rem;
+      border: none;
+      resize: none;
+      outline: none;
+    }
+    .preview-pane {
+      background: #111827;
+      border-left: 1px solid var(--card-border);
+      padding: 1.5rem;
+      overflow-y: auto;
+      color: #cbd5e1;
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+    .preview-pane h1 { font-size: 1.75rem; margin-bottom: 1rem; color: #fff; border-bottom: 1px solid #1f293d; padding-bottom: 0.5rem; }
+    .preview-pane h2 { font-size: 1.35rem; margin: 1.5rem 0 0.75rem; color: #fff; border-bottom: 1px solid #1f293d; padding-bottom: 0.35rem; }
+    .preview-pane h3 { font-size: 1.15rem; margin: 1.25rem 0 0.5rem; color: var(--primary); }
+    .preview-pane p { margin-bottom: 1rem; }
+    .preview-pane ul, .preview-pane ol { margin: 0 0 1rem 1.5rem; }
+    .preview-pane li { margin-bottom: 0.35rem; }
+    .preview-pane blockquote { border-left: 3px solid var(--primary); padding-left: 1rem; color: #94a3b8; font-style: italic; margin-bottom: 1rem; }
+    .preview-pane code { font-family: var(--font-mono); background: #0b0f19; padding: 0.15rem 0.4rem; border-radius: 0.25rem; font-size: 0.85em; color: #f59e0b; }
+    .preview-pane pre code { display: block; padding: 1rem; overflow-x: auto; color: #e2e8f0; border-radius: 0.5rem; }
+    .preview-pane img { max-width: 100%; border-radius: 0.5rem; margin: 1rem 0; }
+    .preview-pane hr { border: 0; border-top: 1px solid #1f293d; margin: 2rem 0; }
+
+    /* Toasts */
+    .toast-container {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .toast {
+      background: #1e293b;
+      border: 1px solid var(--card-border);
+      color: #fff;
+      padding: 0.85rem 1.25rem;
+      border-radius: 0.5rem;
+      font-size: 0.875rem;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      animation: slideIn 0.2s ease-out;
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      padding: 0.35rem 0.5rem;
-      border-radius: 0.375rem;
-      background: transparent;
-      border: 1px solid transparent;
-      color: #cbd5e1;
-      font-size: 0.75rem;
-      font-weight: 500;
-      cursor: pointer;
-      text-align: left;
-      transition: all 0.15s ease;
-      width: 100%;
     }
-    .sibi-cat-item:hover {
-      background: rgba(255, 255, 255, 0.05);
-      color: #ffffff;
+    @keyframes slideIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
     }
-    .sibi-cat-item.active {
-      background: rgba(245, 158, 11, 0.15);
-      border-color: rgba(245, 158, 11, 0.3);
-      color: #fbbf24;
-      font-weight: 600;
-    }
-    .sibi-cat-icon {
-      font-size: 0.8125rem;
-      flex: none;
-    }
-    .sibi-cat-name {
-      flex: 1;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-    .sibi-cat-badge {
-      font-size: 0.6875rem;
-      color: #64748b;
-      font-weight: 600;
-      background: rgba(0, 0, 0, 0.25);
-      padding: 0.1rem 0.35rem;
-      border-radius: 9999px;
-      flex: none;
-    }
-    .sibi-cat-item.active .sibi-cat-badge {
-      color: #fbbf24;
-      background: rgba(245, 158, 11, 0.25);
-    }
+    .toast.success { border-color: rgba(16, 185, 129, 0.5); }
+    .toast.error { border-color: rgba(239, 68, 68, 0.5); }
 
-    /* Sidebar Extension Box (Mengisi kekosongan bawah collection) */
-    .sibi-sidebar-box {
-      margin-top: auto;
-      padding: 1rem 0.85rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.85rem;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-      background: linear-gradient(180deg, rgba(15, 23, 42, 0) 0%, rgba(15, 23, 42, 0.9) 100%);
-    }
-    .sibi-group-title {
-      font-size: 0.6875rem;
-      font-weight: 700;
-      color: #64748b;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      padding: 0 0.25rem 0.4rem;
-    }
-    .sibi-nav-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.35rem;
-    }
-    .sibi-quick-link {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      padding: 0.5rem 0.65rem;
-      border-radius: 0.5rem;
-      color: #cbd5e1;
-      text-decoration: none;
-      font-size: 0.8125rem;
-      font-weight: 500;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.04);
-      transition: all 0.15s ease;
-    }
-    .sibi-quick-link:hover {
-      background: rgba(245, 158, 11, 0.12);
-      border-color: rgba(245, 158, 11, 0.25);
-      color: #fbbf24;
-      transform: translateX(2px);
-    }
-    .sibi-link-icon {
-      font-size: 0.9375rem;
-    }
-    .sibi-link-text {
-      flex: 1;
-    }
-    .sibi-link-badge {
-      font-size: 0.6875rem;
-      color: #64748b;
-    }
-    .sibi-guide-card {
-      background: rgba(30, 41, 59, 0.7);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 0.625rem;
-      padding: 0.75rem;
-    }
-    .sibi-guide-header {
-      display: flex;
-      align-items: center;
-      gap: 0.35rem;
-      margin-bottom: 0.5rem;
-    }
-    .sibi-status-dot {
-      width: 7px;
-      height: 7px;
-      background-color: #22c55e;
+    /* Spinner */
+    .spinner {
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-top-color: currentColor;
       border-radius: 50%;
-      display: inline-block;
-      box-shadow: 0 0 6px rgba(34, 197, 94, 0.8);
+      animation: spin 0.6s linear infinite;
     }
-    .sibi-guide-title {
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: #f8fafc;
-    }
-    .sibi-guide-stats {
-      display: flex;
-      gap: 0.35rem;
-      margin-bottom: 0.5rem;
-    }
-    .sibi-stat-pill {
-      font-size: 0.625rem;
-      font-weight: 600;
-      background: rgba(245, 158, 11, 0.15);
-      border: 1px solid rgba(245, 158, 11, 0.3);
-      color: #fbbf24;
-      padding: 0.15rem 0.45rem;
-      border-radius: 4px;
-    }
-    .sibi-guide-text {
-      font-size: 0.6875rem;
-      color: #94a3b8;
-      line-height: 1.45;
-      margin: 0;
-    }
-    .sibi-guide-text strong {
-      color: #f1f5f9;
-    }
-    .sibi-logout-action {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.45rem;
-      width: 100%;
-      background: rgba(239, 68, 68, 0.1);
-      border: 1px solid rgba(239, 68, 68, 0.25);
-      color: #fca5a5;
-      padding: 0.55rem;
-      border-radius: 0.5rem;
-      font-size: 0.75rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.15s ease;
-    }
-    .sibi-logout-action:hover {
-      background: #ef4444;
-      color: #ffffff;
-      border-color: #dc2626;
-    }
+    @keyframes spin { to { transform: rotate(360deg); } }
   </style>
 </head>
 <body>
 
-  <!-- Login Form Wrapper -->
+  <!-- ========================================== -->
+  <!-- 1. LOGIN PORTAL                           -->
+  <!-- ========================================== -->
   <div id="login-portal" class="login-container">
     <div class="login-card">
-      <div class="brand-header">
-        <div class="brand-badge">⚡ Portal Penulis Blog</div>
-        <h1 class="brand-title">SitusBisnis Admin</h1>
-        <p class="brand-subtitle">Masuk dengan Username & PIN tim Anda untuk menulis dan mengelola postingan.</p>
+      <div class="brand-logo">
+        <svg fill="currentColor" viewBox="0 0 24 24">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+        </svg>
+        <div class="brand-title">situsbisnis<span>.com</span></div>
+      </div>
+      <div style="text-align: center; margin-bottom: 1.75rem;">
+        <h2 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 0.25rem;">Portal Penulis Blog</h2>
+        <p style="font-size: 0.82rem; color: var(--text-dim);">Masuk untuk mengelola publikasi ID & EN</p>
       </div>
 
-      <div id="error-box" class="alert-error"></div>
+      <div id="login-error" class="error-alert"></div>
 
       <form id="login-form">
         <div class="form-group">
-          <label class="form-label" for="username">Username Tim</label>
-          <div class="input-wrapper">
-            <input
-              type="text"
-              id="username"
-              class="form-input"
-              placeholder="timSiBi"
-              value="timSiBi"
-              required
-              autocomplete="username"
-            />
-          </div>
+          <label for="username">Username Tim</label>
+          <input type="text" id="username" class="input-control" placeholder="timSiBi" autocomplete="username" required />
         </div>
-
         <div class="form-group">
-          <label class="form-label" for="pin">PIN / Password Akses</label>
-          <div class="input-wrapper">
-            <input
-              type="password"
-              id="pin"
-              class="form-input"
-              placeholder="Masukkan PIN rahasia..."
-              required
-              autocomplete="current-password"
-            />
-            <button type="button" id="toggle-pwd" class="toggle-password" tabindex="-1">Lihat</button>
-          </div>
+          <label for="pin">PIN Akses</label>
+          <input type="password" id="pin" class="input-control" placeholder="••••••••" autocomplete="current-password" required />
         </div>
-
-        <button type="submit" id="submit-btn" class="btn-submit">
+        <button type="submit" id="login-btn" class="btn-primary">
           <span>Masuk ke Dashboard</span>
         </button>
       </form>
-
-      <div class="footer-note">
-        Protected with AES-256 military-grade encryption.<br />
-        Hubungi Administrator jika belum memiliki PIN akses.
-      </div>
     </div>
   </div>
 
-  <!-- Floating Logout Pill -->
-  <div id="logout-bar" class="logout-bar">
-    <button id="logout-btn" class="btn-logout" title="Keluar dari sesi ini">
-      <span>🔒 Keluar (Logout)</span>
-    </button>
+  <!-- ========================================== -->
+  <!-- 2. DASHBOARD VIEW                         -->
+  <!-- ========================================== -->
+  <div id="dashboard-view" class="dashboard-wrapper hidden">
+    <!-- Navbar -->
+    <header class="navbar">
+      <div class="navbar-container">
+        <a href="#" class="nav-brand" onclick="app.showDashboard(); return false;">
+          <svg style="width: 24px; height: 24px; color: var(--primary);" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+          </svg>
+          <div style="font-weight: 800; font-size: 1.05rem;">situsbisnis<span style="color: var(--primary);">.com</span></div>
+          <span class="badge-admin">Admin</span>
+        </a>
+
+        <div class="nav-actions">
+          <button class="btn-create" onclick="app.createNewArticle()">
+            <svg style="width: 16px; height: 16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+            <span>Tulis Artikel Baru</span>
+          </button>
+          <a href="https://blog.situsbisnis.com" target="_blank" class="btn-icon" title="Lihat Blog Publik">
+            <svg style="width: 15px; height: 15px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+            <span>Live Blog</span>
+          </a>
+          <button class="btn-icon" onclick="app.logout()" title="Keluar">
+            <svg style="width: 15px; height: 15px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+            <span>Keluar</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Content Area -->
+    <main class="main-container">
+      <!-- Stats Summary -->
+      <section class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-title">🇮🇩 Artikel Indonesia</div>
+          <div class="stat-value" id="stat-count-id">0</div>
+          <div class="stat-desc">Publikasi Bahasa Indonesia</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title">🇬🇧 English Articles</div>
+          <div class="stat-value" id="stat-count-en">0</div>
+          <div class="stat-desc">Publikasi Bahasa Inggris</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title">Kategori Resmi</div>
+          <div class="stat-value">5</div>
+          <div class="stat-desc">Strategi, Monetisasi, Funnel, dll.</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title">Status GitHub Sync</div>
+          <div class="stat-value" style="font-size: 1.15rem; color: var(--success); display: flex; align-items: center; gap: 0.5rem; margin-top: 0.75rem;">
+            <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--success);"></span>
+            <span>Terkoneksi</span>
+          </div>
+          <div class="stat-desc" id="stat-sync-desc">Siap menyimpan ke main</div>
+        </div>
+      </section>
+
+      <!-- Filter Panel -->
+      <section class="filter-panel">
+        <div class="search-box">
+          <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          <input type="text" id="search-input" class="search-input" placeholder="Cari judul artikel, slug, atau tag..." oninput="app.handleSearch(this.value)" />
+        </div>
+
+        <div class="filter-group">
+          <button class="lang-btn active" data-lang="all" onclick="app.setLangFilter('all')">Semua Bahasa</button>
+          <button class="lang-btn" data-lang="id" onclick="app.setLangFilter('id')">🇮🇩 Indonesia</button>
+          <button class="lang-btn" data-lang="en" onclick="app.setLangFilter('en')">🇬🇧 English</button>
+
+          <select id="category-filter" class="select-control" onchange="app.setCategoryFilter(this.value)">
+            <option value="all">Semua Kategori</option>
+            <option value="strategi-bisnis">Strategi Bisnis</option>
+            <option value="monetisasi">Monetisasi</option>
+            <option value="funnel-penjualan">Funnel Penjualan</option>
+            <option value="audience-growth">Audience Growth</option>
+            <option value="email-marketing">Email Marketing</option>
+          </select>
+        </div>
+      </section>
+
+      <!-- Article Table -->
+      <section class="table-container">
+        <table class="article-table">
+          <thead>
+            <tr>
+              <th style="width: 50%;">Judul & Info Artikel</th>
+              <th style="width: 15%;">Bahasa & Kategori</th>
+              <th style="width: 20%;">Pasangan Terjemahan</th>
+              <th style="width: 15%; text-align: right;">Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="article-list-body">
+            <tr>
+              <td colspan="4" style="text-align: center; padding: 3rem; color: var(--text-dim);">
+                <div class="spinner" style="margin: 0 auto 0.75rem auto;"></div>
+                Memuat daftar artikel...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
   </div>
 
+  <!-- ========================================== -->
+  <!-- 3. EDITOR VIEW                            -->
+  <!-- ========================================== -->
+  <div id="editor-view" class="dashboard-wrapper hidden">
+    <!-- Navbar -->
+    <header class="navbar">
+      <div class="navbar-container">
+        <div class="flex items-center gap-4">
+          <button class="btn-icon" onclick="app.showDashboard()">
+            <svg style="width: 16px; height: 16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+            <span>Daftar Artikel</span>
+          </button>
+          <div id="editor-title-badge" style="font-weight: 700; font-size: 0.95rem; color: #fff;">Tulis Artikel Baru</div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button id="mobile-toggle-preview" class="btn-icon" onclick="app.toggleMobilePreview()">
+            <span>Toggle Pratinjau</span>
+          </button>
+          <button id="save-btn" class="btn-create" onclick="app.saveArticle()">
+            <svg style="width: 16px; height: 16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/></svg>
+            <span>Simpan & Publish</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="main-container">
+      <div class="editor-grid">
+        <!-- Sidebar Metadata -->
+        <aside class="sidebar-card">
+          <div class="form-group" style="margin-bottom: 0.75rem;">
+            <label>Bahasa Publikasi</label>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+              <button type="button" id="btn-lang-id" class="lang-btn active" onclick="app.setEditorLanguage('id')">🇮🇩 Indonesia</button>
+              <button type="button" id="btn-lang-en" class="lang-btn" onclick="app.setEditorLanguage('en')">🇬🇧 English</button>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 0.75rem;">
+            <label for="edit-title">Judul Artikel</label>
+            <input type="text" id="edit-title" class="input-control" placeholder="Contoh: Strategi Monetisasi Produk Digital" oninput="app.handleTitleInput(this.value)" required />
+          </div>
+
+          <div class="form-group" style="margin-bottom: 0.75rem;">
+            <label for="edit-slug">Slug URL (File: .md)</label>
+            <input type="text" id="edit-slug" class="input-control" placeholder="strategi-monetisasi-produk-digital" required />
+          </div>
+
+          <div class="form-group" style="margin-bottom: 0.75rem;">
+            <label for="edit-category">Kategori Utama</label>
+            <select id="edit-category" class="input-control">
+              <!-- Populated dynamically based on language -->
+            </select>
+          </div>
+
+          <div class="form-group" id="group-translation" style="margin-bottom: 0.75rem;">
+            <label for="edit-translation">Pasangan Terjemahan (translationOf)</label>
+            <select id="edit-translation" class="input-control">
+              <option value="">-- Tanpa Relasi Terjemahan --</option>
+            </select>
+            <span style="font-size: 0.7rem; color: var(--text-dim); display: block; margin-top: 0.25rem;">Tautkan ke artikel versi Indonesia padanannya.</span>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 0.75rem;">
+            <label for="edit-desc">Deskripsi Ringkas (SEO)</label>
+            <textarea id="edit-desc" class="input-control" rows="3" placeholder="Ringkasan singkat untuk snippet mesin pencari (150-160 karakter)..."></textarea>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 0.75rem;">
+            <label for="edit-author">Penulis</label>
+            <input type="text" id="edit-author" class="input-control" value="Tim Editorial SitusBisnis" />
+          </div>
+
+          <div class="form-group" style="margin-bottom: 0.75rem;">
+            <label for="edit-date">Tanggal Publikasi</label>
+            <input type="datetime-local" id="edit-date" class="input-control" />
+          </div>
+
+          <div class="form-group" style="margin-bottom: 0.75rem;">
+            <label for="edit-tags">Tags (pisahkan koma)</label>
+            <input type="text" id="edit-tags" class="input-control" placeholder="monetisasi, digital products, funnel" />
+          </div>
+
+          <div class="form-group" style="margin-bottom: 0;">
+            <label for="edit-image">Cover Image URL</label>
+            <input type="text" id="edit-image" class="input-control" placeholder="/images/posts/creator-commerce-cover.svg" />
+            <div style="margin-top: 0.5rem;">
+              <input type="file" id="image-uploader" accept="image/*" style="display: none;" onchange="app.handleImageUpload(this.files[0])" />
+              <button type="button" class="btn-icon w-full" onclick="document.getElementById('image-uploader').click()">
+                <svg style="width: 14px; height: 14px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+                <span>Upload Cover Baru ke GitHub</span>
+              </button>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Main Markdown Editor & Preview -->
+        <div class="editor-main-card">
+          <!-- Toolbar -->
+          <div class="toolbar">
+            <button type="button" class="tool-btn" onclick="app.insertMarkdown('**', '**')"><b>B</b></button>
+            <button type="button" class="tool-btn" onclick="app.insertMarkdown('*', '*')"><i>I</i></button>
+            <button type="button" class="tool-btn" onclick="app.insertMarkdown('## ', '')">H2</button>
+            <button type="button" class="tool-btn" onclick="app.insertMarkdown('### ', '')">H3</button>
+            <button type="button" class="tool-btn" onclick="app.insertMarkdown('> ', '')">Quote</button>
+            <button type="button" class="tool-btn" onclick="app.insertMarkdown('- ', '')">List</button>
+            <button type="button" class="tool-btn" onclick="app.insertMarkdown('[', '](https://)')">Link</button>
+            <button type="button" class="tool-btn" onclick="app.insertMarkdown('![alt](', ')')">Image</button>
+            <button type="button" class="tool-btn" onclick="app.insertMarkdown('```\n', '\n```')">Code</button>
+            <button type="button" class="tool-btn" onclick="app.insertMarkdown('| Kolom 1 | Kolom 2 |\n|---|---|\n| Data 1 | Data 2 |\n', '')">Table</button>
+            <span style="flex: 1;"></span>
+            <span style="font-size: 0.75rem; color: var(--text-dim);" id="word-count">0 kata</span>
+          </div>
+
+          <!-- Split Pane Editor & Preview -->
+          <div class="split-pane" id="split-pane">
+            <div class="editor-pane">
+              <textarea id="markdown-body" class="editor-textarea" placeholder="Tulis isi artikel dengan format Markdown di sini..." oninput="app.handleContentInput(this.value)"></textarea>
+            </div>
+            <div class="preview-pane" id="markdown-preview">
+              <p style="color: var(--text-dim); font-style: italic;">Pratinjau langsung akan tampil di sini saat Anda mengetik...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- ========================================== -->
+  <!-- 4. JAVASCRIPT APPLICATION CORE            -->
+  <!-- ========================================== -->
   <script>
-    // Konfigurasi Terenkripsi (dihasilkan oleh: bun run setup-auth)
+    // Konfigurasi Autentikasi Terenkripsi (Kompatibel dengan setup-admin-auth.js)
     const AUTH_CONFIG = {
     username: "timSiBi",
     salt: "eqGY0Ll8RnscikhrUk2JKg==",
@@ -501,29 +841,34 @@
     data: "5kKKics6oQUVBQNDoI2Q55cv/sjMxLv3iSsSO7ffmY2WvSE96kCnRsswRJmZGT8Nc+/We7A9sp4=",
   };
 
-    const loginPortal = document.getElementById('login-portal');
-    const loginForm = document.getElementById('login-form');
-    const usernameInput = document.getElementById('username');
-    const pinInput = document.getElementById('pin');
-    const submitBtn = document.getElementById('submit-btn');
-    const errorBox = document.getElementById('error-box');
-    const logoutBar = document.getElementById('logout-bar');
-    const logoutBtn = document.getElementById('logout-btn');
-    const togglePwd = document.getElementById('toggle-pwd');
+    const REPO_OWNER = 'crediblemark-official';
+    const REPO_NAME = 'Blog-SiBi';
+    const GITHUB_API = 'https://api.github.com';
 
-    // Toggle lihat password
-    togglePwd.addEventListener('click', () => {
-      const isPwd = pinInput.type === 'password';
-      pinInput.type = isPwd ? 'text' : 'password';
-      togglePwd.textContent = isPwd ? 'Tutup' : 'Lihat';
-    });
+    // Kategori Resmi Dua Bahasa
+    const CATEGORIES = {
+      id: [
+        { label: 'Strategi Bisnis', slug: 'strategi-bisnis' },
+        { label: 'Monetisasi', slug: 'monetisasi' },
+        { label: 'Funnel Penjualan', slug: 'funnel-penjualan' },
+        { label: 'Audience Growth', slug: 'audience-growth' },
+        { label: 'Email Marketing', slug: 'email-marketing' },
+      ],
+      en: [
+        { label: 'Business Strategy', slug: 'business-strategy' },
+        { label: 'Monetization', slug: 'monetization' },
+        { label: 'Sales Funnels', slug: 'sales-funnels' },
+        { label: 'Audience Growth', slug: 'audience-growth' },
+        { label: 'Email Marketing', slug: 'email-marketing' },
+      ],
+    };
 
-    // Dekripsi Token via Web Crypto PBKDF2 + AES-GCM
-    async function decryptToken(encryptedPayload, secret) {
+    // Helper Dekripsi Token
+    async function decryptToken(config, secret) {
       const enc = new TextEncoder();
-      const salt = Uint8Array.from(atob(encryptedPayload.salt), c => c.charCodeAt(0));
-      const iv = Uint8Array.from(atob(encryptedPayload.iv), c => c.charCodeAt(0));
-      const data = Uint8Array.from(atob(encryptedPayload.data), c => c.charCodeAt(0));
+      const salt = Uint8Array.from(atob(config.salt), c => c.charCodeAt(0));
+      const iv = Uint8Array.from(atob(config.iv), c => c.charCodeAt(0));
+      const data = Uint8Array.from(atob(config.data), c => c.charCodeAt(0));
 
       const keyMaterial = await crypto.subtle.importKey(
         'raw',
@@ -555,340 +900,604 @@
       return new TextDecoder().decode(decrypted);
     }
 
-    // Inisialisasi CMS
-    function bootCMS() {
-      loginPortal.style.display = 'none';
-
-      // Load Sveltia CMS script secara dinamis
-      if (!document.getElementById('sveltia-script')) {
-        const script = document.createElement('script');
-        script.id = 'sveltia-script';
-        script.src = 'https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js';
-        document.body.appendChild(script);
+    // Application State Manager
+    class BlogAdminApp {
+      constructor() {
+        this.token = null;
+        this.articles = [];
+        this.filteredArticles = [];
+        this.activeLangFilter = 'all';
+        this.activeCategoryFilter = 'all';
+        this.searchQuery = '';
+        this.currentArticle = null;
+        this.editorLang = 'id';
+        this.existingSha = null;
       }
 
-      startSidebarObserver();
-    }
-
-    // Filter Kategori
-    function applyCategoryFilter(catName) {
-      if (location.hash.startsWith('#/assets')) {
-        location.hash = '#/collections/blog';
+      init() {
+        this.checkSession();
+        this.bindEvents();
       }
 
-      document.querySelectorAll('.sibi-cat-item').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.category === catName);
-      });
+      showToast(message, type = 'info') {
+        const container = document.getElementById('toast-container');
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        toast.innerHTML = `<span>${type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️'}</span><span>${message}</span>`;
+        container.appendChild(toast);
+        setTimeout(() => {
+          toast.style.opacity = '0';
+          toast.style.transform = 'translateY(10px)';
+          setTimeout(() => toast.remove(), 200);
+        }, 4000);
+      }
 
-      const searchInput = document.querySelector('.search-bar input, input[type="search"]');
-      if (searchInput) {
-        const proto = Object.getPrototypeOf(searchInput);
-        const nativeSet = Object.getOwnPropertyDescriptor(proto, 'value')?.set;
-        if (nativeSet) {
-          nativeSet.call(searchInput, catName);
-        } else {
-          searchInput.value = catName;
+      async checkSession() {
+        try {
+          const stored = sessionStorage.getItem('blog_sibi_token') || localStorage.getItem('blog_sibi_token');
+          if (stored) {
+            this.token = stored;
+            this.onAuthenticated();
+            return;
+          }
+        } catch (_) {}
+      }
+
+      bindEvents() {
+        const loginForm = document.getElementById('login-form');
+        loginForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const username = document.getElementById('username').value.trim();
+          const pin = document.getElementById('pin').value.trim();
+          const errBox = document.getElementById('login-error');
+          const submitBtn = document.getElementById('login-btn');
+
+          errBox.style.display = 'none';
+
+          if (username.toLowerCase() !== AUTH_CONFIG.username.toLowerCase()) {
+            errBox.textContent = '❌ Username atau PIN salah.';
+            errBox.style.display = 'block';
+            return;
+          }
+
+          submitBtn.disabled = true;
+          submitBtn.innerHTML = '<div class="spinner"></div><span>Memverifikasi...</span>';
+
+          try {
+            const token = await decryptToken(AUTH_CONFIG, `${username}:${pin}`);
+            if (!token) throw new Error('Token kosong');
+
+            this.token = token;
+            sessionStorage.setItem('blog_sibi_token', token);
+            localStorage.setItem('blog_sibi_token', token);
+            this.onAuthenticated();
+          } catch (err) {
+            errBox.textContent = '❌ Username atau PIN salah. Silakan coba lagi.';
+            errBox.style.display = 'block';
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<span>Masuk ke Dashboard</span>';
+          }
+        });
+      }
+
+      async onAuthenticated() {
+        document.getElementById('login-portal').classList.add('hidden');
+        document.getElementById('dashboard-view').classList.remove('hidden');
+        document.getElementById('editor-view').classList.add('hidden');
+        await this.loadArticles();
+      }
+
+      logout() {
+        sessionStorage.removeItem('blog_sibi_token');
+        localStorage.removeItem('blog_sibi_token');
+        this.token = null;
+        window.location.reload();
+      }
+
+      async loadArticles() {
+        try {
+          // Pertama coba ambil dari manifest lokal artikel yang cepat (articles.json)
+          let res = await fetch('/admin/articles.json');
+          if (res.ok) {
+            this.articles = await res.json();
+          } else {
+            // Fallback memuat langsung dari GitHub API
+            await this.loadArticlesFromGitHub();
+          }
+        } catch (e) {
+          await this.loadArticlesFromGitHub();
         }
-        searchInput.dispatchEvent(new Event('input', { bubbles: true }));
-        searchInput.dispatchEvent(new Event('change', { bubbles: true }));
-      }
-    }
 
-    let cachedCatTree = null;
-    function getCategoryTree() {
-      if (cachedCatTree) return cachedCatTree;
-      const tree = document.createElement('div');
-      tree.id = 'sibi-category-tree';
-      tree.className = 'sibi-category-tree';
-      tree.innerHTML = `
-        <div class="sibi-category-header">
-          <span class="sibi-cat-label">KATEGORI ARTIKEL</span>
-        </div>
-        <div class="sibi-cat-list">
-          <button type="button" class="sibi-cat-item active" data-category="">
-            <span class="sibi-cat-icon">📑</span>
-            <span class="sibi-cat-name">Semua Artikel</span>
-            <span class="sibi-cat-badge">63</span>
-          </button>
-          <button type="button" class="sibi-cat-item" data-category="Strategi Bisnis">
-            <span class="sibi-cat-icon">💼</span>
-            <span class="sibi-cat-name">Strategi Bisnis</span>
-            <span class="sibi-cat-badge">48</span>
-          </button>
-          <button type="button" class="sibi-cat-item" data-category="Monetisasi">
-            <span class="sibi-cat-icon">💰</span>
-            <span class="sibi-cat-name">Monetisasi</span>
-            <span class="sibi-cat-badge">42</span>
-          </button>
-          <button type="button" class="sibi-cat-item" data-category="Funnel Penjualan">
-            <span class="sibi-cat-icon">🎯</span>
-            <span class="sibi-cat-name">Funnel Penjualan</span>
-            <span class="sibi-cat-badge">20</span>
-          </button>
-          <button type="button" class="sibi-cat-item" data-category="Audience Growth">
-            <span class="sibi-cat-icon">🚀</span>
-            <span class="sibi-cat-name">Audience Growth</span>
-            <span class="sibi-cat-badge">11</span>
-          </button>
-          <button type="button" class="sibi-cat-item" data-category="Email Marketing">
-            <span class="sibi-cat-icon">✉️</span>
-            <span class="sibi-cat-name">Email Marketing</span>
-            <span class="sibi-cat-badge">5</span>
-          </button>
-        </div>
-      `;
-
-      tree.querySelectorAll('.sibi-cat-item').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          applyCategoryFilter(btn.dataset.category);
-        });
-      });
-
-      cachedCatTree = tree;
-      return tree;
-    }
-
-    let cachedSidebarExt = null;
-    function getSidebarExt() {
-      if (cachedSidebarExt) return cachedSidebarExt;
-      const ext = document.createElement('div');
-      ext.id = 'sibi-sidebar-extension';
-      ext.className = 'sibi-sidebar-box';
-      ext.innerHTML = `
-        <div class="sibi-nav-group">
-          <div class="sibi-group-title">Akses Cepat</div>
-          <a href="https://blog.situsbisnis.com" target="_blank" rel="noopener noreferrer" class="sibi-quick-link">
-            <span class="sibi-link-icon">🌐</span>
-            <span class="sibi-link-text">Lihat Blog Live</span>
-            <span class="sibi-link-badge">↗</span>
-          </a>
-          <a href="https://situsbisnis.com" target="_blank" rel="noopener noreferrer" class="sibi-quick-link">
-            <span class="sibi-link-icon">⚡</span>
-            <span class="sibi-link-text">Website Utama</span>
-            <span class="sibi-link-badge">↗</span>
-          </a>
-          <a href="#/assets" class="sibi-quick-link">
-            <span class="sibi-link-icon">🖼️</span>
-            <span class="sibi-link-text">Pustaka Media</span>
-          </a>
-        </div>
-
-        <div class="sibi-guide-card">
-          <div class="sibi-guide-header">
-            <span class="sibi-status-dot"></span>
-            <span class="sibi-guide-title">SitusBisnis Publisher</span>
-          </div>
-          <div class="sibi-guide-stats">
-            <span class="sibi-stat-pill">63 Artikel</span>
-            <span class="sibi-stat-pill">Git: main</span>
-          </div>
-          <p class="sibi-guide-text">
-            Setiap klik <strong>Save</strong>, sistem otomatis commit & menerbitkan artikel dalam 1–2 menit.
-          </p>
-        </div>
-
-        <button type="button" id="sibi-sidebar-logout-btn" class="sibi-logout-action">
-          <span>🔒</span>
-          <span>Keluar (Logout)</span>
-        </button>
-      `;
-
-      const sidebarLogout = ext.querySelector('#sibi-sidebar-logout-btn');
-      if (sidebarLogout) {
-        sidebarLogout.addEventListener('click', () => {
-          if (confirm('Apakah Anda yakin ingin keluar dari Portal Penulis?')) {
-            localStorage.removeItem('sveltia-cms.user');
-            localStorage.removeItem('decap-cms-user');
-            location.reload();
-          }
-        });
+        this.updateStats();
+        this.renderArticles();
       }
 
-      cachedSidebarExt = ext;
-      return ext;
-    }
+      async loadArticlesFromGitHub() {
+        try {
+          const res = await fetch(`${GITHUB_API}/repos/${REPO_OWNER}/${REPO_NAME}/git/trees/main?recursive=1`, {
+            headers: { Authorization: `Bearer ${this.token}`, Accept: 'application/vnd.github+json' },
+          });
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          const data = await res.json();
+          const mdFiles = (data.tree || []).filter(item => item.path.startsWith('src/content/blog/') && item.path.endsWith('.md'));
 
-    // Injeksi Widget ke Sidebar secara dinamis sesuai rute aktif
-    function updateSidebarElements() {
-      const sidebar = document.querySelector('.primary-sidebar');
-      if (!sidebar) return;
+          this.articles = mdFiles.map(file => {
+            const isEn = file.path.startsWith('src/content/blog/en/');
+            const relPath = file.path.replace('src/content/blog/', '');
+            const slug = isEn ? relPath.replace(/^en\//, '').replace(/\.md$/, '') : relPath.replace(/\.md$/, '');
+            return {
+              id: relPath,
+              slug: slug,
+              lang: isEn ? 'en' : 'id',
+              title: slug.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
+              date: new Date().toISOString(),
+              categories: [isEn ? 'Business Strategy' : 'Strategi Bisnis'],
+              filePath: file.path,
+              sha: file.sha,
+            };
+          });
+        } catch (err) {
+          this.showToast('Gagal memuat artikel dari GitHub: ' + err.message, 'error');
+        }
+      }
 
-      const isAssets = location.hash.includes('assets');
-      const catTree = getCategoryTree();
+      updateStats() {
+        const idCount = this.articles.filter(a => a.lang === 'id').length;
+        const enCount = this.articles.filter(a => a.lang === 'en').length;
+        document.getElementById('stat-count-id').textContent = idCount;
+        document.getElementById('stat-count-en').textContent = enCount;
+      }
 
-      if (!isAssets) {
-        // Cari elemen tombol Artikel Blog di sidebar
-        const allButtons = Array.from(sidebar.querySelectorAll('button, [role="treeitem"]'));
-        const artikelBlogItem = allButtons.find(el => el.textContent.includes('Artikel Blog'));
+      handleSearch(query) {
+        this.searchQuery = query.toLowerCase().trim();
+        this.renderArticles();
+      }
 
-        if (artikelBlogItem) {
-          // Cari container induk terdekat dari Artikel Blog
-          const target = artikelBlogItem.closest('[role="group"]') ||
-                         artikelBlogItem.closest('[role="tree"]') ||
-                         artikelBlogItem.parentElement ||
-                         artikelBlogItem;
+      setLangFilter(lang) {
+        this.activeLangFilter = lang;
+        document.querySelectorAll('.lang-btn[data-lang]').forEach(btn => {
+          btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+        });
+        this.renderArticles();
+      }
 
-          if (target && target.nextElementSibling !== catTree) {
-            target.after(catTree);
+      setCategoryFilter(cat) {
+        this.activeCategoryFilter = cat;
+        this.renderArticles();
+      }
+
+      renderArticles() {
+        const tbody = document.getElementById('article-list-body');
+        
+        let filtered = this.articles.filter(item => {
+          if (this.activeLangFilter !== 'all' && item.lang !== this.activeLangFilter) return false;
+          if (this.searchQuery) {
+            const matchTitle = (item.title || '').toLowerCase().includes(this.searchQuery);
+            const matchSlug = (item.slug || '').toLowerCase().includes(this.searchQuery);
+            if (!matchTitle && !matchSlug) return false;
           }
-          catTree.style.display = 'flex';
+          return true;
+        });
 
-          // Hook tombol utama Artikel Blog untuk reset filter jika diklik
-          if (!artikelBlogItem.dataset.sibiHooked) {
-            artikelBlogItem.dataset.sibiHooked = 'true';
-            artikelBlogItem.addEventListener('click', () => {
-              applyCategoryFilter('');
+        if (filtered.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="4" style="text-align: center; padding: 3rem; color: var(--text-dim);">Tidak ada artikel yang cocok dengan filter pencarian.</td></tr>`;
+          return;
+        }
+
+        tbody.innerHTML = filtered.map(item => {
+          const isEn = item.lang === 'en';
+          const liveUrl = isEn ? `https://blog.situsbisnis.com/en/posts/${item.slug}/` : `https://blog.situsbisnis.com/posts/${item.slug}/`;
+          const langBadge = isEn 
+            ? `<span class="badge badge-en">🇬🇧 EN</span>` 
+            : `<span class="badge badge-id">🇮🇩 ID</span>`;
+          
+          const catBadges = (item.categories || []).map(c => `<span class="badge badge-category">${c}</span>`).join(' ');
+          
+          let pairInfo = '<span style="color: var(--text-dim); font-size: 0.75rem;">-</span>';
+          if (isEn && item.translationOf) {
+            const idTarget = item.translationOf.replace(/\.md$/, '');
+            pairInfo = `<span class="badge badge-pair" title="Klik untuk edit artikel sumber ID" onclick="app.editArticle('${item.translationOf}')">⇄ ID: ${idTarget}</span>`;
+          } else if (!isEn) {
+            // Check if EN counterpart exists
+            const enPair = this.articles.find(a => a.lang === 'en' && (a.translationOf === item.id || a.translationOf === `${item.slug}.md`));
+            if (enPair) {
+              pairInfo = `<span class="badge badge-pair" onclick="app.editArticle('${enPair.id}')">✓ EN: ${enPair.slug}</span>`;
+            } else {
+              pairInfo = `<button class="btn-table" onclick="app.createEnTranslation('${item.id}', '${item.slug}')" style="font-size: 0.7rem;">+ Buat Versi EN</button>`;
+            }
+          }
+
+          const dateStr = item.date ? new Date(item.date).toLocaleDateString('id-ID', { year: 'numeric', month: 'short', day: 'numeric' }) : '-';
+
+          return `
+            <tr>
+              <td>
+                <a href="javascript:void(0)" class="article-title" onclick="app.editArticle('${item.id}')">${item.title}</a>
+                <div class="article-meta">
+                  <span>${dateStr}</span>
+                  <span>•</span>
+                  <span>${item.slug}</span>
+                </div>
+              </td>
+              <td>
+                <div style="display: flex; flex-direction: column; gap: 0.35rem; align-items: flex-start;">
+                  ${langBadge}
+                  <div>${catBadges}</div>
+                </div>
+              </td>
+              <td>${pairInfo}</td>
+              <td>
+                <div class="table-actions">
+                  <button class="btn-table" onclick="app.editArticle('${item.id}')" title="Edit Konten">
+                    <svg style="width: 13px; height: 13px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+                    <span>Edit</span>
+                  </button>
+                  <a href="${liveUrl}" target="_blank" class="btn-table" title="Buka di Web">
+                    <svg style="width: 13px; height: 13px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                  </a>
+                  <button class="btn-table delete" onclick="app.deleteArticle('${item.id}')" title="Hapus Artikel">
+                    <svg style="width: 13px; height: 13px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          `;
+        }).join('');
+      }
+
+      showDashboard() {
+        document.getElementById('dashboard-view').classList.remove('hidden');
+        document.getElementById('editor-view').classList.add('hidden');
+      }
+
+      showEditor() {
+        document.getElementById('dashboard-view').classList.add('hidden');
+        document.getElementById('editor-view').classList.remove('hidden');
+      }
+
+      setEditorLanguage(lang) {
+        this.editorLang = lang;
+        document.getElementById('btn-lang-id').classList.toggle('active', lang === 'id');
+        document.getElementById('btn-lang-en').classList.toggle('active', lang === 'en');
+        
+        // Update kategori dropdown
+        const catSelect = document.getElementById('edit-category');
+        catSelect.innerHTML = CATEGORIES[lang].map(c => `<option value="${c.label}">${c.label}</option>`).join('');
+
+        // Tampilkan/sembunyikan field translationOf
+        const transGroup = document.getElementById('group-translation');
+        if (lang === 'en') {
+          transGroup.style.display = 'block';
+          this.populateTranslationOptions();
+        } else {
+          transGroup.style.display = 'none';
+        }
+      }
+
+      populateTranslationOptions(selectedVal = '') {
+        const select = document.getElementById('edit-translation');
+        const idArticles = this.articles.filter(a => a.lang === 'id');
+        select.innerHTML = '<option value="">-- Tanpa Relasi Terjemahan --</option>' + 
+          idArticles.map(a => `<option value="${a.slug}.md" ${selectedVal === `${a.slug}.md` ? 'selected' : ''}>${a.title} (${a.slug})</option>`).join('');
+      }
+
+      handleTitleInput(val) {
+        const slugInput = document.getElementById('edit-slug');
+        if (!this.currentArticle) {
+          slugInput.value = val.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+        }
+      }
+
+      handleContentInput(val) {
+        // Update word count
+        const words = val.trim() ? val.trim().split(/\s+/).length : 0;
+        document.getElementById('word-count').textContent = `${words} kata`;
+
+        // Render Markdown Preview
+        const preview = document.getElementById('markdown-preview');
+        if (window.marked) {
+          preview.innerHTML = marked.parse(val);
+        }
+      }
+
+      insertMarkdown(before, after) {
+        const textarea = document.getElementById('markdown-body');
+        const start = textarea.selectionStart;
+        const end = textarea.selectionEnd;
+        const text = textarea.value;
+        const selected = text.substring(start, end);
+        const replacement = before + selected + after;
+        textarea.value = text.substring(0, start) + replacement + text.substring(end);
+        textarea.focus();
+        textarea.selectionStart = start + before.length;
+        textarea.selectionEnd = end + before.length;
+        this.handleContentInput(textarea.value);
+      }
+
+      toggleMobilePreview() {
+        const splitPane = document.getElementById('split-pane');
+        splitPane.classList.toggle('preview-active');
+      }
+
+      createNewArticle() {
+        this.currentArticle = null;
+        this.existingSha = null;
+        this.editorLang = 'id';
+        
+        document.getElementById('editor-title-badge').textContent = 'Tulis Artikel Baru';
+        document.getElementById('edit-title').value = '';
+        document.getElementById('edit-slug').value = '';
+        document.getElementById('edit-desc').value = '';
+        document.getElementById('edit-author').value = 'Tim Editorial SitusBisnis';
+        document.getElementById('edit-date').value = new Date().toISOString().slice(0, 16);
+        document.getElementById('edit-tags').value = '';
+        document.getElementById('edit-image').value = '/images/posts/creator-commerce-cover.svg';
+        document.getElementById('markdown-body').value = '# Pengantar\n\nTulis konten artikel Anda di sini...';
+
+        this.setEditorLanguage('id');
+        this.handleContentInput(document.getElementById('markdown-body').value);
+        this.showEditor();
+      }
+
+      createEnTranslation(sourceId, sourceSlug) {
+        this.createNewArticle();
+        this.setEditorLanguage('en');
+        document.getElementById('editor-title-badge').textContent = `Terjemahan EN untuk: ${sourceSlug}`;
+        document.getElementById('edit-slug').value = sourceSlug;
+        document.getElementById('edit-author').value = 'SitusBisnis Editorial Team';
+        this.populateTranslationOptions(`${sourceSlug}.md`);
+        document.getElementById('edit-translation').value = `${sourceSlug}.md`;
+      }
+
+      async editArticle(id) {
+        this.showToast('Mengambil konten artikel dari GitHub...', 'info');
+        const targetPath = id.startsWith('en/') ? `src/content/blog/${id}` : `src/content/blog/${id}`;
+
+        try {
+          const res = await fetch(`${GITHUB_API}/repos/${REPO_OWNER}/${REPO_NAME}/contents/${targetPath}`, {
+            headers: { Authorization: `Bearer ${this.token}`, Accept: 'application/vnd.github+json' },
+          });
+
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          const fileData = await res.json();
+          this.existingSha = fileData.sha;
+          this.currentArticle = id;
+
+          // Decode base64 UTF-8
+          const decodedContent = decodeURIComponent(escape(atob(fileData.content)));
+          
+          // Parse Frontmatter vs Body
+          const fmMatch = decodedContent.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+          let fm = {};
+          let body = decodedContent;
+
+          if (fmMatch) {
+            const rawFm = fmMatch[1];
+            body = fmMatch[2];
+            
+            // Simple YAML line parser
+            rawFm.split('\n').forEach(line => {
+              const colonIdx = line.indexOf(':');
+              if (colonIdx > -1) {
+                const key = line.slice(0, colonIdx).trim();
+                let val = line.slice(colonIdx + 1).trim();
+                if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) {
+                  val = val.slice(1, -1);
+                }
+                fm[key] = val;
+              }
             });
           }
-        }
-      } else {
-        // Jika sedang di tab Assets atau lainnya, lepaskan category tree dari sidebar
-        catTree.remove();
-      }
 
-      // Pastikan Sidebar Extension (Akses Cepat, Status, Logout) selalu di bawah
-      const ext = getSidebarExt();
-      if (sidebar.lastElementChild !== ext) {
-        sidebar.appendChild(ext);
-      }
-    }
+          const isEn = id.startsWith('en/');
+          this.setEditorLanguage(isEn ? 'en' : 'id');
 
-    let observerStarted = false;
-    function startSidebarObserver() {
-      if (observerStarted) return;
-      observerStarted = true;
-
-      updateSidebarElements();
-      setInterval(updateSidebarElements, 400);
-
-      const observer = new MutationObserver(() => {
-        updateSidebarElements();
-      });
-      observer.observe(document.body, { childList: true, subtree: true });
-
-      window.addEventListener('hashchange', () => {
-        setTimeout(updateSidebarElements, 50);
-      });
-    }
-
-    // Periksa apakah sudah ada sesi aktif di localStorage
-    function checkExistingSession() {
-      try {
-        const stored = localStorage.getItem('sveltia-cms.user');
-        if (stored) {
-          const parsed = JSON.parse(stored);
-          if (parsed && parsed.token) {
-            bootCMS();
-            return true;
+          document.getElementById('editor-title-badge').textContent = `Mengedit: ${id}`;
+          document.getElementById('edit-title').value = fm.title || '';
+          document.getElementById('edit-slug').value = id.replace(/^en\//, '').replace(/\.md$/, '');
+          document.getElementById('edit-desc').value = fm.description || '';
+          document.getElementById('edit-author').value = fm.author || (isEn ? 'SitusBisnis Editorial Team' : 'Tim Editorial SitusBisnis');
+          
+          if (fm.date) {
+            try {
+              document.getElementById('edit-date').value = new Date(fm.date).toISOString().slice(0, 16);
+            } catch (_) {
+              document.getElementById('edit-date').value = new Date().toISOString().slice(0, 16);
+            }
           }
+
+          if (fm.categories) {
+            let cat = fm.categories.replace(/[\[\]"]/g, '').split(',')[0].trim();
+            document.getElementById('edit-category').value = cat;
+          }
+
+          if (fm.tags) {
+            document.getElementById('edit-tags').value = fm.tags.replace(/[\[\]"]/g, '');
+          }
+
+          document.getElementById('edit-image').value = fm.image || '/images/posts/creator-commerce-cover.svg';
+
+          if (isEn && fm.translationOf) {
+            this.populateTranslationOptions(fm.translationOf);
+            document.getElementById('edit-translation').value = fm.translationOf;
+          }
+
+          document.getElementById('markdown-body').value = body;
+          this.handleContentInput(body);
+
+          this.showEditor();
+        } catch (err) {
+          this.showToast('Gagal memuat artikel: ' + err.message, 'error');
         }
-      } catch (e) {
-        // Abaikan jika corrupt
-      }
-      return false;
-    }
-
-    // Logout fallback
-    if (logoutBtn) {
-      logoutBtn.addEventListener('click', () => {
-        if (confirm('Apakah Anda yakin ingin keluar dari Portal Penulis?')) {
-          localStorage.removeItem('sveltia-cms.user');
-          localStorage.removeItem('decap-cms-user');
-          location.reload();
-        }
-      });
-    }
-
-    // Handle Submit Form Login
-    loginForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      errorBox.style.display = 'none';
-      errorBox.textContent = '';
-
-      const inputUser = usernameInput.value.trim();
-      const inputPin = pinInput.value.trim();
-
-      if (!inputUser || !inputPin) {
-        errorBox.textContent = 'Silakan isi Username dan PIN.';
-        errorBox.style.display = 'block';
-        return;
       }
 
-      if (!AUTH_CONFIG.data) {
-        errorBox.textContent = '⚠️ Admin belum melakukan setup PIN & Token. Silakan hubungi Administrator.';
-        errorBox.style.display = 'block';
-        return;
-      }
+      async handleImageUpload(file) {
+        if (!file) return;
+        const saveName = `${Date.now()}-${file.name.toLowerCase().replace(/[^a-z0-9.]+/g, '-')}`;
+        const targetPath = `public/images/posts/${saveName}`;
 
-      // Validasi Username
-      if (inputUser.toLowerCase() !== AUTH_CONFIG.username.toLowerCase()) {
-        errorBox.textContent = '❌ Username atau PIN salah.';
-        errorBox.style.display = 'block';
-        return;
-      }
+        this.showToast('Mengupload cover ke GitHub...', 'info');
 
-      submitBtn.disabled = true;
-      submitBtn.innerHTML = '<div class="spinner"></div><span>Memverifikasi...</span>';
-
-      try {
-        // Coba dekripsi token dengan PIN
-        const secret = `${AUTH_CONFIG.username}:${inputPin}`;
-        const token = await decryptToken(AUTH_CONFIG, secret);
-
-        if (!token) {
-          throw new Error('Token kosong');
-        }
-
-        // Siapkan objek user untuk Sveltia CMS
-        let userProfile = {
-          backendName: 'github',
-          id: 1,
-          name: 'Tim SitusBisnis',
-          login: 'tim-situsbisnis',
-          email: 'admin@situsbisnis.com',
-          avatarURL: 'https://blog.situsbisnis.com/favicon.png',
-          profileURL: 'https://github.com/crediblemark-official/Blog-SiBi',
-          token: token,
-          bot: false,
-        };
-
-        // Coba ambil data asli dari GitHub jika memungkinkan
         try {
-          const ghRes = await fetch('https://api.github.com/user', {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              Accept: 'application/vnd.github+json',
-            },
-          });
-          if (ghRes.ok) {
-            const ghData = await ghRes.json();
-            userProfile.id = ghData.id;
-            userProfile.name = ghData.name || ghData.login || userProfile.name;
-            userProfile.login = ghData.login;
-            userProfile.avatarURL = ghData.avatar_url || userProfile.avatarURL;
-            userProfile.profileURL = ghData.html_url || userProfile.profileURL;
-          }
-        } catch (_) {
-          // Tetap lanjutkan dengan fallback userProfile
+          const reader = new FileReader();
+          reader.onload = async () => {
+            const base64Content = reader.result.split(',')[1];
+            const res = await fetch(`${GITHUB_API}/repos/${REPO_OWNER}/${REPO_NAME}/contents/${targetPath}`, {
+              method: 'PUT',
+              headers: { Authorization: `Bearer ${this.token}`, 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                message: `media(blog): upload cover image ${saveName}`,
+                content: base64Content,
+                branch: 'main',
+              }),
+            });
+
+            if (!res.ok) throw new Error(`Upload HTTP ${res.status}`);
+            document.getElementById('edit-image').value = `/images/posts/${saveName}`;
+            this.showToast('✅ Cover berhasil di-upload!', 'success');
+          };
+          reader.readAsDataURL(file);
+        } catch (err) {
+          this.showToast('Gagal upload gambar: ' + err.message, 'error');
+        }
+      }
+
+      async saveArticle() {
+        const title = document.getElementById('edit-title').value.trim();
+        let slug = document.getElementById('edit-slug').value.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+        const desc = document.getElementById('edit-desc').value.trim();
+        const category = document.getElementById('edit-category').value;
+        const author = document.getElementById('edit-author').value.trim();
+        const dateVal = document.getElementById('edit-date').value;
+        const tagsVal = document.getElementById('edit-tags').value.trim();
+        const image = document.getElementById('edit-image').value.trim() || '/images/posts/creator-commerce-cover.svg';
+        const translationOf = document.getElementById('edit-translation').value;
+        const body = document.getElementById('markdown-body').value;
+
+        if (!title || !slug) {
+          this.showToast('Judul dan Slug wajib diisi!', 'error');
+          return;
         }
 
-        // Simpan ke localStorage agar CMS mengenali pengguna
-        localStorage.setItem('sveltia-cms.user', JSON.stringify(userProfile));
-        localStorage.setItem('decap-cms-user', JSON.stringify({ backendName: 'github', token: token }));
+        const saveBtn = document.getElementById('save-btn');
+        saveBtn.disabled = true;
+        saveBtn.innerHTML = '<div class="spinner"></div><span>Menyimpan ke GitHub...</span>';
 
-        // Buka CMS
-        bootCMS();
-      } catch (err) {
-        errorBox.textContent = '❌ Username atau PIN salah. Silakan periksa kembali.';
-        errorBox.style.display = 'block';
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = '<span>Masuk ke Dashboard</span>';
+        const isEn = this.editorLang === 'en';
+        const targetFilename = slug.endsWith('.md') ? slug : `${slug}.md`;
+        const targetPath = isEn ? `src/content/blog/en/${targetFilename}` : `src/content/blog/${targetFilename}`;
+
+        // Build Frontmatter YAML
+        const tagsArr = tagsVal ? tagsVal.split(',').map(t => `"${t.trim()}"`).join(', ') : '';
+        let fmLines = [
+          '---',
+          `title: "${title.replace(/"/g, '\\"')}"`,
+          `description: "${desc.replace(/"/g, '\\"')}"`,
+          `date: ${new Date(dateVal || Date.now()).toISOString()}`,
+          `categories: ["${category}"]`,
+          tagsArr ? `tags: [${tagsArr}]` : 'tags: []',
+          `author: "${author.replace(/"/g, '\\"')}"`,
+          `image: "${image}"`,
+          `lang: "${this.editorLang}"`,
+        ];
+
+        if (isEn && translationOf) {
+          fmLines.push(`translationOf: "${translationOf}"`);
+        }
+
+        fmLines.push('---');
+        fmLines.push('');
+        fmLines.push(body);
+
+        const fullContent = fmLines.join('\n');
+        // Encode UTF-8 Base64 safely
+        const base64Content = btoa(unescape(encodeURIComponent(fullContent)));
+
+        try {
+          // Check existing sha if not known
+          let sha = this.existingSha;
+          if (!sha) {
+            try {
+              const checkRes = await fetch(`${GITHUB_API}/repos/${REPO_OWNER}/${REPO_NAME}/contents/${targetPath}`, {
+                headers: { Authorization: `Bearer ${this.token}`, Accept: 'application/vnd.github+json' },
+              });
+              if (checkRes.ok) {
+                const checkData = await checkRes.json();
+                sha = checkData.sha;
+              }
+            } catch (_) {}
+          }
+
+          const payload = {
+            message: `content(blog): ${sha ? 'update' : 'publish'} ${title}`,
+            content: base64Content,
+            branch: 'main',
+          };
+          if (sha) payload.sha = sha;
+
+          const res = await fetch(`${GITHUB_API}/repos/${REPO_OWNER}/${REPO_NAME}/contents/${targetPath}`, {
+            method: 'PUT',
+            headers: { Authorization: `Bearer ${this.token}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          });
+
+          if (!res.ok) {
+            const errData = await res.json();
+            throw new Error(errData.message || `HTTP ${res.status}`);
+          }
+
+          this.showToast('🎉 Artikel berhasil di-publish ke branch main!', 'success');
+          await this.loadArticles();
+          setTimeout(() => this.showDashboard(), 1000);
+        } catch (err) {
+          this.showToast('Gagal menyimpan artikel: ' + err.message, 'error');
+        } finally {
+          saveBtn.disabled = false;
+          saveBtn.innerHTML = '<svg style="width: 16px; height: 16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/></svg><span>Simpan & Publish</span>';
+        }
       }
-    });
 
-    // Jalankan pengecekan sesi saat halaman dibuka
-    checkExistingSession();
+      async deleteArticle(id) {
+        if (!confirm(`Apakah Anda yakin ingin menghapus artikel: ${id}? Tindakan ini akan meng-commit penghapusan file di GitHub!`)) {
+          return;
+        }
+
+        const targetPath = id.startsWith('en/') ? `src/content/blog/${id}` : `src/content/blog/${id}`;
+        this.showToast('Menghapus artikel dari GitHub...', 'info');
+
+        try {
+          // Ambil SHA file terlebih dahulu
+          const checkRes = await fetch(`${GITHUB_API}/repos/${REPO_OWNER}/${REPO_NAME}/contents/${targetPath}`, {
+            headers: { Authorization: `Bearer ${this.token}`, Accept: 'application/vnd.github+json' },
+          });
+          if (!checkRes.ok) throw new Error(`File tidak ditemukan (${checkRes.status})`);
+          const checkData = await checkRes.json();
+
+          const delRes = await fetch(`${GITHUB_API}/repos/${REPO_OWNER}/${REPO_NAME}/contents/${targetPath}`, {
+            method: 'DELETE',
+            headers: { Authorization: `Bearer ${this.token}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              message: `content(blog): delete article ${id}`,
+              sha: checkData.sha,
+              branch: 'main',
+            }),
+          });
+
+          if (!delRes.ok) throw new Error(`Gagal hapus: HTTP ${delRes.status}`);
+
+          this.showToast('✅ Artikel berhasil dihapus dari GitHub.', 'success');
+          this.articles = this.articles.filter(a => a.id !== id);
+          this.updateStats();
+          this.renderArticles();
+        } catch (err) {
+          this.showToast('Gagal menghapus: ' + err.message, 'error');
+        }
+      }
+    }
+
+    const app = new BlogAdminApp();
+    window.app = app;
+    window.addEventListener('DOMContentLoaded', () => app.init());
   </script>
 </body>
 </html>
