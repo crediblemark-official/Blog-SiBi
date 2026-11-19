@@ -2,549 +2,468 @@
 <html lang="id">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="robots" content="noindex, nofollow" />
-  <title>Portal Admin Blog | SitusBisnis</title>
+  <title>Portal Admin | Blog SitusBisnis</title>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <!-- Marked for Client-Side Markdown Rendering -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <!-- Marked Library for Instant Client-Side Preview -->
   <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
   <style>
     :root {
-      --bg-dark: #0b0f19;
-      --card-bg: #111827;
-      --card-border: #1f293d;
-      --card-hover: #162032;
+      --bg: #090d16;
+      --surface: #0f172a;
+      --surface-hover: #17223b;
+      --border: rgba(255, 255, 255, 0.08);
+      --border-focus: #f59e0b;
       --primary: #f59e0b;
       --primary-hover: #d97706;
-      --primary-glow: rgba(245, 158, 11, 0.15);
-      --accent: #e0a82e;
-      --text-main: #f8fafc;
+      --primary-active: #b45309;
+      --text: #f8fafc;
       --text-muted: #94a3b8;
       --text-dim: #64748b;
-      --border-color: rgba(255, 255, 255, 0.08);
       --success: #10b981;
       --danger: #ef4444;
       --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: var(--font-sans); }
-    body { background-color: var(--bg-dark); color: var(--text-main); min-height: 100vh; overflow-x: hidden; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: var(--font-sans); -webkit-tap-highlight-color: transparent; }
+    html, body { background-color: var(--bg); color: var(--text); min-height: 100vh; font-size: 14px; line-height: 1.5; }
 
     /* Utilities */
     .hidden { display: none !important; }
     .flex { display: flex; }
-    .flex-col { flex-direction: column; }
     .items-center { align-items: center; }
     .justify-between { justify-content: space-between; }
+    .gap-1 { gap: 0.25rem; }
     .gap-2 { gap: 0.5rem; }
-    .gap-4 { gap: 1rem; }
+    .gap-3 { gap: 0.75rem; }
     .w-full { width: 100%; }
+    .truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
     /* Scrollbars */
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: var(--bg-dark); }
-    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: #475569; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #334155; }
 
-    /* Login Portal */
-    .login-container {
-      min-height: 100vh;
-      display: flex;
+    /* Buttons & Touch Targets (Min 44px Tap on Mobile) */
+    .btn {
+      display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 1.5rem;
-      background: radial-gradient(circle at top, rgba(245, 158, 11, 0.15) 0%, rgba(11, 15, 25, 1) 75%);
-    }
-    .login-card {
-      background: rgba(17, 24, 39, 0.95);
-      backdrop-filter: blur(20px);
-      border: 1px solid var(--card-border);
-      border-radius: 1.25rem;
-      padding: 2.25rem 2rem;
-      width: 100%;
-      max-width: 440px;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
-      animation: fadeIn 0.3s ease-out;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .brand-logo {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      margin-bottom: 1.5rem;
-      justify-content: center;
-    }
-    .brand-logo svg { width: 32px; height: 32px; color: var(--primary); }
-    .brand-title { font-size: 1.35rem; font-weight: 800; letter-spacing: -0.025em; }
-    .brand-title span { color: var(--primary); }
-    .form-group { margin-bottom: 1.25rem; }
-    .form-group label {
-      display: block;
-      font-size: 0.85rem;
+      gap: 0.375rem;
+      font-size: 0.8125rem;
       font-weight: 600;
-      color: var(--text-muted);
-      margin-bottom: 0.5rem;
-    }
-    .input-control {
-      width: 100%;
-      background: #0b0f19;
-      border: 1px solid var(--border-color);
-      border-radius: 0.65rem;
-      padding: 0.75rem 1rem;
-      color: var(--text-main);
-      font-size: 0.95rem;
-      transition: all 0.2s;
-    }
-    .input-control:focus {
-      outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px var(--primary-glow);
-    }
-    .btn-primary {
-      width: 100%;
-      background: linear-gradient(135deg, var(--primary) 0%, #d97706 100%);
-      color: #0b0f19;
-      border: none;
-      border-radius: 0.65rem;
-      padding: 0.85rem;
-      font-size: 0.95rem;
-      font-weight: 700;
+      border-radius: 0.5rem;
+      padding: 0 0.875rem;
+      min-height: 2.5rem;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      transition: all 0.2s;
-    }
-    .btn-primary:hover {
-      background: linear-gradient(135deg, #fbbf24 0%, var(--primary) 100%);
-      transform: translateY(-1px);
-      box-shadow: 0 4px 14px rgba(245, 158, 11, 0.3);
-    }
-    .btn-primary:active { transform: translateY(0); }
-    .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
-    .error-alert {
-      background: rgba(239, 68, 68, 0.15);
-      border: 1px solid rgba(239, 68, 68, 0.3);
-      color: #fca5a5;
-      padding: 0.75rem;
-      border-radius: 0.65rem;
-      font-size: 0.85rem;
-      margin-bottom: 1.25rem;
-      display: none;
-    }
-
-    /* Dashboard Layout */
-    .dashboard-wrapper { min-height: 100vh; display: flex; flex-direction: column; }
-    .navbar {
-      background: rgba(17, 24, 39, 0.9);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--card-border);
-      position: sticky;
-      top: 0;
-      z-index: 40;
-      padding: 0.85rem 1.5rem;
-    }
-    .navbar-container {
-      max-width: 1400px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-    }
-    .nav-brand {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
+      border: 1px solid transparent;
+      transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+      user-select: none;
       text-decoration: none;
       color: inherit;
+      white-space: nowrap;
     }
-    .badge-admin {
-      background: rgba(245, 158, 11, 0.15);
-      color: var(--primary);
-      border: 1px solid rgba(245, 158, 11, 0.3);
-      font-size: 0.7rem;
-      font-weight: 700;
-      padding: 0.2rem 0.5rem;
-      border-radius: 9999px;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-    .nav-actions {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-    .btn-icon {
-      background: #1e293b;
-      border: 1px solid var(--border-color);
-      color: var(--text-main);
-      padding: 0.5rem 0.85rem;
-      border-radius: 0.5rem;
-      font-size: 0.85rem;
-      font-weight: 600;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      transition: all 0.2s;
-    }
-    .btn-icon:hover { background: #334155; }
-    .btn-create {
+    .btn:active { transform: scale(0.96); }
+    .btn-primary {
       background: var(--primary);
-      color: #0b0f19;
-      border: none;
-      padding: 0.55rem 1.15rem;
-      border-radius: 0.5rem;
-      font-size: 0.85rem;
-      font-weight: 700;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      transition: all 0.2s;
-    }
-    .btn-create:hover { background: var(--primary-hover); }
-
-    /* Dashboard Main Content */
-    .main-container {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 2rem 1.5rem;
-      width: 100%;
-      flex: 1;
-    }
-
-    /* Stats Overview */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1rem;
-      margin-bottom: 2rem;
-    }
-    .stat-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 0.85rem;
-      padding: 1.25rem;
-      position: relative;
-      overflow: hidden;
-    }
-    .stat-card::after {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0; height: 2px;
-      background: linear-gradient(90deg, var(--primary), transparent);
-    }
-    .stat-title { font-size: 0.8rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
-    .stat-value { font-size: 1.75rem; font-weight: 800; margin-top: 0.4rem; color: #fff; }
-    .stat-desc { font-size: 0.75rem; color: var(--text-dim); margin-top: 0.25rem; }
-
-    /* Filter & Search Bar */
-    .filter-panel {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 0.85rem;
-      padding: 1rem 1.25rem;
-      margin-bottom: 1.5rem;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-    }
-    .search-box {
-      flex: 1;
-      min-width: 260px;
-      position: relative;
-    }
-    .search-input {
-      width: 100%;
-      background: #0b0f19;
-      border: 1px solid var(--border-color);
-      border-radius: 0.5rem;
-      padding: 0.6rem 1rem 0.6rem 2.2rem;
-      color: #fff;
-      font-size: 0.85rem;
-    }
-    .search-icon {
-      position: absolute;
-      left: 0.75rem;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--text-dim);
-      width: 16px;
-      height: 16px;
-    }
-    .filter-group { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
-    .lang-btn {
-      background: #1e293b;
-      border: 1px solid var(--border-color);
-      color: var(--text-muted);
-      padding: 0.45rem 0.85rem;
-      border-radius: 0.5rem;
-      font-size: 0.8rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .lang-btn.active {
-      background: var(--primary);
-      color: #0b0f19;
+      color: #090d16;
       border-color: var(--primary);
+      font-weight: 700;
     }
-    .select-control {
-      background: #0b0f19;
-      border: 1px solid var(--border-color);
-      color: #fff;
-      padding: 0.55rem 0.85rem;
+    .btn-primary:hover { background: var(--primary-hover); }
+    .btn-secondary {
+      background: #1e293b;
+      color: var(--text);
+      border-color: var(--border);
+    }
+    .btn-secondary:hover { background: #334155; }
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-muted);
+    }
+    .btn-ghost:hover { background: rgba(255, 255, 255, 0.05); color: #fff; }
+    .btn-danger:hover { background: rgba(239, 68, 68, 0.15); color: #f87171; border-color: rgba(239, 68, 68, 0.3); }
+
+    .btn-icon-only {
+      width: 2.5rem;
+      min-width: 2.5rem;
+      height: 2.5rem;
+      padding: 0;
       border-radius: 0.5rem;
-      font-size: 0.8rem;
-      cursor: pointer;
     }
 
-    /* Article List Table */
-    .table-container {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 0.85rem;
-      overflow: hidden;
-    }
-    .article-table {
-      width: 100%;
-      border-collapse: collapse;
-      text-align: left;
-    }
-    .article-table th {
-      background: rgba(15, 23, 42, 0.75);
-      padding: 0.85rem 1.25rem;
+    /* Form Controls */
+    .form-label {
+      display: block;
       font-size: 0.75rem;
-      font-weight: 700;
+      font-weight: 600;
       color: var(--text-muted);
+      margin-bottom: 0.375rem;
       text-transform: uppercase;
       letter-spacing: 0.05em;
-      border-bottom: 1px solid var(--card-border);
     }
-    .article-table td {
-      padding: 1rem 1.25rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    .input-box {
+      width: 100%;
+      background: #090d16;
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+      padding: 0.625rem 0.875rem;
+      color: var(--text);
       font-size: 0.875rem;
-      vertical-align: middle;
+      min-height: 2.625rem;
+      transition: border-color 0.15s, box-shadow 0.15s;
     }
-    .article-table tr:hover { background: var(--card-hover); }
-    .article-title {
-      font-weight: 600;
-      color: #fff;
-      display: block;
-      margin-bottom: 0.25rem;
-      line-height: 1.35;
-      text-decoration: none;
+    .input-box:focus {
+      outline: none;
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.15);
     }
-    .article-title:hover { color: var(--primary); }
-    .article-meta {
-      font-size: 0.75rem;
-      color: var(--text-dim);
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      font-family: var(--font-mono);
-    }
+    select.input-box { cursor: pointer; }
+
+    /* Badges */
     .badge {
       display: inline-flex;
       align-items: center;
       gap: 0.25rem;
-      padding: 0.2rem 0.55rem;
-      border-radius: 0.375rem;
-      font-size: 0.72rem;
+      font-size: 0.6875rem;
       font-weight: 700;
+      padding: 0.15rem 0.45rem;
+      border-radius: 0.35rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      font-family: var(--font-mono);
     }
     .badge-id { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); }
     .badge-en { background: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3); }
-    .badge-category { background: rgba(245, 158, 11, 0.12); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.25); }
+    .badge-cat { background: rgba(245, 158, 11, 0.12); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.25); }
     .badge-pair {
       background: rgba(16, 185, 129, 0.12);
       color: #34d399;
       border: 1px solid rgba(16, 185, 129, 0.25);
-      font-size: 0.7rem;
-      padding: 0.15rem 0.45rem;
       cursor: pointer;
     }
     .badge-pair:hover { text-decoration: underline; }
-    .table-actions {
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      justify-content: flex-end;
-    }
-    .btn-table {
-      background: #1e293b;
-      border: 1px solid var(--border-color);
-      color: var(--text-muted);
-      padding: 0.35rem 0.65rem;
-      border-radius: 0.375rem;
-      font-size: 0.75rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.15s;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.3rem;
-    }
-    .btn-table:hover { color: #fff; background: #334155; }
-    .btn-table.delete:hover { background: rgba(239, 68, 68, 0.2); color: #f87171; border-color: rgba(239, 68, 68, 0.4); }
 
-    /* Editor View */
-    .editor-wrapper {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
-    .editor-header {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 0.85rem;
-      padding: 1rem 1.25rem;
+    /* Sticky App Bar (h-14 / 56px) */
+    .app-bar {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      height: 3.5rem;
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 1rem;
-      flex-wrap: wrap;
+      padding: 0 1rem;
     }
-    .editor-grid {
-      display: grid;
-      grid-template-columns: 340px 1fr;
-      gap: 1.5rem;
-      align-items: start;
-    }
-    @media (max-width: 1024px) {
-      .editor-grid { grid-template-columns: 1fr; }
-    }
-    .sidebar-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 0.85rem;
-      padding: 1.25rem;
+    .app-brand {
       display: flex;
-      flex-direction: column;
-      gap: 1.15rem;
-    }
-    .editor-main-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 0.85rem;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-    }
-    .toolbar {
-      background: #0f172a;
-      border-bottom: 1px solid var(--card-border);
-      padding: 0.6rem 0.85rem;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.35rem;
       align-items: center;
+      gap: 0.5rem;
+      font-weight: 800;
+      font-size: 0.9375rem;
+      color: #fff;
+      text-decoration: none;
     }
-    .tool-btn {
-      background: #1e293b;
-      border: 1px solid var(--border-color);
+    .app-brand span { color: var(--primary); }
+
+    /* Horizontal KPI Rail (Full-Edge on Mobile) */
+    .kpi-rail {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      background: rgba(15, 23, 42, 0.6);
+      border-bottom: 1px solid var(--border);
+    }
+    .kpi-item {
+      flex: 1;
+      min-width: 140px;
+      scroll-snap-align: start;
+      padding: 0.75rem 1rem;
+      border-right: 1px solid var(--border);
+    }
+    @media (min-width: 768px) {
+      .kpi-rail { display: grid; grid-template-columns: repeat(4, 1fr); }
+      .kpi-item { min-width: auto; padding: 1rem 1.25rem; }
+    }
+    .kpi-label { font-size: 0.6875rem; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; }
+    .kpi-val { font-size: 1.35rem; font-weight: 800; color: #fff; font-family: var(--font-mono); margin-top: 0.15rem; }
+
+    /* Filter & Search Bar */
+    .filter-bar {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .search-wrap {
+      flex: 1;
+      min-width: 200px;
+      position: relative;
+    }
+    .search-wrap svg {
+      position: absolute;
+      left: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 15px;
+      height: 15px;
+      color: var(--text-dim);
+    }
+    .search-wrap input {
+      padding-left: 2.25rem;
+      height: 2.375rem;
+      min-height: 2.375rem;
+      font-size: 0.8125rem;
+    }
+    .seg-pill {
+      display: flex;
+      background: #0f172a;
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+      padding: 2px;
+      gap: 2px;
+    }
+    .seg-btn {
+      border: none;
+      background: transparent;
       color: var(--text-muted);
-      padding: 0.35rem 0.6rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.35rem 0.65rem;
+      border-radius: 0.375rem;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .seg-btn.active {
+      background: var(--primary);
+      color: #090d16;
+      font-weight: 700;
+    }
+
+    /* Article List Table / Mobile Rows */
+    .list-wrapper {
+      width: 100%;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+    }
+    .article-item {
+      padding: 0.875rem 1rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      transition: background-color 0.15s;
+    }
+    .article-item:hover { background: rgba(255, 255, 255, 0.02); }
+    .item-main { min-width: 0; flex: 1; }
+    .item-title {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #fff;
+      display: block;
+      margin-bottom: 0.25rem;
+      text-decoration: none;
+    }
+    .item-title:hover { color: var(--primary); }
+    .item-sub {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      font-family: var(--font-mono);
+      flex-wrap: wrap;
+    }
+    .item-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.375rem;
+      flex-shrink: 0;
+    }
+
+    /* Editor Layout (Mobile First Segmented vs Desktop 2-Col) */
+    .editor-container {
+      display: flex;
+      flex-direction: column;
+      min-height: calc(100vh - 3.5rem);
+    }
+    .editor-tabs-mobile {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      background: #0f172a;
+    }
+    @media (min-width: 1024px) {
+      .editor-tabs-mobile { display: none; }
+    }
+    .editor-tab-btn {
+      flex: 1;
+      padding: 0.65rem 0.5rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-align: center;
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .editor-tab-btn.active {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+      background: rgba(245, 158, 11, 0.05);
+    }
+
+    .editor-body-grid {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    @media (min-width: 1024px) {
+      .editor-body-grid {
+        display: grid;
+        grid-template-columns: 320px 1fr;
+        height: calc(100vh - 3.5rem);
+      }
+    }
+
+    .meta-sidebar {
+      padding: 1rem;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 0.875rem;
+      overflow-y: auto;
+    }
+    .editor-pane-wrap {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      min-width: 0;
+      height: 100%;
+    }
+
+    /* Editor Toolbar */
+    .editor-toolbar {
+      background: #0b0f19;
+      border-bottom: 1px solid var(--border);
+      padding: 0.4rem 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      overflow-x: auto;
+    }
+    .tbar-btn {
+      background: #1e293b;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 0.25rem 0.55rem;
       border-radius: 0.35rem;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       font-weight: 600;
       cursor: pointer;
+      white-space: nowrap;
     }
-    .tool-btn:hover { background: #334155; color: #fff; }
-    .split-pane {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      min-height: 550px;
-      height: 70vh;
+    .tbar-btn:hover { background: #334155; color: #fff; }
+
+    /* Dual Pane Split */
+    .editor-split {
+      display: flex;
+      flex: 1;
+      min-height: 400px;
+      height: 100%;
     }
-    @media (max-width: 768px) {
-      .split-pane { grid-template-columns: 1fr; height: auto; }
-      .preview-pane { display: none; }
-      .split-pane.preview-active .editor-pane { display: none; }
-      .split-pane.preview-active .preview-pane { display: block; }
-    }
-    .editor-textarea {
+    .code-editor {
+      flex: 1;
       width: 100%;
       height: 100%;
-      background: #0b0f19;
+      background: #090d16;
       color: #e2e8f0;
       font-family: var(--font-mono);
-      font-size: 0.9rem;
+      font-size: 0.875rem;
       line-height: 1.6;
-      padding: 1.25rem;
+      padding: 1rem;
       border: none;
       resize: none;
       outline: none;
     }
-    .preview-pane {
-      background: #111827;
-      border-left: 1px solid var(--card-border);
-      padding: 1.5rem;
+    .preview-box {
+      flex: 1;
+      background: #0f172a;
+      border-left: 1px solid var(--border);
+      padding: 1.25rem;
       overflow-y: auto;
       color: #cbd5e1;
-      font-size: 0.95rem;
+      font-size: 0.9375rem;
       line-height: 1.7;
     }
-    .preview-pane h1 { font-size: 1.75rem; margin-bottom: 1rem; color: #fff; border-bottom: 1px solid #1f293d; padding-bottom: 0.5rem; }
-    .preview-pane h2 { font-size: 1.35rem; margin: 1.5rem 0 0.75rem; color: #fff; border-bottom: 1px solid #1f293d; padding-bottom: 0.35rem; }
-    .preview-pane h3 { font-size: 1.15rem; margin: 1.25rem 0 0.5rem; color: var(--primary); }
-    .preview-pane p { margin-bottom: 1rem; }
-    .preview-pane ul, .preview-pane ol { margin: 0 0 1rem 1.5rem; }
-    .preview-pane li { margin-bottom: 0.35rem; }
-    .preview-pane blockquote { border-left: 3px solid var(--primary); padding-left: 1rem; color: #94a3b8; font-style: italic; margin-bottom: 1rem; }
-    .preview-pane code { font-family: var(--font-mono); background: #0b0f19; padding: 0.15rem 0.4rem; border-radius: 0.25rem; font-size: 0.85em; color: #f59e0b; }
-    .preview-pane pre code { display: block; padding: 1rem; overflow-x: auto; color: #e2e8f0; border-radius: 0.5rem; }
-    .preview-pane img { max-width: 100%; border-radius: 0.5rem; margin: 1rem 0; }
-    .preview-pane hr { border: 0; border-top: 1px solid #1f293d; margin: 2rem 0; }
+    .preview-box h1 { font-size: 1.5rem; color: #fff; margin-bottom: 0.75rem; padding-bottom: 0.35rem; border-bottom: 1px solid var(--border); }
+    .preview-box h2 { font-size: 1.25rem; color: #fff; margin: 1.25rem 0 0.5rem; padding-bottom: 0.25rem; border-bottom: 1px solid var(--border); }
+    .preview-box h3 { font-size: 1.05rem; color: var(--primary); margin: 1rem 0 0.5rem; }
+    .preview-box p { margin-bottom: 0.875rem; }
+    .preview-box ul, .preview-box ol { margin: 0 0 0.875rem 1.25rem; }
+    .preview-box blockquote { border-left: 3px solid var(--primary); padding-left: 0.875rem; color: var(--text-muted); font-style: italic; margin-bottom: 0.875rem; }
+    .preview-box code { font-family: var(--font-mono); background: #090d16; padding: 0.15rem 0.35rem; border-radius: 0.25rem; font-size: 0.85em; color: var(--primary); }
+    .preview-box pre code { display: block; padding: 0.75rem; overflow-x: auto; color: #e2e8f0; border-radius: 0.375rem; }
+    .preview-box img { max-width: 100%; border-radius: 0.375rem; margin: 0.75rem 0; }
 
-    /* Toasts */
-    .toast-container {
+    /* Mobile Visibility Controls */
+    @media (max-width: 1023px) {
+      .panel-mobile-hidden { display: none !important; }
+    }
+
+    /* Toast Container */
+    .toast-box {
       position: fixed;
-      bottom: 1.5rem;
-      right: 1.5rem;
+      bottom: 1rem;
+      right: 1rem;
+      left: 1rem;
       z-index: 100;
       display: flex;
       flex-direction: column;
       gap: 0.5rem;
+      pointer-events: none;
+    }
+    @media (min-width: 640px) {
+      .toast-box { left: auto; max-width: 380px; }
     }
     .toast {
+      pointer-events: auto;
       background: #1e293b;
-      border: 1px solid var(--card-border);
+      border: 1px solid var(--border);
       color: #fff;
-      padding: 0.85rem 1.25rem;
+      padding: 0.75rem 1rem;
       border-radius: 0.5rem;
-      font-size: 0.875rem;
+      font-size: 0.8125rem;
       box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-      animation: slideIn 0.2s ease-out;
       display: flex;
       align-items: center;
       gap: 0.5rem;
     }
-    @keyframes slideIn {
-      from { transform: translateX(100%); opacity: 0; }
-      to { transform: translateX(0); opacity: 1; }
-    }
-    .toast.success { border-color: rgba(16, 185, 129, 0.5); }
-    .toast.error { border-color: rgba(239, 68, 68, 0.5); }
+    .toast.success { border-color: rgba(16, 185, 129, 0.4); }
+    .toast.error { border-color: rgba(239, 68, 68, 0.4); }
 
     /* Spinner */
-    .spinner {
-      width: 16px;
-      height: 16px;
+    .spin {
+      width: 14px;
+      height: 14px;
       border: 2px solid rgba(255, 255, 255, 0.2);
       border-top-color: currentColor;
       border-radius: 50%;
@@ -556,284 +475,253 @@
 <body>
 
   <!-- ========================================== -->
-  <!-- 1. LOGIN PORTAL                           -->
+  <!-- 1. LOGIN PORTAL (Compact & Mobile First)   -->
   <!-- ========================================== -->
-  <div id="login-portal" class="login-container">
-    <div class="login-card">
-      <div class="brand-logo">
-        <svg fill="currentColor" viewBox="0 0 24 24">
+  <div id="login-portal" class="flex items-center justify-center" style="min-height: 100vh; padding: 1rem;">
+    <div style="width: 100%; max-width: 360px; background: var(--surface); border: 1px solid var(--border); border-radius: 0.75rem; padding: 1.75rem 1.25rem;">
+      <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1.25rem;">
+        <svg style="width: 26px; height: 26px; color: var(--primary);" fill="currentColor" viewBox="0 0 24 24">
           <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
         </svg>
-        <div class="brand-title">situsbisnis<span>.com</span></div>
-      </div>
-      <div style="text-align: center; margin-bottom: 1.75rem;">
-        <h2 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 0.25rem;">Portal Penulis Blog</h2>
-        <p style="font-size: 0.82rem; color: var(--text-dim);">Masuk untuk mengelola publikasi ID & EN</p>
+        <span style="font-size: 1.15rem; font-weight: 800; letter-spacing: -0.02em;">situsbisnis<span style="color: var(--primary);">.com</span></span>
+        <span class="badge badge-cat" style="margin-left: auto;">Admin</span>
       </div>
 
-      <div id="login-error" class="error-alert"></div>
+      <div id="login-error" class="hidden" style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #fca5a5; padding: 0.6rem; border-radius: 0.4rem; font-size: 0.8rem; margin-bottom: 1rem;"></div>
 
       <form id="login-form">
-        <div class="form-group">
-          <label for="username">Username Tim</label>
-          <input type="text" id="username" class="input-control" placeholder="timSiBi" autocomplete="username" required />
+        <div style="margin-bottom: 1rem;">
+          <label class="form-label" for="username">Username</label>
+          <input type="text" id="username" class="input-box" placeholder="timSiBi" autocomplete="username" required />
         </div>
-        <div class="form-group">
-          <label for="pin">PIN Akses</label>
-          <input type="password" id="pin" class="input-control" placeholder="••••••••" autocomplete="current-password" required />
+        <div style="margin-bottom: 1.25rem;">
+          <label class="form-label" for="pin">PIN Akses</label>
+          <input type="password" id="pin" class="input-box" placeholder="••••••••" autocomplete="current-password" required />
         </div>
-        <button type="submit" id="login-btn" class="btn-primary">
-          <span>Masuk ke Dashboard</span>
+        <button type="submit" id="login-btn" class="btn btn-primary w-full">
+          <span>Masuk</span>
         </button>
       </form>
     </div>
   </div>
 
   <!-- ========================================== -->
-  <!-- 2. DASHBOARD VIEW                         -->
+  <!-- 2. DASHBOARD VIEW (Full-Edge Mobile First) -->
   <!-- ========================================== -->
-  <div id="dashboard-view" class="dashboard-wrapper hidden">
-    <!-- Navbar -->
-    <header class="navbar">
-      <div class="navbar-container">
-        <a href="#" class="nav-brand" onclick="app.showDashboard(); return false;">
-          <svg style="width: 24px; height: 24px; color: var(--primary);" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-          </svg>
-          <div style="font-weight: 800; font-size: 1.05rem;">situsbisnis<span style="color: var(--primary);">.com</span></div>
-          <span class="badge-admin">Admin</span>
-        </a>
+  <div id="dashboard-view" class="hidden">
+    <!-- App Bar -->
+    <header class="app-bar">
+      <a href="#" class="app-brand" onclick="app.showDashboard(); return false;">
+        <svg style="width: 20px; height: 20px; color: var(--primary);" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+        </svg>
+        <span>Blog Admin</span>
+      </a>
 
-        <div class="nav-actions">
-          <button class="btn-create" onclick="app.createNewArticle()">
-            <svg style="width: 16px; height: 16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
-            <span>Tulis Artikel Baru</span>
-          </button>
-          <a href="https://blog.situsbisnis.com" target="_blank" class="btn-icon" title="Lihat Blog Publik">
-            <svg style="width: 15px; height: 15px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-            <span>Live Blog</span>
-          </a>
-          <button class="btn-icon" onclick="app.logout()" title="Keluar">
-            <svg style="width: 15px; height: 15px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
-            <span>Keluar</span>
-          </button>
-        </div>
+      <div class="flex items-center gap-2">
+        <button class="btn btn-primary" onclick="app.createNewArticle()">
+          <svg style="width: 14px; height: 14px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+          <span>Tulis</span>
+        </button>
+        <a href="https://blog.situsbisnis.com" target="_blank" class="btn btn-secondary btn-icon-only" title="Lihat Blog Publik">
+          <svg style="width: 15px; height: 15px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+        </a>
+        <button class="btn btn-ghost btn-icon-only" onclick="app.logout()" title="Keluar">
+          <svg style="width: 15px; height: 15px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+        </button>
       </div>
     </header>
 
-    <!-- Content Area -->
-    <main class="main-container">
-      <!-- Stats Summary -->
-      <section class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-title">🇮🇩 Artikel Indonesia</div>
-          <div class="stat-value" id="stat-count-id">0</div>
-          <div class="stat-desc">Publikasi Bahasa Indonesia</div>
+    <!-- Horizontal KPI Rail -->
+    <section class="kpi-rail no-scrollbar">
+      <div class="kpi-item">
+        <div class="kpi-label">Artikel ID</div>
+        <div class="kpi-val" id="stat-count-id">0</div>
+      </div>
+      <div class="kpi-item">
+        <div class="kpi-label">Artikel EN</div>
+        <div class="kpi-val" id="stat-count-en">0</div>
+      </div>
+      <div class="kpi-item">
+        <div class="kpi-label">Kategori</div>
+        <div class="kpi-val">5</div>
+      </div>
+      <div class="kpi-item">
+        <div class="kpi-label">GitHub Sync</div>
+        <div class="kpi-val" style="color: var(--success); font-size: 0.95rem; display: flex; align-items: center; gap: 0.35rem; margin-top: 0.35rem;">
+          <span style="width: 7px; height: 7px; border-radius: 50%; background: var(--success); display: inline-block;"></span>
+          <span>Online</span>
         </div>
-        <div class="stat-card">
-          <div class="stat-title">🇬🇧 English Articles</div>
-          <div class="stat-value" id="stat-count-en">0</div>
-          <div class="stat-desc">Publikasi Bahasa Inggris</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-title">Kategori Resmi</div>
-          <div class="stat-value">5</div>
-          <div class="stat-desc">Strategi, Monetisasi, Funnel, dll.</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-title">Status GitHub Sync</div>
-          <div class="stat-value" style="font-size: 1.15rem; color: var(--success); display: flex; align-items: center; gap: 0.5rem; margin-top: 0.75rem;">
-            <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--success);"></span>
-            <span>Terkoneksi</span>
+      </div>
+    </section>
+
+    <!-- Filter & Search Strip -->
+    <section class="filter-bar">
+      <div class="search-wrap">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        <input type="text" id="search-input" class="input-box" placeholder="Cari judul atau slug..." oninput="app.handleSearch(this.value)" />
+      </div>
+
+      <div class="seg-pill">
+        <button class="seg-btn active" data-lang="all" onclick="app.setLangFilter('all')">Semua</button>
+        <button class="seg-btn" data-lang="id" onclick="app.setLangFilter('id')">ID</button>
+        <button class="seg-btn" data-lang="en" onclick="app.setLangFilter('en')">EN</button>
+      </div>
+
+      <select id="category-filter" class="input-box" style="width: auto; min-width: 140px; height: 2.375rem; min-height: 2.375rem; padding: 0 0.5rem; font-size: 0.8125rem;" onchange="app.setCategoryFilter(this.value)">
+        <option value="all">Semua Kategori</option>
+        <option value="strategi-bisnis">Strategi Bisnis</option>
+        <option value="monetisasi">Monetisasi</option>
+        <option value="funnel-penjualan">Funnel Penjualan</option>
+        <option value="audience-growth">Audience Growth</option>
+        <option value="email-marketing">Email Marketing</option>
+      </select>
+    </section>
+
+    <!-- Compact Article List -->
+    <main class="list-wrapper" id="article-list-container">
+      <div style="text-align: center; padding: 3rem; color: var(--text-dim);">
+        <div class="spin" style="margin: 0 auto 0.5rem auto;"></div>
+        Memuat artikel...
+      </div>
+    </main>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- 3. EDITOR VIEW (Mobile-First Segmented)    -->
+  <!-- ========================================== -->
+  <div id="editor-view" class="editor-container hidden">
+    <!-- Editor Header -->
+    <header class="app-bar">
+      <div class="flex items-center gap-2 min-w-0">
+        <button class="btn btn-ghost btn-icon-only" onclick="app.showDashboard()" title="Kembali">
+          <svg style="width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+        </button>
+        <div id="editor-title-badge" class="truncate" style="font-weight: 700; font-size: 0.875rem;">Tulis Artikel</div>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <button id="save-btn" class="btn btn-primary" onclick="app.saveArticle()">
+          <svg style="width: 14px; height: 14px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+          <span>Simpan</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Mobile Segmented Tabs (Visible on < 1024px) -->
+    <div class="editor-tabs-mobile">
+      <button class="editor-tab-btn active" id="tab-btn-content" onclick="app.switchMobileTab('content')">Konten</button>
+      <button class="editor-tab-btn" id="tab-btn-meta" onclick="app.switchMobileTab('meta')">Pengaturan</button>
+      <button class="editor-tab-btn" id="tab-btn-preview" onclick="app.switchMobileTab('preview')">Pratinjau</button>
+    </div>
+
+    <!-- Main Workspace -->
+    <div class="editor-body-grid">
+      <!-- 1. Metadata Panel (Sidebar on Desktop, Tab on Mobile) -->
+      <aside class="meta-sidebar panel-mobile-hidden" id="panel-meta">
+        <div>
+          <label class="form-label">Bahasa</label>
+          <div class="seg-pill w-full">
+            <button type="button" id="btn-lang-id" class="seg-btn active w-full" style="padding: 0.45rem;" onclick="app.setEditorLanguage('id')">ID (Indonesia)</button>
+            <button type="button" id="btn-lang-en" class="seg-btn w-full" style="padding: 0.45rem;" onclick="app.setEditorLanguage('en')">EN (English)</button>
           </div>
-          <div class="stat-desc" id="stat-sync-desc">Siap menyimpan ke main</div>
-        </div>
-      </section>
-
-      <!-- Filter Panel -->
-      <section class="filter-panel">
-        <div class="search-box">
-          <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-          <input type="text" id="search-input" class="search-input" placeholder="Cari judul artikel, slug, atau tag..." oninput="app.handleSearch(this.value)" />
         </div>
 
-        <div class="filter-group">
-          <button class="lang-btn active" data-lang="all" onclick="app.setLangFilter('all')">Semua Bahasa</button>
-          <button class="lang-btn" data-lang="id" onclick="app.setLangFilter('id')">🇮🇩 Indonesia</button>
-          <button class="lang-btn" data-lang="en" onclick="app.setLangFilter('en')">🇬🇧 English</button>
+        <div>
+          <label class="form-label" for="edit-title">Judul</label>
+          <input type="text" id="edit-title" class="input-box" placeholder="Judul artikel..." oninput="app.handleTitleInput(this.value)" required />
+        </div>
 
-          <select id="category-filter" class="select-control" onchange="app.setCategoryFilter(this.value)">
-            <option value="all">Semua Kategori</option>
-            <option value="strategi-bisnis">Strategi Bisnis</option>
-            <option value="monetisasi">Monetisasi</option>
-            <option value="funnel-penjualan">Funnel Penjualan</option>
-            <option value="audience-growth">Audience Growth</option>
-            <option value="email-marketing">Email Marketing</option>
+        <div>
+          <label class="form-label" for="edit-slug">Slug URL</label>
+          <input type="text" id="edit-slug" class="input-box" placeholder="slug-artikel" required />
+        </div>
+
+        <div>
+          <label class="form-label" for="edit-category">Kategori</label>
+          <select id="edit-category" class="input-box"></select>
+        </div>
+
+        <div id="group-translation">
+          <label class="form-label" for="edit-translation">Relasi Terjemahan ID</label>
+          <select id="edit-translation" class="input-box">
+            <option value="">-- Tanpa Relasi --</option>
           </select>
         </div>
-      </section>
 
-      <!-- Article Table -->
-      <section class="table-container">
-        <table class="article-table">
-          <thead>
-            <tr>
-              <th style="width: 50%;">Judul & Info Artikel</th>
-              <th style="width: 15%;">Bahasa & Kategori</th>
-              <th style="width: 20%;">Pasangan Terjemahan</th>
-              <th style="width: 15%; text-align: right;">Aksi</th>
-            </tr>
-          </thead>
-          <tbody id="article-list-body">
-            <tr>
-              <td colspan="4" style="text-align: center; padding: 3rem; color: var(--text-dim);">
-                <div class="spinner" style="margin: 0 auto 0.75rem auto;"></div>
-                Memuat daftar artikel...
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
-    </main>
-  </div>
-
-  <!-- ========================================== -->
-  <!-- 3. EDITOR VIEW                            -->
-  <!-- ========================================== -->
-  <div id="editor-view" class="dashboard-wrapper hidden">
-    <!-- Navbar -->
-    <header class="navbar">
-      <div class="navbar-container">
-        <div class="flex items-center gap-4">
-          <button class="btn-icon" onclick="app.showDashboard()">
-            <svg style="width: 16px; height: 16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
-            <span>Daftar Artikel</span>
-          </button>
-          <div id="editor-title-badge" style="font-weight: 700; font-size: 0.95rem; color: #fff;">Tulis Artikel Baru</div>
+        <div>
+          <label class="form-label" for="edit-desc">Deskripsi SEO</label>
+          <textarea id="edit-desc" class="input-box" rows="2" style="min-height: 4.5rem; resize: vertical;" placeholder="Snippet untuk mesin pencari..."></textarea>
         </div>
 
-        <div class="flex items-center gap-2">
-          <button id="mobile-toggle-preview" class="btn-icon" onclick="app.toggleMobilePreview()">
-            <span>Toggle Pratinjau</span>
-          </button>
-          <button id="save-btn" class="btn-create" onclick="app.saveArticle()">
-            <svg style="width: 16px; height: 16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/></svg>
-            <span>Simpan & Publish</span>
+        <div>
+          <label class="form-label" for="edit-author">Penulis</label>
+          <input type="text" id="edit-author" class="input-box" value="Tim Editorial SitusBisnis" />
+        </div>
+
+        <div>
+          <label class="form-label" for="edit-date">Tanggal</label>
+          <input type="datetime-local" id="edit-date" class="input-box" />
+        </div>
+
+        <div>
+          <label class="form-label" for="edit-tags">Tags</label>
+          <input type="text" id="edit-tags" class="input-box" placeholder="monetisasi, digital" />
+        </div>
+
+        <div>
+          <label class="form-label" for="edit-image">Cover Image</label>
+          <input type="text" id="edit-image" class="input-box" placeholder="/images/posts/creator-commerce-cover.svg" />
+          <input type="file" id="image-uploader" accept="image/*" class="hidden" onchange="app.handleImageUpload(this.files[0])" />
+          <button type="button" class="btn btn-secondary w-full" style="margin-top: 0.35rem;" onclick="document.getElementById('image-uploader').click()">
+            <svg style="width: 14px; height: 14px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+            <span>Upload File</span>
           </button>
         </div>
-      </div>
-    </header>
+      </aside>
 
-    <main class="main-container">
-      <div class="editor-grid">
-        <!-- Sidebar Metadata -->
-        <aside class="sidebar-card">
-          <div class="form-group" style="margin-bottom: 0.75rem;">
-            <label>Bahasa Publikasi</label>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
-              <button type="button" id="btn-lang-id" class="lang-btn active" onclick="app.setEditorLanguage('id')">🇮🇩 Indonesia</button>
-              <button type="button" id="btn-lang-en" class="lang-btn" onclick="app.setEditorLanguage('en')">🇬🇧 English</button>
-            </div>
+      <!-- 2. Editor & Preview Workspace -->
+      <div class="editor-pane-wrap" id="panel-editor-wrap">
+        <!-- Toolbar -->
+        <div class="editor-toolbar no-scrollbar">
+          <button type="button" class="tbar-btn" onclick="app.insertMarkdown('**', '**')">B</button>
+          <button type="button" class="tbar-btn" onclick="app.insertMarkdown('*', '*')">I</button>
+          <button type="button" class="tbar-btn" onclick="app.insertMarkdown('## ', '')">H2</button>
+          <button type="button" class="tbar-btn" onclick="app.insertMarkdown('### ', '')">H3</button>
+          <button type="button" class="tbar-btn" onclick="app.insertMarkdown('> ', '')">Quote</button>
+          <button type="button" class="tbar-btn" onclick="app.insertMarkdown('- ', '')">List</button>
+          <button type="button" class="tbar-btn" onclick="app.insertMarkdown('[', '](url)')">Link</button>
+          <button type="button" class="tbar-btn" onclick="app.insertMarkdown('![alt](', ')')">Image</button>
+          <button type="button" class="tbar-btn" onclick="app.insertMarkdown('```\n', '\n```')">Code</button>
+          <button type="button" class="tbar-btn" onclick="app.insertMarkdown('| Kolom 1 | Kolom 2 |\n|---|---|\n| Data | Data |\n', '')">Table</button>
+          <span style="flex: 1;"></span>
+          <span style="font-size: 0.75rem; color: var(--text-dim); font-family: var(--font-mono);" id="word-count">0 kata</span>
+        </div>
+
+        <!-- Split Editor / Preview -->
+        <div class="editor-split">
+          <!-- Textarea (Hidden when Preview tab active on Mobile) -->
+          <div class="w-full" id="panel-content" style="height: 100%;">
+            <textarea id="markdown-body" class="code-editor" placeholder="Mulai menulis artikel dengan Markdown di sini..." oninput="app.handleContentInput(this.value)"></textarea>
           </div>
 
-          <div class="form-group" style="margin-bottom: 0.75rem;">
-            <label for="edit-title">Judul Artikel</label>
-            <input type="text" id="edit-title" class="input-control" placeholder="Contoh: Strategi Monetisasi Produk Digital" oninput="app.handleTitleInput(this.value)" required />
-          </div>
-
-          <div class="form-group" style="margin-bottom: 0.75rem;">
-            <label for="edit-slug">Slug URL (File: .md)</label>
-            <input type="text" id="edit-slug" class="input-control" placeholder="strategi-monetisasi-produk-digital" required />
-          </div>
-
-          <div class="form-group" style="margin-bottom: 0.75rem;">
-            <label for="edit-category">Kategori Utama</label>
-            <select id="edit-category" class="input-control">
-              <!-- Populated dynamically based on language -->
-            </select>
-          </div>
-
-          <div class="form-group" id="group-translation" style="margin-bottom: 0.75rem;">
-            <label for="edit-translation">Pasangan Terjemahan (translationOf)</label>
-            <select id="edit-translation" class="input-control">
-              <option value="">-- Tanpa Relasi Terjemahan --</option>
-            </select>
-            <span style="font-size: 0.7rem; color: var(--text-dim); display: block; margin-top: 0.25rem;">Tautkan ke artikel versi Indonesia padanannya.</span>
-          </div>
-
-          <div class="form-group" style="margin-bottom: 0.75rem;">
-            <label for="edit-desc">Deskripsi Ringkas (SEO)</label>
-            <textarea id="edit-desc" class="input-control" rows="3" placeholder="Ringkasan singkat untuk snippet mesin pencari (150-160 karakter)..."></textarea>
-          </div>
-
-          <div class="form-group" style="margin-bottom: 0.75rem;">
-            <label for="edit-author">Penulis</label>
-            <input type="text" id="edit-author" class="input-control" value="Tim Editorial SitusBisnis" />
-          </div>
-
-          <div class="form-group" style="margin-bottom: 0.75rem;">
-            <label for="edit-date">Tanggal Publikasi</label>
-            <input type="datetime-local" id="edit-date" class="input-control" />
-          </div>
-
-          <div class="form-group" style="margin-bottom: 0.75rem;">
-            <label for="edit-tags">Tags (pisahkan koma)</label>
-            <input type="text" id="edit-tags" class="input-control" placeholder="monetisasi, digital products, funnel" />
-          </div>
-
-          <div class="form-group" style="margin-bottom: 0;">
-            <label for="edit-image">Cover Image URL</label>
-            <input type="text" id="edit-image" class="input-control" placeholder="/images/posts/creator-commerce-cover.svg" />
-            <div style="margin-top: 0.5rem;">
-              <input type="file" id="image-uploader" accept="image/*" style="display: none;" onchange="app.handleImageUpload(this.files[0])" />
-              <button type="button" class="btn-icon w-full" onclick="document.getElementById('image-uploader').click()">
-                <svg style="width: 14px; height: 14px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
-                <span>Upload Cover Baru ke GitHub</span>
-              </button>
-            </div>
-          </div>
-        </aside>
-
-        <!-- Main Markdown Editor & Preview -->
-        <div class="editor-main-card">
-          <!-- Toolbar -->
-          <div class="toolbar">
-            <button type="button" class="tool-btn" onclick="app.insertMarkdown('**', '**')"><b>B</b></button>
-            <button type="button" class="tool-btn" onclick="app.insertMarkdown('*', '*')"><i>I</i></button>
-            <button type="button" class="tool-btn" onclick="app.insertMarkdown('## ', '')">H2</button>
-            <button type="button" class="tool-btn" onclick="app.insertMarkdown('### ', '')">H3</button>
-            <button type="button" class="tool-btn" onclick="app.insertMarkdown('> ', '')">Quote</button>
-            <button type="button" class="tool-btn" onclick="app.insertMarkdown('- ', '')">List</button>
-            <button type="button" class="tool-btn" onclick="app.insertMarkdown('[', '](https://)')">Link</button>
-            <button type="button" class="tool-btn" onclick="app.insertMarkdown('![alt](', ')')">Image</button>
-            <button type="button" class="tool-btn" onclick="app.insertMarkdown('```\n', '\n```')">Code</button>
-            <button type="button" class="tool-btn" onclick="app.insertMarkdown('| Kolom 1 | Kolom 2 |\n|---|---|\n| Data 1 | Data 2 |\n', '')">Table</button>
-            <span style="flex: 1;"></span>
-            <span style="font-size: 0.75rem; color: var(--text-dim);" id="word-count">0 kata</span>
-          </div>
-
-          <!-- Split Pane Editor & Preview -->
-          <div class="split-pane" id="split-pane">
-            <div class="editor-pane">
-              <textarea id="markdown-body" class="editor-textarea" placeholder="Tulis isi artikel dengan format Markdown di sini..." oninput="app.handleContentInput(this.value)"></textarea>
-            </div>
-            <div class="preview-pane" id="markdown-preview">
-              <p style="color: var(--text-dim); font-style: italic;">Pratinjau langsung akan tampil di sini saat Anda mengetik...</p>
-            </div>
+          <!-- Preview Pane (Hidden on Mobile unless tab selected) -->
+          <div class="preview-box panel-mobile-hidden" id="panel-preview">
+            <p style="color: var(--text-dim); font-style: italic;">Pratinjau artikel akan tampil di sini...</p>
           </div>
         </div>
       </div>
-    </main>
+    </div>
   </div>
 
-  <!-- Toast Container -->
-  <div id="toast-container" class="toast-container"></div>
+  <!-- Toast Feed -->
+  <div id="toast-box" class="toast-box"></div>
 
   <!-- ========================================== -->
-  <!-- 4. JAVASCRIPT APPLICATION CORE            -->
+  <!-- 4. LOGIC CORE                             -->
   <!-- ========================================== -->
   <script>
-    // Konfigurasi Autentikasi Terenkripsi (Kompatibel dengan setup-admin-auth.js)
+    // Konfigurasi Autentikasi (Kompatibel dengan setup-admin-auth.js)
     const AUTH_CONFIG = {
     username: "timSiBi",
     salt: "eqGY0Ll8RnscikhrUk2JKg==",
@@ -845,7 +733,6 @@
     const REPO_NAME = 'Blog-SiBi';
     const GITHUB_API = 'https://api.github.com';
 
-    // Kategori Resmi Dua Bahasa
     const CATEGORIES = {
       id: [
         { label: 'Strategi Bisnis', slug: 'strategi-bisnis' },
@@ -863,7 +750,7 @@
       ],
     };
 
-    // Helper Dekripsi Token
+    // Native Web Crypto Decryption
     async function decryptToken(config, secret) {
       const enc = new TextEncoder();
       const salt = Uint8Array.from(atob(config.salt), c => c.charCodeAt(0));
@@ -871,67 +758,44 @@
       const data = Uint8Array.from(atob(config.data), c => c.charCodeAt(0));
 
       const keyMaterial = await crypto.subtle.importKey(
-        'raw',
-        enc.encode(secret),
-        { name: 'PBKDF2' },
-        false,
-        ['deriveKey']
+        'raw', enc.encode(secret), { name: 'PBKDF2' }, false, ['deriveKey']
       );
 
       const key = await crypto.subtle.deriveKey(
-        {
-          name: 'PBKDF2',
-          salt,
-          iterations: 100000,
-          hash: 'SHA-256',
-        },
-        keyMaterial,
-        { name: 'AES-GCM', length: 256 },
-        false,
-        ['decrypt']
+        { name: 'PBKDF2', salt, iterations: 100000, hash: 'SHA-256' },
+        keyMaterial, { name: 'AES-GCM', length: 256 }, false, ['decrypt']
       );
 
-      const decrypted = await crypto.subtle.decrypt(
-        { name: 'AES-GCM', iv },
-        key,
-        data
-      );
-
+      const decrypted = await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, key, data);
       return new TextDecoder().decode(decrypted);
     }
 
-    // Helper Encode & Decode Base64 UTF-8 Aman
     function decodeBase64Utf8(base64Str) {
-      const cleanBase64 = (base64Str || '').replace(/\s/g, '');
-      const binaryString = atob(cleanBase64);
-      const bytes = new Uint8Array(binaryString.length);
-      for (let i = 0; i < binaryString.length; i++) {
-        bytes[i] = binaryString.charCodeAt(i);
-      }
+      const clean = (base64Str || '').replace(/\s/g, '');
+      const binary = atob(clean);
+      const bytes = new Uint8Array(binary.length);
+      for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
       return new TextDecoder('utf-8').decode(bytes);
     }
 
     function encodeBase64Utf8(str) {
       const bytes = new TextEncoder().encode(str);
       let binary = '';
-      for (let i = 0; i < bytes.byteLength; i++) {
-        binary += String.fromCharCode(bytes[i]);
-      }
+      for (let i = 0; i < bytes.byteLength; i++) binary += String.fromCharCode(bytes[i]);
       return btoa(binary);
     }
 
-    // Application State Manager
     class BlogAdminApp {
       constructor() {
         this.token = null;
         this.articles = [];
-        this.filteredArticles = [];
         this.activeLangFilter = 'all';
         this.activeCategoryFilter = 'all';
         this.searchQuery = '';
         this.currentArticle = null;
         this.editorLang = 'id';
         this.existingSha = null;
+        this.currentMobileTab = 'content';
       }
 
       init() {
@@ -939,17 +803,17 @@
         this.bindEvents();
       }
 
-      showToast(message, type = 'info') {
-        const container = document.getElementById('toast-container');
-        const toast = document.createElement('div');
-        toast.className = `toast ${type}`;
-        toast.innerHTML = `<span>${type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️'}</span><span>${message}</span>`;
-        container.appendChild(toast);
+      showToast(msg, type = 'info') {
+        const box = document.getElementById('toast-box');
+        const t = document.createElement('div');
+        t.className = `toast ${type}`;
+        t.innerHTML = `<span>${msg}</span>`;
+        box.appendChild(t);
         setTimeout(() => {
-          toast.style.opacity = '0';
-          toast.style.transform = 'translateY(10px)';
-          setTimeout(() => toast.remove(), 200);
-        }, 4000);
+          t.style.opacity = '0';
+          t.style.transform = 'translateY(8px)';
+          setTimeout(() => t.remove(), 200);
+        }, 3500);
       }
 
       async checkSession() {
@@ -958,44 +822,42 @@
           if (stored) {
             this.token = stored;
             this.onAuthenticated();
-            return;
           }
         } catch (_) {}
       }
 
       bindEvents() {
-        const loginForm = document.getElementById('login-form');
-        loginForm.addEventListener('submit', async (e) => {
+        const form = document.getElementById('login-form');
+        form.addEventListener('submit', async (e) => {
           e.preventDefault();
-          const username = document.getElementById('username').value.trim();
-          const pin = document.getElementById('pin').value.trim();
-          const errBox = document.getElementById('login-error');
-          const submitBtn = document.getElementById('login-btn');
+          const u = document.getElementById('username').value.trim();
+          const p = document.getElementById('pin').value.trim();
+          const err = document.getElementById('login-error');
+          const btn = document.getElementById('login-btn');
 
-          errBox.style.display = 'none';
+          err.classList.add('hidden');
 
-          if (username.toLowerCase() !== AUTH_CONFIG.username.toLowerCase()) {
-            errBox.textContent = '❌ Username atau PIN salah.';
-            errBox.style.display = 'block';
+          if (u.toLowerCase() !== AUTH_CONFIG.username.toLowerCase()) {
+            err.textContent = 'Username atau PIN salah.';
+            err.classList.remove('hidden');
             return;
           }
 
-          submitBtn.disabled = true;
-          submitBtn.innerHTML = '<div class="spinner"></div><span>Memverifikasi...</span>';
+          btn.disabled = true;
+          btn.innerHTML = '<div class="spin"></div><span>Verifikasi...</span>';
 
           try {
-            const token = await decryptToken(AUTH_CONFIG, `${username}:${pin}`);
+            const token = await decryptToken(AUTH_CONFIG, `${u}:${p}`);
             if (!token) throw new Error('Token kosong');
-
             this.token = token;
             sessionStorage.setItem('blog_sibi_token', token);
             localStorage.setItem('blog_sibi_token', token);
             this.onAuthenticated();
-          } catch (err) {
-            errBox.textContent = '❌ Username atau PIN salah. Silakan coba lagi.';
-            errBox.style.display = 'block';
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = '<span>Masuk ke Dashboard</span>';
+          } catch (e) {
+            err.textContent = 'Username atau PIN salah.';
+            err.classList.remove('hidden');
+            btn.disabled = false;
+            btn.innerHTML = '<span>Masuk</span>';
           }
         });
       }
@@ -1016,15 +878,13 @@
 
       async loadArticles() {
         try {
-          // Pertama coba ambil dari manifest lokal artikel yang cepat (articles.json)
           let res = await fetch('/admin/articles.json');
           if (res.ok) {
             this.articles = await res.json();
           } else {
-            // Fallback memuat langsung dari GitHub API
             await this.loadArticlesFromGitHub();
           }
-        } catch (e) {
+        } catch (_) {
           await this.loadArticlesFromGitHub();
         }
 
@@ -1057,7 +917,7 @@
             };
           });
         } catch (err) {
-          this.showToast('Gagal memuat artikel dari GitHub: ' + err.message, 'error');
+          this.showToast('Gagal memuat artikel: ' + err.message, 'error');
         }
       }
 
@@ -1068,99 +928,90 @@
         document.getElementById('stat-count-en').textContent = enCount;
       }
 
-      handleSearch(query) {
-        this.searchQuery = query.toLowerCase().trim();
+      handleSearch(q) {
+        this.searchQuery = q.toLowerCase().trim();
         this.renderArticles();
       }
 
       setLangFilter(lang) {
         this.activeLangFilter = lang;
-        document.querySelectorAll('.lang-btn[data-lang]').forEach(btn => {
-          btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+        document.querySelectorAll('.seg-btn[data-lang]').forEach(b => {
+          b.classList.toggle('active', b.getAttribute('data-lang') === lang);
         });
         this.renderArticles();
       }
 
-      setCategoryFilter(cat) {
-        this.activeCategoryFilter = cat;
+      setCategoryFilter(c) {
+        this.activeCategoryFilter = c;
         this.renderArticles();
       }
 
       renderArticles() {
-        const tbody = document.getElementById('article-list-body');
+        const container = document.getElementById('article-list-container');
         
         let filtered = this.articles.filter(item => {
           if (this.activeLangFilter !== 'all' && item.lang !== this.activeLangFilter) return false;
           if (this.searchQuery) {
-            const matchTitle = (item.title || '').toLowerCase().includes(this.searchQuery);
-            const matchSlug = (item.slug || '').toLowerCase().includes(this.searchQuery);
-            if (!matchTitle && !matchSlug) return false;
+            const t = (item.title || '').toLowerCase();
+            const s = (item.slug || '').toLowerCase();
+            if (!t.includes(this.searchQuery) && !s.includes(this.searchQuery)) return false;
           }
           return true;
         });
 
         if (filtered.length === 0) {
-          tbody.innerHTML = `<tr><td colspan="4" style="text-align: center; padding: 3rem; color: var(--text-dim);">Tidak ada artikel yang cocok dengan filter pencarian.</td></tr>`;
+          container.innerHTML = `<div style="text-align: center; padding: 3rem; color: var(--text-dim);">Tidak ada artikel yang cocok.</div>`;
           return;
         }
 
-        tbody.innerHTML = filtered.map(item => {
+        container.innerHTML = filtered.map(item => {
           const isEn = item.lang === 'en';
           const liveUrl = isEn ? `https://blog.situsbisnis.com/en/posts/${item.slug}/` : `https://blog.situsbisnis.com/posts/${item.slug}/`;
           const langBadge = isEn 
-            ? `<span class="badge badge-en">🇬🇧 EN</span>` 
-            : `<span class="badge badge-id">🇮🇩 ID</span>`;
+            ? `<span class="badge badge-en">EN</span>` 
+            : `<span class="badge badge-id">ID</span>`;
           
-          const catBadges = (item.categories || []).map(c => `<span class="badge badge-category">${c}</span>`).join(' ');
+          const cat = (item.categories || [])[0] || '';
+          const catBadge = cat ? `<span class="badge badge-cat">${cat}</span>` : '';
           
-          let pairInfo = '<span style="color: var(--text-dim); font-size: 0.75rem;">-</span>';
+          let pairHtml = '';
           if (isEn && item.translationOf) {
             const idTarget = item.translationOf.replace(/\.md$/, '');
-            pairInfo = `<span class="badge badge-pair" title="Klik untuk edit artikel sumber ID" onclick="app.editArticle('${item.translationOf}')">⇄ ID: ${idTarget}</span>`;
+            pairHtml = `<span class="badge badge-pair" title="Buka artikel sumber ID" onclick="app.editArticle('${item.translationOf}')">ID: ${idTarget}</span>`;
           } else if (!isEn) {
-            // Check if EN counterpart exists
             const enPair = this.articles.find(a => a.lang === 'en' && (a.translationOf === item.id || a.translationOf === `${item.slug}.md`));
             if (enPair) {
-              pairInfo = `<span class="badge badge-pair" onclick="app.editArticle('${enPair.id}')">✓ EN: ${enPair.slug}</span>`;
+              pairHtml = `<span class="badge badge-pair" onclick="app.editArticle('${enPair.id}')">EN: ${enPair.slug}</span>`;
             } else {
-              pairInfo = `<button class="btn-table" onclick="app.createEnTranslation('${item.id}', '${item.slug}')" style="font-size: 0.7rem;">+ Buat Versi EN</button>`;
+              pairHtml = `<button class="badge btn-ghost" style="border: 1px dashed var(--border);" onclick="app.createEnTranslation('${item.id}', '${item.slug}')">+ EN</button>`;
             }
           }
 
-          const dateStr = item.date ? new Date(item.date).toLocaleDateString('id-ID', { year: 'numeric', month: 'short', day: 'numeric' }) : '-';
+          const dateStr = item.date ? new Date(item.date).toLocaleDateString('id-ID', { year: '2-digit', month: 'short', day: 'numeric' }) : '';
 
           return `
-            <tr>
-              <td>
-                <a href="javascript:void(0)" class="article-title" onclick="app.editArticle('${item.id}')">${item.title}</a>
-                <div class="article-meta">
-                  <span>${dateStr}</span>
-                  <span>•</span>
-                  <span>${item.slug}</span>
-                </div>
-              </td>
-              <td>
-                <div style="display: flex; flex-direction: column; gap: 0.35rem; align-items: flex-start;">
+            <div class="article-item">
+              <div class="item-main">
+                <a href="javascript:void(0)" class="item-title truncate" onclick="app.editArticle('${item.id}')">${item.title}</a>
+                <div class="item-sub">
                   ${langBadge}
-                  <div>${catBadges}</div>
+                  ${catBadge}
+                  <span>${dateStr}</span>
+                  ${pairHtml}
                 </div>
-              </td>
-              <td>${pairInfo}</td>
-              <td>
-                <div class="table-actions">
-                  <button class="btn-table" onclick="app.editArticle('${item.id}')" title="Edit Konten">
-                    <svg style="width: 13px; height: 13px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
-                    <span>Edit</span>
-                  </button>
-                  <a href="${liveUrl}" target="_blank" class="btn-table" title="Buka di Web">
-                    <svg style="width: 13px; height: 13px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-                  </a>
-                  <button class="btn-table delete" onclick="app.deleteArticle('${item.id}')" title="Hapus Artikel">
-                    <svg style="width: 13px; height: 13px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-                  </button>
-                </div>
-              </td>
-            </tr>
+              </div>
+              <div class="item-actions">
+                <button class="btn btn-secondary btn-icon-only" onclick="app.editArticle('${item.id}')" title="Edit">
+                  <svg style="width: 14px; height: 14px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+                </button>
+                <a href="${liveUrl}" target="_blank" class="btn btn-ghost btn-icon-only" title="Lihat">
+                  <svg style="width: 14px; height: 14px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                </a>
+                <button class="btn btn-ghost btn-danger btn-icon-only" onclick="app.deleteArticle('${item.id}')" title="Hapus">
+                  <svg style="width: 14px; height: 14px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                </button>
+              </div>
+            </div>
           `;
         }).join('');
       }
@@ -1173,6 +1024,37 @@
       showEditor() {
         document.getElementById('dashboard-view').classList.add('hidden');
         document.getElementById('editor-view').classList.remove('hidden');
+        this.switchMobileTab('content');
+      }
+
+      switchMobileTab(tab) {
+        this.currentMobileTab = tab;
+        document.getElementById('tab-btn-content').classList.toggle('active', tab === 'content');
+        document.getElementById('tab-btn-meta').classList.toggle('active', tab === 'meta');
+        document.getElementById('tab-btn-preview').classList.toggle('active', tab === 'preview');
+
+        const pMeta = document.getElementById('panel-meta');
+        const pContent = document.getElementById('panel-content');
+        const pPreview = document.getElementById('panel-preview');
+        const pWrap = document.getElementById('panel-editor-wrap');
+
+        // Reset desktop default classes
+        pMeta.classList.remove('panel-mobile-hidden');
+        pPreview.classList.remove('panel-mobile-hidden');
+        pContent.classList.remove('hidden');
+        pWrap.classList.remove('hidden');
+
+        if (window.innerWidth < 1024) {
+          if (tab === 'content') {
+            pMeta.classList.add('panel-mobile-hidden');
+            pPreview.classList.add('panel-mobile-hidden');
+          } else if (tab === 'meta') {
+            pWrap.classList.add('hidden');
+          } else if (tab === 'preview') {
+            pMeta.classList.add('panel-mobile-hidden');
+            pContent.classList.add('hidden');
+          }
+        }
       }
 
       setEditorLanguage(lang) {
@@ -1180,24 +1062,22 @@
         document.getElementById('btn-lang-id').classList.toggle('active', lang === 'id');
         document.getElementById('btn-lang-en').classList.toggle('active', lang === 'en');
         
-        // Update kategori dropdown
         const catSelect = document.getElementById('edit-category');
         catSelect.innerHTML = CATEGORIES[lang].map(c => `<option value="${c.label}">${c.label}</option>`).join('');
 
-        // Tampilkan/sembunyikan field translationOf
         const transGroup = document.getElementById('group-translation');
         if (lang === 'en') {
-          transGroup.style.display = 'block';
+          transGroup.classList.remove('hidden');
           this.populateTranslationOptions();
         } else {
-          transGroup.style.display = 'none';
+          transGroup.classList.add('hidden');
         }
       }
 
       populateTranslationOptions(selectedVal = '') {
         const select = document.getElementById('edit-translation');
         const idArticles = this.articles.filter(a => a.lang === 'id');
-        select.innerHTML = '<option value="">-- Tanpa Relasi Terjemahan --</option>' + 
+        select.innerHTML = '<option value="">-- Tanpa Relasi --</option>' + 
           idArticles.map(a => `<option value="${a.slug}.md" ${selectedVal === `${a.slug}.md` ? 'selected' : ''}>${a.title} (${a.slug})</option>`).join('');
       }
 
@@ -1209,12 +1089,10 @@
       }
 
       handleContentInput(val) {
-        // Update word count
         const words = val.trim() ? val.trim().split(/\s+/).length : 0;
         document.getElementById('word-count').textContent = `${words} kata`;
 
-        // Render Markdown Preview
-        const preview = document.getElementById('markdown-preview');
+        const preview = document.getElementById('panel-preview');
         if (window.marked) {
           preview.innerHTML = marked.parse(val);
         }
@@ -1226,17 +1104,12 @@
         const end = textarea.selectionEnd;
         const text = textarea.value;
         const selected = text.substring(start, end);
-        const replacement = before + selected + after;
-        textarea.value = text.substring(0, start) + replacement + text.substring(end);
+        const rep = before + selected + after;
+        textarea.value = text.substring(0, start) + rep + text.substring(end);
         textarea.focus();
         textarea.selectionStart = start + before.length;
         textarea.selectionEnd = end + before.length;
         this.handleContentInput(textarea.value);
-      }
-
-      toggleMobilePreview() {
-        const splitPane = document.getElementById('split-pane');
-        splitPane.classList.toggle('preview-active');
       }
 
       createNewArticle() {
@@ -1244,7 +1117,7 @@
         this.existingSha = null;
         this.editorLang = 'id';
         
-        document.getElementById('editor-title-badge').textContent = 'Tulis Artikel Baru';
+        document.getElementById('editor-title-badge').textContent = 'Tulis Baru';
         document.getElementById('edit-title').value = '';
         document.getElementById('edit-slug').value = '';
         document.getElementById('edit-desc').value = '';
@@ -1252,7 +1125,7 @@
         document.getElementById('edit-date').value = new Date().toISOString().slice(0, 16);
         document.getElementById('edit-tags').value = '';
         document.getElementById('edit-image').value = '/images/posts/creator-commerce-cover.svg';
-        document.getElementById('markdown-body').value = '# Pengantar\n\nTulis konten artikel Anda di sini...';
+        document.getElementById('markdown-body').value = '# Judul Bagian\n\nTulis isi artikel di sini...';
 
         this.setEditorLanguage('id');
         this.handleContentInput(document.getElementById('markdown-body').value);
@@ -1262,7 +1135,7 @@
       createEnTranslation(sourceId, sourceSlug) {
         this.createNewArticle();
         this.setEditorLanguage('en');
-        document.getElementById('editor-title-badge').textContent = `Terjemahan EN untuk: ${sourceSlug}`;
+        document.getElementById('editor-title-badge').textContent = `EN: ${sourceSlug}`;
         document.getElementById('edit-slug').value = sourceSlug;
         document.getElementById('edit-author').value = 'SitusBisnis Editorial Team';
         this.populateTranslationOptions(`${sourceSlug}.md`);
@@ -1270,7 +1143,7 @@
       }
 
       async editArticle(id) {
-        this.showToast('Mengambil konten artikel dari GitHub...', 'info');
+        this.showToast('Memuat artikel dari GitHub...', 'info');
         const cleanId = id.endsWith('.md') ? id : `${id}.md`;
         const targetPath = `src/content/blog/${cleanId}`;
 
@@ -1284,20 +1157,14 @@
           this.existingSha = fileData.sha;
           this.currentArticle = cleanId;
 
-          // Decode base64 UTF-8
           const decodedContent = decodeBase64Utf8(fileData.content);
           
-          // Parse Frontmatter vs Body
           const fmMatch = decodedContent.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
           let fm = {};
           let body = decodedContent;
 
           if (fmMatch) {
-            const rawFm = fmMatch[1];
-            body = fmMatch[2];
-            
-            // Simple YAML line parser
-            rawFm.split('\n').forEach(line => {
+            fmMatch[1].split('\n').forEach(line => {
               const colonIdx = line.indexOf(':');
               if (colonIdx > -1) {
                 const key = line.slice(0, colonIdx).trim();
@@ -1308,13 +1175,14 @@
                 fm[key] = val;
               }
             });
+            body = fmMatch[2];
           }
 
           const isEn = cleanId.startsWith('en/');
           this.setEditorLanguage(isEn ? 'en' : 'id');
 
           const cleanSlug = cleanId.replace(/^en\//, '').replace(/\.md$/, '');
-          document.getElementById('editor-title-badge').textContent = `Mengedit: ${cleanSlug}`;
+          document.getElementById('editor-title-badge').textContent = cleanSlug;
           document.getElementById('edit-title').value = fm.title || '';
           document.getElementById('edit-slug').value = cleanSlug;
           document.getElementById('edit-desc').value = fm.description || '';
@@ -1323,9 +1191,7 @@
           if (fm.date) {
             try {
               document.getElementById('edit-date').value = new Date(fm.date).toISOString().slice(0, 16);
-            } catch (_) {
-              document.getElementById('edit-date').value = new Date().toISOString().slice(0, 16);
-            }
+            } catch (_) {}
           }
 
           if (fm.categories) {
@@ -1374,13 +1240,13 @@
               }),
             });
 
-            if (!res.ok) throw new Error(`Upload HTTP ${res.status}`);
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
             document.getElementById('edit-image').value = `/images/posts/${saveName}`;
-            this.showToast('✅ Cover berhasil di-upload!', 'success');
+            this.showToast('Cover berhasil diunggah.', 'success');
           };
           reader.readAsDataURL(file);
         } catch (err) {
-          this.showToast('Gagal upload gambar: ' + err.message, 'error');
+          this.showToast('Gagal upload: ' + err.message, 'error');
         }
       }
 
@@ -1397,20 +1263,19 @@
         const body = document.getElementById('markdown-body').value;
 
         if (!title || !slug) {
-          this.showToast('Judul dan Slug wajib diisi!', 'error');
+          this.showToast('Judul dan Slug wajib diisi.', 'error');
           return;
         }
 
         const saveBtn = document.getElementById('save-btn');
         saveBtn.disabled = true;
-        saveBtn.innerHTML = '<div class="spinner"></div><span>Menyimpan ke GitHub...</span>';
+        saveBtn.innerHTML = '<div class="spin"></div><span>Menyimpan...</span>';
 
         const isEn = this.editorLang === 'en';
         const cleanSlug = slug.replace(/^en\//, '').replace(/\.md$/, '');
         const targetFilename = `${cleanSlug}.md`;
         const targetPath = isEn ? `src/content/blog/en/${targetFilename}` : `src/content/blog/${targetFilename}`;
 
-        // Build Frontmatter YAML
         const tagsArr = tagsVal ? tagsVal.split(',').map(t => `"${t.trim()}"`).join(', ') : '';
         let fmLines = [
           '---',
@@ -1433,11 +1298,9 @@
         fmLines.push(body);
 
         const fullContent = fmLines.join('\n');
-        // Encode UTF-8 Base64 safely
         const base64Content = encodeBase64Utf8(fullContent);
 
         try {
-          // Check existing sha if not known
           let sha = this.existingSha;
           if (!sha) {
             try {
@@ -1469,28 +1332,25 @@
             throw new Error(errData.message || `HTTP ${res.status}`);
           }
 
-          this.showToast('🎉 Artikel berhasil di-publish ke branch main!', 'success');
+          this.showToast('Artikel berhasil disimpan ke GitHub.', 'success');
           await this.loadArticles();
-          setTimeout(() => this.showDashboard(), 1000);
+          setTimeout(() => this.showDashboard(), 800);
         } catch (err) {
-          this.showToast('Gagal menyimpan artikel: ' + err.message, 'error');
+          this.showToast('Gagal menyimpan: ' + err.message, 'error');
         } finally {
           saveBtn.disabled = false;
-          saveBtn.innerHTML = '<svg style="width: 16px; height: 16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/></svg><span>Simpan & Publish</span>';
+          saveBtn.innerHTML = '<svg style="width: 14px; height: 14px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg><span>Simpan</span>';
         }
       }
 
       async deleteArticle(id) {
         const cleanId = id.endsWith('.md') ? id : `${id}.md`;
-        if (!confirm(`Apakah Anda yakin ingin menghapus artikel: ${cleanId}? Tindakan ini akan meng-commit penghapusan file di GitHub!`)) {
-          return;
-        }
+        if (!confirm(`Hapus artikel ${cleanId} dari GitHub?`)) return;
 
         const targetPath = `src/content/blog/${cleanId}`;
-        this.showToast('Menghapus artikel dari GitHub...', 'info');
+        this.showToast('Menghapus artikel...', 'info');
 
         try {
-          // Ambil SHA file terlebih dahulu
           const checkRes = await fetch(`${GITHUB_API}/repos/${REPO_OWNER}/${REPO_NAME}/contents/${targetPath}`, {
             headers: { Authorization: `Bearer ${this.token}`, Accept: 'application/vnd.github+json' },
           });
@@ -1501,15 +1361,15 @@
             method: 'DELETE',
             headers: { Authorization: `Bearer ${this.token}`, 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              message: `content(blog): delete article ${id}`,
+              message: `content(blog): delete article ${cleanId}`,
               sha: checkData.sha,
               branch: 'main',
             }),
           });
 
-          if (!delRes.ok) throw new Error(`Gagal hapus: HTTP ${delRes.status}`);
+          if (!delRes.ok) throw new Error(`HTTP ${delRes.status}`);
 
-          this.showToast('✅ Artikel berhasil dihapus dari GitHub.', 'success');
+          this.showToast('Artikel berhasil dihapus.', 'success');
           this.articles = this.articles.filter(a => a.id !== id);
           this.updateStats();
           this.renderArticles();
